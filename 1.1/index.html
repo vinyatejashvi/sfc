@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Report: Biotechnology in Food</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The SPA is designed with a top-level thematic navigation allowing users to choose between two main pillars: "GM Foods" and "Biofortification". This non-linear structure promotes user-driven exploration over passive reading. Each thematic section is layered to guide the user from foundational concepts ("What is it?") to methods ("How is it done?"), applications ("Why do it?"), and real-world impact. This layered approach breaks down complex information into digestible chunks. Interactive elements like tabs for techniques, a comparative radar chart for approaches, and clickable cards for examples are used to replace static tables, fostering engagement and making data comparison more intuitive. This structure was chosen to transform a dense report into an exploratory educational tool, prioritizing usability and comprehension over mimicking the linear layout of the source document. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: GM Techniques (Table 1) -> Goal: Organize/Compare -> Viz: Interactive Tabs -> Interaction: Click to reveal details -> Justification: Breaks down complex methods into manageable parts, more engaging than a static table. -> Library/Method: HTML/CSS/JS.
+        - Report Info: Benefits of GM crops (e.g., land saved, farmer income) -> Goal: Inform/Quantify -> Viz: Bar Chart -> Interaction: Hover for tooltips -> Justification: Provides a quick, impactful visualization of quantitative benefits. -> Library/Method: Chart.js.
+        - Report Info: GM Crop Examples (Table 2) -> Goal: Inform/Explore -> Viz: Interactive Card Grid -> Interaction: Static display with clean layout -> Justification: More visually appealing and scannable than a dense table. -> Library/Method: HTML/CSS.
+        - Report Info: Biofortification Approaches (Table 3) -> Goal: Compare -> Viz: Radar Chart & Comparative Cards -> Interaction: Click to switch views, hover on chart -> Justification: Radar chart offers a powerful multi-axial comparison of trade-offs (speed, cost, etc.), which is more insightful than a simple table. -> Library/Method: Chart.js & HTML/CSS/JS.
+        - Report Info: Biological Pathways (e.g., Iron Uptake) -> Goal: Explain -> Viz: Simplified Flow Diagrams -> Interaction: Static visual -> Justification: Translates complex scientific processes into easy-to-follow visual steps for a general audience. -> Library/Method: HTML/Tailwind CSS.
+        - Report Info: Biofortified Crop Impact (Table 4) -> Goal: Inform/Explore -> Viz: Interactive Card Grid with Key Stat Callouts -> Interaction: Static display -> Justification: Highlights key achievements and makes the impact tangible. -> Library/Method: HTML/CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7;
+            color: #3D3D3D;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-link.active {
+            background-color: #6B8A7A;
+            color: #FFFFFF;
+        }
+        .nav-link:not(.active):hover {
+            background-color: #EAE3D9;
+        }
+        .section-card {
+            background-color: #FFFFFF;
+            border: 1px solid #EAE3D9;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .tab-btn.active {
+            background-color: #6B8A7A;
+            color: #FFFFFF;
+            border-color: #6B8A7A;
+        }
+        .flow-step {
+            position: relative;
+            padding: 1rem;
+        }
+        .flow-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -24px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #A67B5B;
+        }
+        @media (max-width: 768px) {
+            .flow-step:not(:last-child)::after {
+                content: '↓';
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
+                font-size: 2rem;
+            }
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800">Biotechnology in Food</h1>
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <button onclick="scrollToSection('gm-foods')" class="nav-link px-3 py-2 rounded-md text-sm font-medium">GM Foods</button>
+                    <button onclick="scrollToSection('biofortification')" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Biofortification</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        
+        <section id="intro" class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#A67B5B] mb-4">Transforming Our Food Supply</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                Food biotechnology is a transformative field using biological systems to enhance food production, improve nutrition, and address global challenges like food security and climate change. This interactive report explores two key pillars: Genetically Modified (GM) Foods and Biofortification.
+            </p>
+        </section>
+
+        <!-- GM Foods Section -->
+        <section id="gm-foods" class="mb-20 scroll-mt-20">
+            <header class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-2">Genetically Modified (GM) Foods</h2>
+                <p class="text-lg text-gray-600">Altering genetics to introduce desirable traits in crops.</p>
+            </header>
+
+            <div class="space-y-12">
+                <div class="section-card p-6 md:p-8 rounded-xl">
+                    <h3 class="text-2xl font-bold text-[#6B8A7A] mb-4">How is it Done? The Techniques</h3>
+                    <p class="text-gray-600 mb-6">Genetic modification employs several sophisticated techniques to precisely alter an organism's DNA. These methods have evolved from broad applications to highly targeted gene-editing systems. Explore the primary techniques used to create GM crops by clicking the tabs below.</p>
+                    <div id="gm-tabs" class="mb-6">
+                        <div class="border-b border-gray-200">
+                            <nav class="-mb-px flex flex-wrap gap-4" aria-label="Tabs">
+                                <button class="tab-btn active" onclick="switchTab('gm-tabs', 0)">Recombinant DNA</button>
+                                <button class="tab-btn" onclick="switchTab('gm-tabs', 1)">Agrobacterium</button>
+                                <button class="tab-btn" onclick="switchTab('gm-tabs', 2)">Biolistics</button>
+                                <button class="tab-btn" onclick="switchTab('gm-tabs', 3)">CRISPR-Cas9</button>
+                            </nav>
+                        </div>
+                    </div>
+                    <div id="gm-tab-content">
+                        <!-- Content will be injected by JS -->
+                    </div>
+                </div>
+
+                <div class="section-card p-6 md:p-8 rounded-xl">
+                    <h3 class="text-2xl font-bold text-[#6B8A7A] mb-4">Why Do It? Key Benefits & Examples</h3>
+                    <p class="text-gray-600 mb-8">GM crops offer a wide range of demonstrated benefits, from increasing yields and farmer incomes to reducing pesticide use and enhancing nutritional content. These advancements contribute to a more sustainable and secure global food system. The chart below visualizes some of the key positive impacts.</p>
+                    
+                    <div class="chart-container mb-12">
+                        <canvas id="gmBenefitsChart"></canvas>
+                    </div>
+
+                    <h4 class="text-xl font-bold text-center text-gray-700 mb-6">Examples of GM Crops</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Insecticidal Corn (Bt Corn)</h5>
+                            <p class="text-sm text-gray-600">Produces its own insecticide, reducing the need for external pesticide spraying and protecting crops from damage.</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Herbicide-Resistant Soybeans</h5>
+                            <p class="text-sm text-gray-600">Tolerates specific herbicides, allowing for effective weed control and enabling no-till farming to improve soil health.</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Virus-Resistant Papaya</h5>
+                            <p class="text-sm text-gray-600">Engineered to resist the Papaya Ring Spot Virus, this innovation effectively saved Hawaii's papaya industry.</p>
+                        </div>
+                         <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Golden Rice</h5>
+                            <p class="text-sm text-gray-600">Fortified with beta-carotene (a Vitamin A precursor) to help combat vitamin A deficiency in vulnerable populations.</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Non-Browning Apples</h5>
+                            <p class="text-sm text-gray-600">Developed to resist browning after being cut, which helps to significantly reduce food waste.</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Drought-Resistant Wheat</h5>
+                            <p class="text-sm text-gray-600">Engineered for enhanced drought tolerance, improving yield consistency in water-scarce regions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Biofortification Section -->
+        <section id="biofortification" class="scroll-mt-20">
+            <header class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-2">Biofortification</h2>
+                <p class="text-lg text-gray-600">Increasing the nutritional value of crops to fight "hidden hunger".</p>
+            </header>
+            
+            <div class="space-y-12">
+                <div class="section-card p-6 md:p-8 rounded-xl">
+                    <h3 class="text-2xl font-bold text-[#A67B5B] mb-4">How is it Done? The Approaches</h3>
+                    <p class="text-gray-600 mb-8">Biofortification is achieved through several methods, each with unique trade-offs in terms of speed, cost, and sustainability. The goal is to embed more vitamins and minerals into staple crops. The chart below provides a comparative overview of the main approaches.</p>
+                     <div class="chart-container mb-12">
+                        <canvas id="biofortificationApproachesChart"></canvas>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Agronomic</h5>
+                            <p class="text-sm text-gray-600">Applying nutrient-rich fertilizers. It's fast and immediate but temporary and requires annual re-application.</p>
+                        </div>
+                         <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Conventional Breeding</h5>
+                            <p class="text-sm text-gray-600">Crossing plants with naturally high nutrient levels. It's a long-term solution but can take many years to develop.</p>
+                        </div>
+                         <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Molecular Breeding</h5>
+                            <p class="text-sm text-gray-600">Using molecular markers to speed up conventional breeding. More precise and faster than traditional methods.</p>
+                        </div>
+                         <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Genetic Modification</h5>
+                            <p class="text-sm text-gray-600">Directly inserting genes for nutritional traits. Highly precise and can overcome natural limitations, but faces regulatory hurdles.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card p-6 md:p-8 rounded-xl">
+                    <h3 class="text-2xl font-bold text-[#A67B5B] mb-4">The Science Inside: Nutrient Pathways</h3>
+                    <p class="text-gray-600 mb-8">The ability of plants to accumulate nutrients like iron and provitamin A is governed by complex biological pathways. Biofortification often involves enhancing these natural processes or even creating new ones within the plant. Below is a simplified look at how plants acquire iron.</p>
+                    
+                    <h4 class="text-xl font-bold text-center text-gray-700 mb-2">Iron Uptake Strategies</h4>
+                    <p class="text-center text-gray-600 mb-8">Plants use two main strategies to get iron from the soil.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                           <h5 class="font-semibold text-lg text-center mb-4">Strategy I (Non-Grasses)</h5>
+                           <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+                                <div class="flow-step bg-amber-50 border border-amber-200 rounded-lg text-center w-40"><strong>1. Reduce</strong><br><span class="text-sm">Fe³⁺ is converted to Fe²⁺ at the root.</span></div>
+                                <div class="flow-step bg-amber-50 border border-amber-200 rounded-lg text-center w-40"><strong>2. Transport</strong><br><span class="text-sm">Fe²⁺ is taken up by the root cells.</span></div>
+                           </div>
+                        </div>
+                        <div>
+                           <h5 class="font-semibold text-lg text-center mb-4">Strategy II (Grasses)</h5>
+                            <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+                                <div class="flow-step bg-green-50 border border-green-200 rounded-lg text-center w-40"><strong>1. Chelate</strong><br><span class="text-sm">Roots release molecules to bind Fe³⁺.</span></div>
+                                <div class="flow-step bg-green-50 border border-green-200 rounded-lg text-center w-40"><strong>2. Transport</strong><br><span class="text-sm">The Fe³⁺ complex is taken up by the root.</span></div>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card p-6 md:p-8 rounded-xl">
+                    <h3 class="text-2xl font-bold text-[#A67B5B] mb-4">Real-World Impact</h3>
+                     <p class="text-gray-600 mb-8">Biofortified crops are already making a significant impact on global health and farmer livelihoods. An estimated 330 million people are consuming these nutrient-dense foods, leading to better health outcomes and increased food security.</p>
+                    <h4 class="text-xl font-bold text-center text-gray-700 mb-6">Examples of Biofortified Crops</h4>
+                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Orange-Fleshed Sweet Potato</h5>
+                            <p class="text-sm text-gray-600"><strong>Nutrient:</strong> Vitamin A<br>Successfully reduced vitamin A deficiency in children and women in parts of Africa.</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Iron-Biofortified Beans</h5>
+                            <p class="text-sm text-gray-600"><strong>Nutrient:</strong> Iron<br>Reversed iron deficiency and showed 20-23% higher yields, boosting farmer income.</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border">
+                            <h5 class="font-bold text-lg">Zinc-Biofortified Wheat</h5>
+                            <p class="text-sm text-gray-600"><strong>Nutrient:</strong> Zinc<br>Improves zinc intake to reduce stunting and improve immunity in South Asia and Africa.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="conclusion" class="text-center mt-20 border-t pt-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">The Future Landscape</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                Food biotechnology offers powerful solutions for global food security and nutrition. However, its future success depends on transparent communication, adaptive regulation, and equitable access to these technologies. By bridging the gap between scientific innovation and public understanding, we can unlock the full potential of biotechnology to create a more resilient and nourished future.
+            </p>
+        </section>
+
+    </main>
+
+    <script>
+        const gmTechniques = [
+            {
+                name: "Recombinant DNA Technology",
+                content: "This is the foundational technique for genetic modification. It involves identifying a desired trait, cloning the responsible gene, and inserting it into a target organism's DNA. It allows for the transfer of traits across species barriers but can involve random gene insertion and raises public concerns about 'foreign DNA'."
+            },
+            {
+                name: "Agrobacterium-mediated Transformation",
+                content: "This method uses a natural bacterium, *Agrobacterium tumefaciens*, as a vector to transfer a desired gene into plant cells. It's highly efficient for many plants and harnesses a natural biological process, but can be less effective for certain crops like cereals."
+            },
+            {
+                name: "Biolistics (Gene Gun)",
+                content: "A direct physical method where DNA-coated microscopic gold or tungsten beads are shot into plant cells at high velocity. This technique can bypass biological barriers and works for a wide range of plants but often results in random and multiple gene insertions."
+            },
+            {
+                name: "CRISPR-Cas9 System",
+                content: "A revolutionary gene-editing tool that uses a guide RNA to direct the Cas9 enzyme to a specific DNA location to make a precise cut. It's highly efficient, versatile, and can make subtle changes that mimic natural mutations, potentially avoiding 'foreign DNA' concerns. It is considered more precise than older methods."
+            }
+        ];
+
+        function switchTab(tabGroupId, tabIndex) {
+            const tabGroup = document.getElementById(tabGroupId);
+            const buttons = tabGroup.querySelectorAll('.tab-btn');
+            const contentContainer = document.getElementById(`${tabGroupId.replace('tabs', 'tab-content')}`);
+
+            buttons.forEach((button, index) => {
+                button.classList.toggle('active', index === tabIndex);
+            });
+            
+            if (tabGroupId === 'gm-tabs') {
+                const technique = gmTechniques[tabIndex];
+                contentContainer.innerHTML = `<div class="p-4 bg-gray-50 rounded-b-lg rounded-r-lg"><h4 class="font-bold text-lg mb-2">${technique.name}</h4><p class="text-gray-700">${technique.content}</p></div>`;
+            }
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function updateActiveNavOnScroll() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 100) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick').includes(currentSection)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveNavOnScroll);
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab('gm-tabs', 0);
+            
+            const gmBenefitsCtx = document.getElementById('gmBenefitsChart').getContext('2d');
+            new Chart(gmBenefitsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Pesticide Use Reduction', 'GHG Emission Reduction', 'Farmer Income Increase'],
+                    datasets: [{
+                        label: 'Impact of GM Crops (Illustrative)',
+                        data: [40, 15, 65],
+                        backgroundColor: [
+                            'rgba(107, 138, 122, 0.6)',
+                            'rgba(166, 123, 91, 0.6)',
+                            'rgba(234, 227, 217, 0.8)',
+                        ],
+                        borderColor: [
+                            '#6B8A7A',
+                            '#A67B5B',
+                            '#EAE3D9',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Positive Impacts of GM Crop Adoption'
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Relative Improvement (%)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            const biofortificationCtx = document.getElementById('biofortificationApproachesChart').getContext('2d');
+            new Chart(biofortificationCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Speed', 'Sustainability', 'Precision', 'Low Cost', 'Public Acceptance'],
+                    datasets: [
+                        {
+                            label: 'Agronomic',
+                            data: [5, 1, 1, 4, 3],
+                            fill: true,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            pointBackgroundColor: 'rgb(255, 99, 132)',
+                        }, {
+                            label: 'Conventional Breeding',
+                            data: [1, 4, 2, 3, 5],
+                            fill: true,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgb(54, 162, 235)',
+                            pointBackgroundColor: 'rgb(54, 162, 235)',
+                        },
+                         {
+                            label: 'Genetic Modification',
+                            data: [3, 5, 5, 2, 1],
+                            fill: true,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgb(75, 192, 192)',
+                            pointBackgroundColor: 'rgb(75, 192, 192)',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                     plugins: {
+                        title: {
+                            display: true,
+                            text: 'Comparing Biofortification Approaches'
+                        },
+                        legend: {
+                           position: 'bottom',
+                        },
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 5,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+            updateActiveNavOnScroll();
+        });
+    </script>
+</body>
+</html>
