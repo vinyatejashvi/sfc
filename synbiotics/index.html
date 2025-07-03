@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A tab-based single-page application is chosen for optimal user navigation. The structure breaks down the complex scientific report into logical, thematic sections: 'Overview', 'The Components' (Probiotics & Prebiotics), 'Benefits in Action', and a 'Practical Guide' (Dosage & Side Effects). This non-linear structure allows users to immediately access the information most relevant to them, enhancing usability and comprehension. For instance, a clinician can jump to the 'Practical Guide' for dosage, while a student might start with the 'Overview'. This is more effective than a linear scroll, which would force users through definitions before reaching applications. Key interactions include tab switching to change content views and interactive charts to visualize abstract concepts like synergy and dosage recommendations. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Core definitions of Probiotic, Prebiotic, Symbiotic. -> Goal: Inform. -> Viz/Method: Interactive HTML/CSS diagram. -> Interaction: Hover to see definitions. -> Justification: Visually reinforces the fundamental equation of symbiotics in a simple, non-technical way. -> Library: TailwindCSS.
+        - Report Info: The "multiplicative effect" of symbiotics. -> Goal: Compare/Inform. -> Viz/Method: Bar Chart. -> Interaction: Tooltips on hover. -> Justification: Abstract synergy is hard to grasp from text alone. A chart provides a clear, quantitative visual comparison of the combined effect versus individual components. -> Library: Chart.js.
+        - Report Info: Recommended dosages for prebiotics (FOS, Inulin). -> Goal: Inform/Guide. -> Viz/Method: Bar Chart. -> Interaction: Tooltips on hover. -> Justification: Visualizing the numbers makes them easier to remember and compare. Highlighting the tolerance limit for inulin serves as a practical warning. -> Library: Chart.js.
+        - Report Info: Clinical benefits, mechanisms, sources. -> Goal: Organize/Inform. -> Viz/Method: Styled cards and lists. -> Interaction: N/A. -> Justification: Cards and lists effectively chunk complex information, making it scannable and digestible. -> Library: TailwindCSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #fdfbf7;
+        color: #3d405b;
+      }
+      .nav-button {
+        transition: all 0.3s ease;
+        border-bottom: 2px solid transparent;
+      }
+      .nav-button.active {
+        border-bottom-color: #81b29a;
+        color: #3d405b;
+        font-weight: 600;
+      }
+      .content-section {
+        display: none;
+      }
+      .content-section.active {
+        display: block;
+      }
+      .info-card {
+        background-color: #ffffff;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+          0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        transition: transform 0.2s ease-in-out;
+      }
+      .info-card:hover {
+        transform: translateY(-5px);
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 300px;
+        max-height: 40vh;
+      }
+      @media (min-width: 768px) {
+        .chart-container {
+          height: 350px;
+        }
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <div class="container mx-auto px-4 py-8">
+      <header class="text-center mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-[#3D405B]">
+          The Power of Symbiotics
+        </h1>
+      </header>
+
+      <nav
+        class="flex justify-center border-b border-gray-200 mb-8 space-x-2 md:space-x-8"
+      >
+        <button
+          data-target="overview"
+          class="nav-button active px-4 py-3 text-sm md:text-base"
+        >
+          Overview
+        </button>
+        <button
+          data-target="components"
+          class="nav-button px-4 py-3 text-sm md:text-base"
+        >
+          The Components
+        </button>
+        <button
+          data-target="benefits"
+          class="nav-button px-4 py-3 text-sm md:text-base"
+        >
+          Benefits in Action
+        </button>
+        <button
+          data-target="guide"
+          class="nav-button px-4 py-3 text-sm md:text-base"
+        >
+          Practical Guide
+        </button>
+      </nav>
+
+      <main>
+        <!-- Overview Section -->
+        <section id="overview" class="content-section active">
+          <div class="text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4">What Are Symbiotics?</h2>
+            <p class="text-gray-700 mb-8">
+              This guide explores symbiotics, a powerful type of functional
+              food. Functional foods go beyond basic nutrition to actively
+              promote health and reduce disease risk. Symbiotics are a prime
+              example, created by strategically combining probiotics and
+              prebiotics to achieve a greater health benefit than either could
+              alone. This synergy is key to their effectiveness.
+            </p>
+          </div>
+
+          <div
+            class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 my-10 text-center"
+          >
+            <div class="info-card p-6 w-full md:w-1/4">
+              <h3 class="text-xl font-bold text-[#81B29A]">Probiotic</h3>
+              <p class="text-sm text-gray-600 mt-2">
+                Live beneficial bacteria that confer a health benefit.
+              </p>
+            </div>
+            <div class="text-4xl font-bold text-gray-400">+</div>
+            <div class="info-card p-6 w-full md:w-1/4">
+              <h3 class="text-xl font-bold text-[#E07A5F]">Prebiotic</h3>
+              <p class="text-sm text-gray-600 mt-2">
+                Specialized plant fibers that act as food for good bacteria.
+              </p>
+            </div>
+            <div class="text-4xl font-bold text-gray-400">=</div>
+            <div class="info-card p-6 w-full md:w-1/4 bg-[#3D405B] text-white">
+              <h3 class="text-xl font-bold text-white">Symbiotic</h3>
+              <p class="text-sm text-gray-200 mt-2">
+                A synergistic combination that boosts survival and
+                effectiveness.
+              </p>
+            </div>
+          </div>
+          <div
+            class="max-w-3xl mx-auto mt-8 p-6 bg-blue-50 border border-blue-200 rounded-lg"
+          >
+            <h3 class="text-2xl font-bold text-center mb-4 text-[#3D405B]">
+              The Synergistic Effect
+            </h3>
+            <p class="text-gray-700 mb-6 text-center">
+              The core idea of a symbiotic is its "multiplicative effect." The
+              prebiotic helps the probiotic survive the journey through the
+              stomach and provides it with the exact fuel it needs to thrive in
+              the intestine. This makes the combination significantly more
+              powerful than taking either component separately. This chart
+              illustrates the concept of this enhanced benefit.
+            </p>
+            <div class="chart-container">
+              <canvas id="synergyChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Components Section -->
+        <section id="components" class="content-section">
+          <div class="text-center max-w-3xl mx-auto mb-8">
+            <h2 class="text-3xl font-bold mb-4">The Building Blocks</h2>
+            <p class="text-gray-700">
+              Symbiotics are made of two distinct but complementary parts:
+              probiotics and prebiotics. Understanding each component is key to
+              appreciating how they work together to improve health. This
+              section breaks down what they are, what they do, and where to find
+              them.
+            </p>
+          </div>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="info-card p-6">
+              <h3 class="text-2xl font-bold mb-4 text-[#81B29A]">
+                Probiotics: The Live Helpers
+              </h3>
+              <p class="mb-4 text-gray-600">
+                Live microorganisms that, in adequate amounts, benefit the host.
+              </p>
+              <h4 class="font-bold mb-2">Key Mechanisms:</h4>
+              <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>Stimulate the host's immune response.</li>
+                <li>Compete with and crowd out harmful bacteria.</li>
+                <li>
+                  Produce substances (like organic acids) that inhibit
+                  pathogens.
+                </li>
+                <li>Can bind and degrade potential carcinogens.</li>
+              </ul>
+              <h4 class="font-bold mt-4 mb-2">Common Strains:</h4>
+              <p class="text-gray-700">
+                *Lactobacillus* and *Bifidobacterium* are the most common
+                genera, with specific strains like *L. acidophilus*, *L.
+                rhamnosus*, and *B. bifidum* used for targeted benefits like
+                diarrhea treatment or immune support.
+              </p>
+            </div>
+            <div class="info-card p-6">
+              <h3 class="text-2xl font-bold mb-4 text-[#E07A5F]">
+                Prebiotics: The Targeted Fuel
+              </h3>
+              <p class="mb-4 text-gray-600">
+                Non-digestible food ingredients that selectively stimulate the
+                growth of beneficial bacteria.
+              </p>
+              <h4 class="font-bold mb-2">Key Criteria:</h4>
+              <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>Resists digestion in the upper GI tract.</li>
+                <li>
+                  Acts as a selective food source for beneficial bacteria.
+                </li>
+                <li>Favorably alters the gut microflora.</li>
+                <li>Induces beneficial effects on the host's health.</li>
+              </ul>
+              <h4 class="font-bold mt-4 mb-2">Common Sources:</h4>
+              <p class="text-gray-700">
+                Fructooligosaccharides (FOS) and inulin are key examples. They
+                are found naturally in foods like chicory root, garlic, onions,
+                asparagus, and bananas.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section id="benefits" class="content-section">
+          <div class="text-center max-w-3xl mx-auto mb-8">
+            <h2 class="text-3xl font-bold mb-4">
+              What Do Symbiotics Actually Do?
+            </h2>
+            <p class="text-gray-700">
+              The true power of symbiotics lies in their wide-ranging, positive
+              effects on health. By improving the gut microbiome, they influence
+              everything from digestion to immunity. This section highlights the
+              key clinical benefits demonstrated by scientific research.
+            </p>
+          </div>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="info-card p-6">
+              <h3 class="font-bold text-xl mb-2">
+                Enhanced Pathogen Resistance
+              </h3>
+              <p class="text-gray-600">
+                Probiotics produce anti-microbial substances while prebiotics
+                lower colon pH, creating a hostile environment for harmful
+                bacteria and strengthening the body's natural defenses.
+              </p>
+            </div>
+            <div class="info-card p-6">
+              <h3 class="font-bold text-xl mb-2">Improved Intestinal Health</h3>
+              <p class="text-gray-600">
+                Help balance gut flora to alleviate constipation and diarrhea.
+                They also improve intestinal permeability, strengthening the gut
+                barrier against toxins.
+              </p>
+            </div>
+            <div class="info-card p-6">
+              <h3 class="font-bold text-xl mb-2">
+                Boosted Nutrient Absorption
+              </h3>
+              <p class="text-gray-600">
+                Beneficial bacteria help increase the bioavailability and
+                digestibility of essential minerals like calcium, magnesium, and
+                iron by lowering intestinal pH.
+              </p>
+            </div>
+            <div class="info-card p-6">
+              <h3 class="font-bold text-xl mb-2">Metabolic Health Support</h3>
+              <p class="text-gray-600">
+                Contribute to improved glycemic control (blood sugar) and have
+                been shown to help reduce blood cholesterol levels, supporting
+                cardiovascular health.
+              </p>
+            </div>
+            <div class="info-card p-6">
+              <h3 class="font-bold text-xl mb-2">Strengthened Immune System</h3>
+              <p class="text-gray-600">
+                Symbiotics stimulate the immune system by increasing circulating
+                lymphocytes and cytokines, leading to a decreased incidence of
+                infections.
+              </p>
+            </div>
+            <div class="info-card p-6">
+              <h3 class="font-bold text-xl mb-2">Postoperative Care</h3>
+              <p class="text-gray-600">
+                Can be an effective strategy to prevent and reduce postoperative
+                infections in surgical patients, who are vulnerable to gut flora
+                disruption.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Guide Section -->
+        <section id="guide" class="content-section">
+          <div class="text-center max-w-3xl mx-auto mb-8">
+            <h2 class="text-3xl font-bold mb-4">Dosage & Side Effects</h2>
+            <p class="text-gray-700">
+              For symbiotics to be effective, they must be taken in appropriate
+              amounts. Too little may have no effect, while too much of certain
+              prebiotics can cause discomfort. This guide provides an overview
+              of recommended dosages and what to expect when starting.
+            </p>
+          </div>
+          <div class="grid md:grid-cols-2 gap-8 items-start">
+            <div>
+              <div class="info-card p-6 mb-8">
+                <h3 class="text-2xl font-bold mb-4">Dosage Guidelines</h3>
+                <div class="mb-4">
+                  <h4 class="font-bold text-lg text-[#81B29A]">Probiotics</h4>
+                  <p class="text-gray-600">
+                    The goal is to deliver a sufficient number of live bacteria
+                    to the intestine. Look for products providing a minimum of
+                    <strong class="font-semibold">10⁸ to 10⁹ CFU</strong>
+                    (Colony Forming Units) per daily dose.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-bold text-lg text-[#E07A5F]">Prebiotics</h4>
+                  <p class="text-gray-600">
+                    Dosage varies by type. For Fructooligosaccharides (FOS), a
+                    minimum of
+                    <strong class="font-semibold">4 grams/day</strong> is
+                    needed, with 10 grams/day being a well-tolerated optimal
+                    dose.
+                  </p>
+                </div>
+              </div>
+
+              <div class="info-card p-6">
+                <h3 class="text-2xl font-bold mb-4">Potential Side Effects</h3>
+                <p class="text-gray-600">
+                  When first starting, some people may experience temporary side
+                  effects as their gut microbiome adjusts. This is often called
+                  a "die-off reaction."
+                </p>
+                <ul class="list-disc list-inside space-y-1 mt-4 text-gray-700">
+                  <li>Increased gas or bloating</li>
+                  <li>Mild abdominal discomfort</li>
+                </ul>
+                <p class="text-gray-600 mt-2">
+                  These symptoms are usually mild and resolve on their own
+                  within a few days.
+                </p>
+              </div>
+            </div>
+            <div class="info-card p-6">
+              <h3 class="text-xl font-bold text-center mb-4 text-[#E07A5F]">
+                Visualizing Prebiotic Doses
+              </h3>
+              <p class="text-sm text-gray-600 text-center mb-4">
+                This chart shows the effective dose ranges for common
+                prebiotics. Note that while inulin is effective, high doses
+                (>14g) may cause discomfort in some individuals.
+              </p>
+              <div class="chart-container">
+                <canvas id="prebioticDoseChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer removed as requested -->
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const navButtons = document.querySelectorAll(".nav-button");
+        const contentSections = document.querySelectorAll(".content-section");
+
+        function showSection(targetId) {
+          contentSections.forEach((section) => {
+            section.classList.remove("active");
+          });
+          navButtons.forEach((button) => {
+            button.classList.remove("active");
+          });
+
+          document.getElementById(targetId).classList.add("active");
+          document
+            .querySelector(`[data-target="${targetId}"]`)
+            .classList.add("active");
+        }
+
+        navButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const targetId = button.getAttribute("data-target");
+            showSection(targetId);
+          });
+        });
+
+        const commonChartOptions = {
+          maintainAspectRatio: false,
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              backgroundColor: "#3D405B",
+              titleFont: { size: 16 },
+              bodyFont: { size: 14 },
+              padding: 12,
+              cornerRadius: 6,
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: "#e0e0e0",
+                borderDash: [2, 4],
+              },
+              ticks: { color: "#3D405B" },
+            },
+            x: {
+              grid: {
+                display: false,
+              },
+              ticks: { color: "#3D405B", font: { size: 14 } },
+            },
+          },
+        };
+
+        const synergyCtx = document
+          .getElementById("synergyChart")
+          ?.getContext("2d");
+        if (synergyCtx) {
+          new Chart(synergyCtx, {
+            type: "bar",
+            data: {
+              labels: [
+                "Probiotic Alone",
+                "Prebiotic Alone",
+                "Symbiotic (Combined)",
+              ],
+              datasets: [
+                {
+                  label: "Conceptual Benefit",
+                  data: [1, 0.5, 2.5],
+                  backgroundColor: ["#81B29A", "#F2CC8F", "#E07A5F"],
+                  borderColor: ["#6a9a81", "#d4b179", "#c5684f"],
+                  borderWidth: 1,
+                  borderRadius: 4,
+                },
+              ],
+            },
+            options: {
+              ...commonChartOptions,
+              scales: {
+                ...commonChartOptions.scales,
+                y: {
+                  ...commonChartOptions.scales.y,
+                  title: { display: true, text: "Relative Health Benefit" },
+                },
+              },
+            },
+          });
+        }
+
+        const prebioticDoseCtx = document
+          .getElementById("prebioticDoseChart")
+          ?.getContext("2d");
+        if (prebioticDoseCtx) {
+          new Chart(prebioticDoseCtx, {
+            type: "bar",
+            data: {
+              labels: ["FOS (Min)", "FOS (Optimal)", "Inulin (Max Tolerated)"],
+              datasets: [
+                {
+                  label: "Grams per Day",
+                  data: [4, 10, 14],
+                  backgroundColor: ["#F2CC8F", "#81B29A", "#E07A5F"],
+                  borderColor: ["#d4b179", "#6a9a81", "#c5684f"],
+                  borderWidth: 1,
+                  borderRadius: 4,
+                },
+              ],
+            },
+            options: {
+              ...commonChartOptions,
+              scales: {
+                ...commonChartOptions.scales,
+                y: {
+                  ...commonChartOptions.scales.y,
+                  title: { display: true, text: "Grams per Day" },
+                },
+              },
+            },
+          });
+        }
+
+        showSection("overview");
+      });
+    </script>
+  </body>
+</html>
