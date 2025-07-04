@@ -3,440 +3,1692 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Report: Biotechnology in Food</title>
+    <title>Infographic: The Science of Food Biotechnology</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutrals -->
-    <!-- Application Structure Plan: The SPA is designed with a top-level thematic navigation allowing users to choose between two main pillars: "GM Foods" and "Biofortification". This non-linear structure promotes user-driven exploration over passive reading. Each thematic section is layered to guide the user from foundational concepts ("What is it?") to methods ("How is it done?"), applications ("Why do it?"), and real-world impact. This layered approach breaks down complex information into digestible chunks. Interactive elements like tabs for techniques, a comparative radar chart for approaches, and clickable cards for examples are used to replace static tables, fostering engagement and making data comparison more intuitive. This structure was chosen to transform a dense report into an exploratory educational tool, prioritizing usability and comprehension over mimicking the linear layout of the source document. -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Energetic & Playful -->
+    <!-- Application Structure Plan: The infographic is structured as a vertical narrative, guiding the user from a high-level global challenge down to the specific molecular techniques and their real-world impacts. The flow is: 1. Hook (Global Hunger Stat), 2. Evolution (Traditional vs. Modern), 3. Core GM Techniques (What & How), 4. GM Impact (Benefits & Examples), 5. Biofortification Deep Dive (What & How), 6. Biofortification Impact (Examples), 7. The Molecular Science (Pathways), 8. Conclusion. This linear, story-driven approach transforms a dense report into an easily digestible educational journey, making complex relationships between different concepts intuitive and clear. -->
     <!-- Visualization & Content Choices: 
-        - Report Info: GM Techniques (Table 1) -> Goal: Organize/Compare -> Viz: Interactive Tabs -> Interaction: Click to reveal details -> Justification: Breaks down complex methods into manageable parts, more engaging than a static table. -> Library/Method: HTML/CSS/JS.
-        - Report Info: Benefits of GM crops (e.g., land saved, farmer income) -> Goal: Inform/Quantify -> Viz: Bar Chart -> Interaction: Hover for tooltips -> Justification: Provides a quick, impactful visualization of quantitative benefits. -> Library/Method: Chart.js.
-        - Report Info: GM Crop Examples (Table 2) -> Goal: Inform/Explore -> Viz: Interactive Card Grid -> Interaction: Static display with clean layout -> Justification: More visually appealing and scannable than a dense table. -> Library/Method: HTML/CSS.
-        - Report Info: Biofortification Approaches (Table 3) -> Goal: Compare -> Viz: Radar Chart & Comparative Cards -> Interaction: Click to switch views, hover on chart -> Justification: Radar chart offers a powerful multi-axial comparison of trade-offs (speed, cost, etc.), which is more insightful than a simple table. -> Library/Method: Chart.js & HTML/CSS/JS.
-        - Report Info: Biological Pathways (e.g., Iron Uptake) -> Goal: Explain -> Viz: Simplified Flow Diagrams -> Interaction: Static visual -> Justification: Translates complex scientific processes into easy-to-follow visual steps for a general audience. -> Library/Method: HTML/Tailwind CSS.
-        - Report Info: Biofortified Crop Impact (Table 4) -> Goal: Inform/Explore -> Viz: Interactive Card Grid with Key Stat Callouts -> Interaction: Static display -> Justification: Highlights key achievements and makes the impact tangible. -> Library/Method: HTML/CSS. -->
+        - Hidden Hunger Stat (Inform) -> Big Number: Immediate, high-impact hook. (HTML/CSS).
+        - Breeding Comparison (Compare/Change) -> Timeline Flowchart: Visually contrasts the slow, complex path of traditional breeding with the direct, efficient path of genetic engineering. (HTML/CSS).
+        - Recombinant DNA (Organize) -> Simplified Flowchart: Breaks down a multi-step process into clear, sequential visuals. (HTML/CSS).
+        - Gene Delivery Methods (Compare) -> Card Grid: Allows for easy side-by-side comparison of features, pros, and cons. (HTML/CSS).
+        - GM Crop Benefits (Compare) -> Horizontal Bar Chart: Effectively quantifies and compares the diverse, multi-dimensional benefits of GM crops. (Chart.js).
+        - Biofortification Approaches (Compare) -> Radar Chart: Best choice for comparing multiple methods across multiple criteria (speed, cost, precision), revealing trade-offs. (Chart.js).
+        - Nutrient Pathways (Organize) -> Simplified Flow Diagrams: Translates complex biochemical processes into accessible, easy-to-follow steps for students. (HTML/CSS).
+        - Real-World Examples (Inform) -> Icon + Text Cards: Uses unicode icons and concise text to present impactful examples in a scannable format. (HTML/CSS).
+    -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #FDFBF7;
-            color: #3D3D3D;
+            font-family: 'Roboto', sans-serif;
+            background-color: #F8F5F1;
+            color: #004369;
         }
-        .nav-link {
-            transition: all 0.3s ease;
-            cursor: pointer;
+        .header-card {
+            background: linear-gradient(135deg, #004369 0%, #01949A 100%);
+            color: #F8F5F1;
         }
-        .nav-link.active {
-            background-color: #6B8A7A;
-            color: #FFFFFF;
+        .stat-number {
+            font-weight: 900;
+            color: #DB1F48;
+            font-size: 5rem;
+            line-height: 1;
         }
-        .nav-link:not(.active):hover {
-            background-color: #EAE3D9;
+        h2 {
+            font-weight: 900;
+            font-size: 2.25rem;
+            line-height: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #004369;
         }
-        .section-card {
-            background-color: #FFFFFF;
-            border: 1px solid #EAE3D9;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        h3 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            line-height: 2rem;
+            color: #01949A;
+            margin-bottom: 1rem;
         }
-        .section-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            border: 1px solid #E5DDC8;
         }
-        .tab-btn.active {
-            background-color: #6B8A7A;
-            color: #FFFFFF;
-            border-color: #6B8A7A;
-        }
-        .flow-step {
-            position: relative;
-            padding: 1rem;
-        }
-        .flow-step:not(:last-child)::after {
-            content: '→';
-            position: absolute;
-            right: -24px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2rem;
-            color: #A67B5B;
-        }
-        @media (max-width: 768px) {
-            .flow-step:not(:last-child)::after {
-                content: '↓';
-                right: 50%;
-                top: 100%;
-                transform: translateX(50%);
-                font-size: 2rem;
+        .timeline-item { position: relative; padding-left: 2.5rem; }
+        .timeline-item:not(:last-child) { padding-bottom: 2rem; }
+        .timeline-item::before { content: ''; position: absolute; left: 0; top: 0; width: 2px; height: 100%; background-color: #E5DDC8; }
+        .timeline-dot { position: absolute; left: -0.625rem; top: 0.125rem; width: 1.25rem; height: 1.25rem; border-radius: 9999px; border: 4px solid #F8F5F1; }
+        .flow-step { position: relative; text-align: center; padding: 1rem; border: 2px dashed #01949A; border-radius: 0.5rem; background-color: #fff; }
+        .flow-arrow::after { content: '➔'; font-size: 2rem; color: #DB1F48; position: absolute; top: 50%; transform: translateY(-50%); }
+        @media (min-width: 768px) { .flow-arrow-right::after { right: -2.5rem; } }
+        @media (max-width: 767px) {
+             .flow-arrow-down::after {
+                content: '⬇';
+                bottom: -2.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                top: auto;
             }
         }
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-            height: 350px;
-            max-height: 400px;
+            height: 400px;
+            max-height: 500px;
+        }
+        .image-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .image-caption {
+            background-color: #004369;
+            color: #F8F5F1;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
         }
         @media (min-width: 768px) {
-            .chart-container {
-                height: 400px;
+            .swot-grid {
+                grid-template-columns: 1fr 1fr;
             }
+        }
+        .swot-item {
+            background-color: #F0F8FF;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #C0D9EE;
+        }
+        .swot-item h4 {
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .swot-item.strengths h4 { color: #01949A; }
+        .swot-item.weaknesses h4 { color: #DB1F48; }
+        .swot-item.opportunities h4 { color: #004369; }
+        .swot-item.threats h4 { color: #A67B5B; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+        table th, table td {
+            border: 1px solid #E5DDC8;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        table th {
+            background-color: #004369;
+            color: #F8F5F1;
+            font-weight: bold;
+        }
+        table tr:nth-child(even) {
+            background-color: #F0F8FF;
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <h1 class="text-xl md:text-2xl font-bold text-gray-800">Biotechnology in Food</h1>
-                <div class="flex items-center space-x-2 md:space-x-4">
-                    <button onclick="scrollToSection('gm-foods')" class="nav-link px-3 py-2 rounded-md text-sm font-medium">GM Foods</button>
-                    <button onclick="scrollToSection('biofortification')" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Biofortification</button>
+<main class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+    <section class="header-card text-center p-8 md:p-12 rounded-xl mb-16">
+        <h1 class="text-4xl md:text-5xl font-black mb-4">Engineering a Better Bite</h1>
+        <p class="text-xl md:text-2xl font-light">The Science of Food Biotechnology</p>
+        <div class="mt-8 bg-white/20 p-6 rounded-lg">
+            <p class="text-lg mb-2">A Global Challenge: "Hidden Hunger"</p>
+            <div class="stat-number">2+ Billion</div>
+            <p class="text-lg">people worldwide suffer from micronutrient deficiencies, a crisis biotechnology aims to solve by making our food more nutritious.</p>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>Global Nutrition Landscape: The Indian Context</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">Micronutrient deficiencies, often termed "hidden hunger," pose a significant global health challenge. While the problem is widespread, its manifestations and severity vary by region. In India, a comprehensive "Global Nutrition Report (2018)" highlights specific burdens of malnutrition, including both undernutrition and emerging issues of overweight and obesity. Understanding these specific statistics is crucial for targeted interventions.</p>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/004369/F8F5F1?text=Global+Nutrition+Report+Data" alt="Global Nutrition Report Data - Placeholder">
+                <div class="image-caption">Figure 1: Visual representation of global malnutrition statistics. (Placeholder Image)</div>
+            </div>
+            <h3 class="text-center mt-8">Key Malnutrition Burdens in India (Global Nutrition Report, 2018):</h3>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>**Anemia:** A staggering **51.4 percent of women in reproductive age** were affected by anemia, indicating a severe public health issue.</li>
+                <li>**Stunting:** **37.9 percent of children under-5** are affected by stunting (low height for age), reflecting chronic undernutrition.</li>
+                <li>**Wasting:** **20.81 percent of children under-5** are defined as 'wasted' (low weight for height), indicating acute malnutrition.</li>
+                <li>**Overweight:** An emerging double burden, with **17.8 percent of adult men and 21.6 percent of adult women** in India being overweight.</li>
+            </ul>
+            <p class="text-sm text-gray-700 mt-4">These figures underscore the complex challenge of malnutrition in India, necessitating multi-pronged approaches that address both undernutrition and the rising prevalence of overweight individuals. Biotechnology, particularly biofortification, offers a sustainable pathway to address micronutrient deficiencies at scale.</p>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>From Slow Selection to Swift Science</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8">For millennia, humanity has engaged in crop improvement, initially through rudimentary selective breeding and evolving into the sophisticated genetic engineering techniques of today. This journey reflects a fundamental shift from empirical observation to precise molecular design.</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3>Traditional Breeding: The Art of Selection</h3>
+                    <p class="text-sm text-gray-700 mb-4">Traditional breeding, a cornerstone of agriculture for thousands of years, relies on the astute observation and selection of plants exhibiting desirable characteristics (e.g., larger fruits, disease resistance) and then crossing them. This process, a form of artificial natural selection, gradually guided the evolution of species in ways beneficial to human needs. However, it is inherently limited by the genetic diversity within sexually compatible species. The process involves mixing thousands of genes, leading to unpredictable outcomes and the phenomenon of "linkage drag," where undesirable genes are inadvertently transferred along with desired ones. Developing a new stable variety can take 8-10 years or more, as breeders must grow and evaluate multiple generations. Historically, plant breeding prioritized yield attributes and disease resistance, with less emphasis on nutritional aspects. However, contemporary conventional breeding programs are increasingly focusing on the biofortification of vitamins, antioxidants, and micronutrients in edible parts of crops (Prasad et al., 2015).</p>
+                    <div class="timeline-item">
+                        <div class="timeline-dot bg-[#A67B5B]"></div>
+                        <h4 class="font-bold">Cross Plants</h4>
+                        <p class="text-sm text-gray-600">Hybridization of two parent plants, mixing thousands of genes. This is a broad, non-specific approach to genetic recombination.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot bg-[#A67B5B]"></div>
+                        <h4 class="font-bold">Grow Offspring</h4>
+                        <p class="text-sm text-gray-600">Requires a full growing season (or more) to observe and assess the phenotypic traits of the progeny.</p>
+                    </div>
+                     <div class="timeline-item">
+                        <div class="timeline-dot bg-[#A67B5B]"></div>
+                        <h4 class="font-bold">Select Best Plants</h4>
+                        <p class="text-sm text-gray-600">Selection is based on observable traits. Unwanted genes (linkage drag) often accompany desired ones, making selection less precise.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot bg-[#A67B5B]"></div>
+                        <h4 class="font-bold">Repeat for 8-10+ Years</h4>
+                        <p class="text-sm text-gray-600">Multiple generations of backcrossing and selfing are needed to achieve genetic stability and homozygosity for the desired trait, a very slow process limited to traits within the same species or very close relatives.</p>
+                    </div>
+                    <div class="image-container">
+                        <img src="https://placehold.co/600x350/A67B5B/F8F5F1?text=Traditional+Plant+Breeding+Process" alt="Traditional Breeding Process - Placeholder">
+                        <div class="image-caption">Figure 2: The lengthy process of traditional plant breeding. (Placeholder Image)</div>
+                    </div>
+                    <h3 class="mt-8">SWOT Analysis: Conventional Breeding for Biofortification (Susana et al., 2013)</h3>
+                    <div class="swot-grid">
+                        <div class="swot-item strengths">
+                            <h4>Strengths (S)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Comparatively simple method than other methods.</li>
+                                <li>Successful for minerals and vitamins.</li>
+                                <li>One-off cost for seed development.</li>
+                                <li>Easier distribution of seeds to farmers.</li>
+                                <li>Wide public acceptance.</li>
+                                <li>Simple legal framework.</li>
+                            </ul>
+                        </div>
+                        <div class="swot-item weaknesses">
+                            <h4>Weaknesses (W)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Long development time (many years).</li>
+                                <li>Requires sufficient genetic variation within the species.</li>
+                            </ul>
+                        </div>
+                        <div class="swot-item opportunities">
+                            <h4>Opportunities (O)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Often used as a compliment to other strategies.</li>
+                            </ul>
+                        </div>
+                        <div class="swot-item threats">
+                            <h4>Threats (T)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Requires genetic variation.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t-4 md:border-t-0 md:border-l-4 border-dashed border-gray-300 pt-8 md:pt-0 md:pl-8">
+                    <h3>Genetic Engineering: Precise Molecular Design</h3>
+                    <p class="text-sm text-gray-700 mb-4">Modern genetic engineering emerged as a powerful tool to overcome the limitations of traditional breeding. It enables the direct manipulation of an organism's DNA, physically removing specific genes (transgenes) from one organism and transferring them into another. This bypasses sexual barriers, opening up an unlimited pool of genes for crop improvement. This approach offers unprecedented precision, allowing for the targeted addition of single or a few specific traits with far greater control. Key milestones include the first transgenic tobacco plant in 1987, followed by commercial successes like Bt-cotton and corn in the 1990s, and Golden Rice in 2000. Genetic engineering becomes particularly crucial when there is a lack of sufficient genetic variation among genotypes for a desired character/trait within a species, or a lack of sexual compatibility for gene transfer (lack of sex forms).</p>
+                    <div class="timeline-item">
+                         <div class="timeline-dot bg-[#01949A]"></div>
+                        <h4 class="font-bold">Identify Gene</h4>
+                        <p class="text-sm text-gray-600">Pinpoint the exact gene for a desired trait (e.g., pest resistance, enhanced nutrition) from any organism, even across species boundaries.</p>
+                    </div>
+                    <div class="timeline-item">
+                         <div class="timeline-dot bg-[#01949A]"></div>
+                        <h4 class="font-bold">Insert Gene</h4>
+                        <p class="text-sm text-gray-600">Precisely add only the single, desired gene into the plant's DNA, with high control over its integration and expression.</p>
+                    </div>
+                    <div class="timeline-item">
+                         <div class="timeline-dot bg-[#01949A]"></div>
+                        <h4 class="font-bold">Grow New Plant</h4>
+                        <p class="text-sm text-gray-600">Rapidly regenerate a stable, improved plant from a single transformed cell, significantly reducing development time compared to traditional methods.</p>
+                    </div>
+                    <div class="image-container">
+                        <img src="https://placehold.co/600x350/01949A/F8F5F1?text=Genetic+Engineering+Flow" alt="Genetic Engineering Flow - Placeholder">
+                        <div class="image-caption">Figure 3: Genetic engineering addresses limitations of traditional breeding. (Placeholder Image)</div>
+                    </div>
+                    <h3 class="mt-8">SWOT Analysis: Genetic Engineering for Biofortification (Susana et al., 2013)</h3>
+                    <div class="swot-grid">
+                        <div class="swot-item strengths">
+                            <h4>Strengths (S)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Successful for minerals and vitamins.</li>
+                                <li>Speeds up the process of conventional plant breeding.</li>
+                            </ul>
+                        </div>
+                        <div class="swot-item weaknesses">
+                            <h4>Weaknesses (W)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Interactions among transgenes can be complex.</li>
+                            </ul>
+                        </div>
+                        <div class="swot-item opportunities">
+                            <h4>Opportunities (O)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Fast 'omics' developments provide new targets and tools.</li>
+                            </ul>
+                        </div>
+                        <div class="swot-item threats">
+                            <h4>Threats (T)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Low public acceptance.</li>
+                                <li>High socio-political problems.</li>
+                                <li>Potential environmental impact (e.g., gene flow).</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </section>
 
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        
-        <section id="intro" class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#A67B5B] mb-4">Transforming Our Food Supply</h2>
-            <p class="max-w-3xl mx-auto text-lg text-gray-600">
-                Food biotechnology is a transformative field using biological systems to enhance food production, improve nutrition, and address global challenges like food security and climate change. This interactive report explores two key pillars: Genetically Modified (GM) Foods and Biofortification.
-            </p>
-        </section>
-
-        <!-- GM Foods Section -->
-        <section id="gm-foods" class="mb-20 scroll-mt-20">
-            <header class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold mb-2">Genetically Modified (GM) Foods</h2>
-                <p class="text-lg text-gray-600">Altering genetics to introduce desirable traits in crops.</p>
-            </header>
-
-            <div class="space-y-12">
-                <div class="section-card p-6 md:p-8 rounded-xl">
-                    <h3 class="text-2xl font-bold text-[#6B8A7A] mb-4">How is it Done? The Techniques</h3>
-                    <p class="text-gray-600 mb-6">Genetic modification employs several sophisticated techniques to precisely alter an organism's DNA. These methods have evolved from broad applications to highly targeted gene-editing systems. Explore the primary techniques used to create GM crops by clicking the tabs below.</p>
-                    <div id="gm-tabs" class="mb-6">
-                        <div class="border-b border-gray-200">
-                            <nav class="-mb-px flex flex-wrap gap-4" aria-label="Tabs">
-                                <button class="tab-btn active" onclick="switchTab('gm-tabs', 0)">Recombinant DNA</button>
-                                <button class="tab-btn" onclick="switchTab('gm-tabs', 1)">Agrobacterium</button>
-                                <button class="tab-btn" onclick="switchTab('gm-tabs', 2)">Biolistics</button>
-                                <button class="tab-btn" onclick="switchTab('gm-tabs', 3)">CRISPR-Cas9</button>
-                            </nav>
-                        </div>
-                    </div>
-                    <div id="gm-tab-content">
-                        <!-- Content will be injected by JS -->
-                    </div>
+    <section class="mb-16">
+        <h2>The Toolkit of Genetic Engineering</h2>
+        <div class="card mb-8">
+            <h3>Core Technique: Recombinant DNA Technology</h3>
+            <p class="mb-6 text-gray-700">Recombinant DNA (rDNA) technology is the foundational molecular technique for genetic modification. It enables scientists to precisely combine DNA molecules from different sources to create novel genetic configurations. This process facilitates the artificial transfer of genes or gene fragments from one organism to another, introducing new or enhanced traits into the recipient. The precision of rDNA technology relies on specific molecular tools and a multi-step process.</p>
+            <h4 class="font-bold text-lg text-gray-800 mb-2">Key Components:</h4>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>**Restriction Enzymes (Molecular Scissors):** Endonucleases that recognize and cleave DNA at specific nucleotide sequences (recognition sites), often palindromic. They create either "sticky ends" (overhangs) or "blunt ends," which are crucial for subsequent ligation. Examples include EcoRI, HindIII.</li>
+                <li>**DNA Ligases (Molecular Glue):** Enzymes that form phosphodiester bonds, covalently joining DNA fragments together. T4 DNA ligase is commonly used to seal the desired gene into a vector.</li>
+                <li>**Vector Systems (Gene Delivery Vehicles):** DNA molecules that carry the foreign DNA into a host cell and enable its replication. Common vectors include:
+                    <ul class="list-disc list-inside ml-4">
+                        <li>**Plasmids:** Small, circular, extrachromosomal DNA molecules found in bacteria, widely used due to their ease of manipulation and self-replication.</li>
+                        <li>**Bacteriophages:** Viruses that infect bacteria; their DNA can be engineered to carry foreign genes.</li>
+                        <li>**Cosmids:** Hybrid vectors combining features of plasmids and bacteriophages, capable of carrying larger DNA inserts.</li>
+                        <li>**Artificial Chromosomes (BACs/YACs):** Bacterial or Yeast Artificial Chromosomes that can carry very large DNA fragments, useful for complex gene clusters.</li>
+                    </ul>
+                </li>
+                <li>**Selectable Markers:** Genes (e.g., antibiotic resistance, herbicide tolerance) included in the vector to allow identification of cells that have successfully taken up the recombinant DNA.</li>
+                <li>**Reporter Genes:** Genes (e.g., GUS, GFP) that produce easily detectable products, used to confirm successful gene expression.</li>
+                <li>**Promoters and Terminators:** Regulatory sequences that control when, where, and how strongly the introduced gene is expressed in the host plant. Examples include the CaMV 35S promoter (constitutive) and NOS terminator.</li>
+            </ul>
+            <h4 class="font-bold text-lg text-gray-800 mb-2">General Process:</h4>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 items-center">
+                <div class="flow-step flow-arrow flow-arrow-right flow-arrow-down"><strong>1. Isolate Gene</strong><br><span class="text-sm text-gray-600">A desired gene is excised from donor DNA using restriction enzymes.</span></div>
+                <div class="flow-step flow-arrow flow-arrow-right flow-arrow-down"><strong>2. Create Vector</strong><br><span class="text-sm text-gray-600">The gene is ligated into a prepared vector (e.g., plasmid) using DNA ligase, forming recombinant DNA.</span></div>
+                <div class="flow-step flow-arrow flow-arrow-right flow-arrow-down"><strong>3. Transform Host</strong><br><span class="text-sm text-gray-600">The recombinant DNA is introduced into a host cell (e.g., bacteria, plant cell) via various methods (e.g., heat shock, electroporation, *Agrobacterium*).</span></div>
+                <div class="flow-step"><strong>4. Select & Regenerate</strong><br><span class="text-sm text-gray-600">Transformed cells are identified using selectable markers and then regenerated into a whole plant via tissue culture.</span></div>
+            </div>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/004369/F8F5F1?text=Recombinant+DNA+Technology+Process" alt="Recombinant DNA Technology Schematic - Placeholder">
+                <div class="image-caption">Figure 4: Schematic of Recombinant DNA Technology. This diagram illustrates the key steps of isolating a gene, inserting it into a plasmid vector, transforming a host cell, and regenerating a new organism. (Placeholder Image)</div>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="card">
+                <h3>Agrobacterium-mediated Transformation</h3>
+                <p class="text-sm text-gray-700 mb-4">This method leverages *Agrobacterium tumefaciens*, a natural soil bacterium, as a biological vector. The bacterium naturally causes crown gall or hairy root diseases in plants by transferring a specific segment of its own DNA, known as Transfer DNA (T-DNA), from its tumor-inducing (Ti) plasmid into the genome of host plant cells. In genetic engineering, the disease-causing genes within the T-DNA are removed, rendering the *Agrobacterium* strain "disarmed" and non-pathogenic. These excised genes are then replaced with the desired gene(s) of interest (transgenes), along with essential regulatory elements such as promoters and terminators, and selectable markers that aid in identifying transformed cells. The actual transfer of this modified T-DNA is orchestrated by a complex gene cluster known as the *vir regulon*. This regulon encodes components of the Type IV Secretion System (T4SS), which acts as a molecular bridge between the bacterial and host plant cell membranes, facilitating the precise trafficking of the modified T-DNA and associated proteins into the plant cell cytoplasm. Once inside the plant cell, the T-DNA integrates into the host plant's nuclear genome. The introduced genes are then expressed, leading to the manifestation of the desired new traits.</p>
+                <div class="text-sm"><strong class="text-green-600">PRO:</strong> High efficiency, precision, and stable integration for many plant species. Inexpensive, reproducible, and capable of transferring large DNA fragments.</div>
+                <div class="text-sm"><strong class="text-red-600">CON:</strong> Species and genotype specificity (recalcitrance in some crops); potential for *Agrobacterium* overgrowth; can lead to random insertion sites.</div>
+                <div class="image-container !max-w-full !m-0 !mt-4">
+                    <img src="https://placehold.co/400x250/01949A/F8F5F1?text=Agrobacterium+Transformation+Process" alt="Agrobacterium-mediated Transformation - Placeholder">
+                    <div class="image-caption">Figure 5: *Agrobacterium*-Mediated Plant Transformation. The bacterium transfers its modified T-DNA into the plant cell's genome. (Placeholder Image)</div>
                 </div>
+            </div>
+            <div class="card">
+                <h3>Biolistics (Gene Gun)</h3>
+                <p class="text-sm text-gray-700 mb-4">Also known as microprojectile bombardment, this physical method offers a direct approach for delivering genetic material into plant cells. This technique involves coating microscopic particles, known as microprojectiles, with the desired DNA or other genetic material. These coated particles are then accelerated to high velocities and propelled into target cells using a specialized device called a gene gun, which operates with compressed gas. The process begins with the preparation of these microprojectiles, which are typically made from inert, dense materials such as gold or tungsten. These materials are chosen because they do not react with cellular components and possess sufficient mass to penetrate cell walls and membranes effectively. The gene gun uses pressurized gas (e.g., helium) to propel a macrocarrier disc, which then impacts a stopping screen, releasing the DNA-coated microprojectiles. Upon impact, these particles physically penetrate the tough cell walls and membranes of the target plant cells. Once inside the cell, the DNA detaches from the particles and can integrate into the cell's genome. Researchers are also exploring biodegradable options for microprojectiles to minimize any residual impact on the target cells and the environment.</p>
+                <div class="text-sm"><strong class="text-green-600">PRO:</strong> Bypasses cell walls; applicable to a broad range of species and cell types (including monocots and organelles); direct DNA delivery without biological vectors.</div>
+                <div class="text-sm"><strong class="text-red-600">CON:</strong> Can cause cellular damage; often results in random and multiple gene insertions; less precise than CRISPR; may lead to transient expression.</div>
+                <div class="image-container !max-w-full !m-0 !mt-4">
+                    <img src="https://placehold.co/400x250/DB1F48/F8F5F1?text=Gene+Gun+Method+Diagram" alt="Biolistics (Gene Gun) Method - Placeholder">
+                    <div class="image-caption">Figure 6: Biolistics (Gene Gun) Method. DNA-coated particles are physically shot into plant cells. (Placeholder Image)</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>CRISPR-Cas9 System: Precision Genome Editing</h3>
+                <p class="text-sm text-gray-700 mb-4">The Clustered Regularly Interspaced Short Palindromic Repeats (CRISPR)-Cas9 system represents a revolutionary breakthrough in genetic engineering, introducing an unprecedented level of precision in genome editing. This powerful tool has transformed genetic studies and crop breeding due to its remarkable simplicity, flexibility, consistency, and high efficiency. The system operates through two primary components: a synthetic **guide RNA (sgRNA)**, which is designed to be complementary to a specific 20-nucleotide target DNA sequence, and the **Cas9 protein**, a DNA-cleaving enzyme (endonuclease). The sgRNA guides Cas9 to the precise location in the genome, where Cas9 creates a double-stranded break (DSB). The cell's natural repair mechanisms then mend this break via **Non-Homologous End-Joining (NHEJ)** (error-prone, leading to gene knockout) or **Homology-Directed Repair (HDR)** (precise, allowing for gene insertion/replacement if a donor template is provided). CRISPR-Cas9 is simpler to design and implement than previous methods (ZFNs, TALENs) and can make subtle changes that mimic natural mutations, potentially avoiding "foreign DNA" concerns and impacting regulatory classifications.</p>
+                <div class="text-sm"><strong class="text-green-600">PRO:</strong> Ultra-precise, versatile, simple design, high efficiency, lower cost; can create non-transgenic changes (no foreign DNA); enables multi-gene editing.</div>
+                 <div class="text-sm"><strong class="text-red-600">CON:</strong> Potential for off-target effects (though minimized by design); regulatory classification challenges for "non-transgenic" edits; delivery to some plant cells can still be challenging.</div>
+                <div class="image-container !max-w-full !m-0 !mt-4">
+                    <img src="https://placehold.co/400x250/E5DDC8/004369?text=CRISPR-Cas9+Mechanism+Diagram" alt="CRISPR-Cas9 Gene Editing Mechanism - Placeholder">
+                    <div class="image-caption">Figure 7: CRISPR-Cas9 Gene Editing Mechanism. Guide RNA directs Cas9 to make precise DNA cuts. (Placeholder Image)</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="section-card p-6 md:p-8 rounded-xl">
-                    <h3 class="text-2xl font-bold text-[#6B8A7A] mb-4">Why Do It? Key Benefits & Examples</h3>
-                    <p class="text-gray-600 mb-8">GM crops offer a wide range of demonstrated benefits, from increasing yields and farmer incomes to reducing pesticide use and enhancing nutritional content. These advancements contribute to a more sustainable and secure global food system. The chart below visualizes some of the key positive impacts.</p>
-                    
-                    <div class="chart-container mb-12">
-                        <canvas id="gmBenefitsChart"></canvas>
+    <section class="mb-16">
+        <h2>GM Foods: Real-World Impact and Scientific Consensus</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">For over 25 years, genetically modified (GM) crops have been widely adopted by farmers globally, demonstrating significant benefits across agriculture and food systems. Extensive research and real-world application have shown their contribution to increased yields, reduced environmental impact, and enhanced food security. The scientific consensus, supported by numerous independent studies and major scientific organizations (e.g., National Academies of Sciences, WHO, FAO), is that currently available GM foods are as safe as their conventionally bred counterparts. Rigorous regulatory processes ensure their safety before market release, assessing potential allergenicity, toxicity, and nutritional equivalence.</p>
+            <div class="chart-container">
+                <canvas id="gmBenefitsChart"></canvas>
+            </div>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🌽</span>
+                    <h4 class="font-bold mt-2">Bt Corn & Cotton</h4>
+                    <p class="text-sm text-gray-600">Engineered to produce insecticidal proteins from *Bacillus thuringiensis* (Bt) bacteria, these crops dramatically reduce the need for synthetic pesticide sprays. Studies show significant reductions in insecticide use (e.g., 37% globally for Bt crops) and increased yields (e.g., 20-25% for Bt cotton in India), leading to higher farmer incomes and reduced environmental exposure to chemicals.</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🍎</span>
+                    <h4 class="font-bold mt-2">Non-Browning Apples (Arctic® Apple)</h4>
+                    <p class="text-sm text-gray-600">Utilizing gene silencing (RNA interference), these apples have reduced expression of polyphenol oxidase (PPO) enzymes, which cause browning when exposed to air. This trait significantly reduces food waste in the supply chain and at home, as consumers are more likely to consume apples that retain their fresh appearance.</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🥭</span>
+                    <h4 class="font-bold mt-2">Virus-Resistant Papaya (Rainbow Papaya)</h4>
+                    <p class="text-sm text-gray-600">Developed in response to the devastating Papaya Ring Spot Virus (PRSV) that threatened Hawaii's papaya industry. This GM variety incorporates a gene from the virus itself, providing cross-protection similar to vaccination. It effectively saved the industry and ensured continued production, demonstrating the critical role of GM in disease management.</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🌱</span>
+                    <h4 class="font-bold mt-2">Herbicide-Tolerant Soybeans & Corn</h4>
+                    <p class="text-sm text-gray-600">These crops are engineered to withstand specific broad-spectrum herbicides (e.g., glyphosate), allowing farmers to control weeds more effectively with fewer herbicide applications. This facilitates "no-till" or "reduced-till" cultivation practices, which reduce soil erosion, conserve soil moisture, and decrease greenhouse gas emissions from farm machinery, contributing to more sustainable agriculture.</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🍚</span>
+                    <h4 class="font-bold mt-2">Golden Rice</h4>
+                    <p class="text-sm text-gray-600">A landmark biofortified GM crop engineered to produce beta-carotene (provitamin A) in its endosperm, a part of the grain that naturally lacks this nutrient. Developed to combat Vitamin A Deficiency (VAD), a leading cause of childhood blindness and mortality globally. It represents a significant advancement in addressing hidden hunger through biotechnology.</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🥔</span>
+                    <h4 class="font-bold mt-2">Non-Bruising & Reduced Acrylamide Potatoes (Innate® Potato)</h4>
+                    <p class="text-sm text-gray-600">Engineered using gene silencing to reduce enzymatic browning and black spot bruising, minimizing food waste. Additionally, some varieties have reduced levels of asparagine, which, when cooked at high temperatures, forms acrylamide, a potential carcinogen. This enhances both quality and safety.</p>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/004369/F8F5F1?text=GM+Crops+Field+Trial" alt="GM Crops in Field Trial - Placeholder">
+                <div class="image-caption">Figure 8: GM crops undergoing field trials to assess performance and safety under real-world conditions. (Placeholder Image)</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>Biofortification: Fighting Hidden Hunger Systemically</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">Biofortification is a strategic process designed to increase the nutrient density of staple food crops, directly addressing widespread vitamin and mineral deficiencies ("hidden hunger"). This approach is highly sustainable and cost-effective, as it embeds nutrients directly into the crop itself, allowing the plant to "do the work." Unlike supplementation or industrial fortification, biofortification provides a continuous, accessible source of micronutrients for populations reliant on these staple foods. It represents a paradigm shift, integrating public health goals directly into agricultural development.</p>
+            <div class="chart-container">
+                 <canvas id="biofortificationApproachesChart"></canvas>
+            </div>
+             <div class="mt-12 text-center">
+                <h3>Impact in Action: Reaching Billions</h3>
+                <p class="text-lg text-gray-700">Biofortified crops are increasingly recognized as a sustainable and cost-effective intervention to combat micronutrient malnutrition. Current estimates suggest that approximately <strong class="text-4xl font-black text-[#DB1F48]">330 Million</strong> people globally are consuming biofortified foods, leading to substantial improvements in nutritional status and overall health. The success of these programs is often measured through large-scale efficacy trials and impact assessments.</p>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🍠</span>
+                        <h4 class="font-bold mt-2">Vitamin A Sweet Potato (OFSP)</h4>
+                        <p class="text-sm text-gray-600">Orange-fleshed sweet potato varieties, rich in beta-carotene, have demonstrated significant efficacy in reducing vitamin A deficiency among children and women of reproductive age in countries like Mozambique, Uganda, and South Africa. Studies have shown improved vitamin A status and reduced incidence of deficiency-related health issues.</p>
                     </div>
-
-                    <h4 class="text-xl font-bold text-center text-gray-700 mb-6">Examples of GM Crops</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Insecticidal Corn (Bt Corn)</h5>
-                            <p class="text-sm text-gray-600">Produces its own insecticide, reducing the need for external pesticide spraying and protecting crops from damage.</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Herbicide-Resistant Soybeans</h5>
-                            <p class="text-sm text-gray-600">Tolerates specific herbicides, allowing for effective weed control and enabling no-till farming to improve soil health.</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Virus-Resistant Papaya</h5>
-                            <p class="text-sm text-gray-600">Engineered to resist the Papaya Ring Spot Virus, this innovation effectively saved Hawaii's papaya industry.</p>
-                        </div>
-                         <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Golden Rice</h5>
-                            <p class="text-sm text-gray-600">Fortified with beta-carotene (a Vitamin A precursor) to help combat vitamin A deficiency in vulnerable populations.</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Non-Browning Apples</h5>
-                            <p class="text-sm text-gray-600">Developed to resist browning after being cut, which helps to significantly reduce food waste.</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Drought-Resistant Wheat</h5>
-                            <p class="text-sm text-gray-600">Engineered for enhanced drought tolerance, improving yield consistency in water-scarce regions.</p>
-                        </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🌿</span>
+                        <h4 class="font-bold mt-2">Iron-Biofortified Beans</h4>
+                        <p class="text-sm text-gray-600">Developed through conventional breeding, these beans have shown remarkable success in regions like Rwanda. Efficacy trials indicate improved iron stores and reversal of iron deficiency in women and schoolchildren. Furthermore, some varieties have shown higher yields (20-23% higher) than non-biofortified counterparts, providing economic benefits to farmers.</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🌾</span>
+                        <h4 class="font-bold mt-2">Zinc-Biofortified Wheat & Rice</h4>
+                        <p class="text-sm text-gray-600">Actively developed and deployed in South Asia and Africa, zinc-enriched wheat and rice improve zinc intake, reducing the risk of zinc deficiency and its associated health issues like stunting and impaired immunity. These crops are crucial in regions where zinc deficiency is prevalent due to reliance on low-zinc staple foods.</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🌽</span>
+                        <h4 class="font-bold mt-2">Provitamin A Maize</h4>
+                        <p class="text-sm text-gray-600">Yellow and orange maize varieties, naturally rich in provitamin A carotenoids, have been developed and disseminated in countries like Zambia and Nigeria. They provide a vital source of vitamin A in diets where white maize is dominant and micronutrient deficiencies are common.</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🍚</span>
+                        <h4 class="font-bold mt-2">Iron-Biofortified Rice</h4>
+                        <p class="text-sm text-gray-600">Both conventionally bred and genetically modified iron-enriched rice varieties are under development. Transgenic approaches, for instance, have shown 2-3 fold increases in iron content by expressing genes like soybean ferritin, aiming to combat widespread iron deficiency anemia in rice-consuming populations.</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🌱</span>
+                        <h4 class="font-bold mt-2">Folate-Biofortified Crops</h4>
+                        <p class="text-sm text-gray-600">Research is ongoing to biofortify staple crops like rice and maize with folate (Vitamin B9), which is crucial for cell division and preventing neural tube defects. Genetic engineering strategies are exploring pathways to enhance folate synthesis and accumulation in edible tissues.</p>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Biofortification Section -->
-        <section id="biofortification" class="scroll-mt-20">
-            <header class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold mb-2">Biofortification</h2>
-                <p class="text-lg text-gray-600">Increasing the nutritional value of crops to fight "hidden hunger".</p>
-            </header>
-            
-            <div class="space-y-12">
-                <div class="section-card p-6 md:p-8 rounded-xl">
-                    <h3 class="text-2xl font-bold text-[#A67B5B] mb-4">How is it Done? The Approaches</h3>
-                    <p class="text-gray-600 mb-8">Biofortification is achieved through several methods, each with unique trade-offs in terms of speed, cost, and sustainability. The goal is to embed more vitamins and minerals into staple crops. The chart below provides a comparative overview of the main approaches.</p>
-                     <div class="chart-container mb-12">
-                        <canvas id="biofortificationApproachesChart"></canvas>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
-                        <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Agronomic</h5>
-                            <p class="text-sm text-gray-600">Applying nutrient-rich fertilizers. It's fast and immediate but temporary and requires annual re-application.</p>
-                        </div>
-                         <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Conventional Breeding</h5>
-                            <p class="text-sm text-gray-600">Crossing plants with naturally high nutrient levels. It's a long-term solution but can take many years to develop.</p>
-                        </div>
-                         <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Molecular Breeding</h5>
-                            <p class="text-sm text-gray-600">Using molecular markers to speed up conventional breeding. More precise and faster than traditional methods.</p>
-                        </div>
-                         <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Genetic Modification</h5>
-                            <p class="text-sm text-gray-600">Directly inserting genes for nutritional traits. Highly precise and can overcome natural limitations, but faces regulatory hurdles.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card p-6 md:p-8 rounded-xl">
-                    <h3 class="text-2xl font-bold text-[#A67B5B] mb-4">The Science Inside: Nutrient Pathways</h3>
-                    <p class="text-gray-600 mb-8">The ability of plants to accumulate nutrients like iron and provitamin A is governed by complex biological pathways. Biofortification often involves enhancing these natural processes or even creating new ones within the plant. Below is a simplified look at how plants acquire iron.</p>
-                    
-                    <h4 class="text-xl font-bold text-center text-gray-700 mb-2">Iron Uptake Strategies</h4>
-                    <p class="text-center text-gray-600 mb-8">Plants use two main strategies to get iron from the soil.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
-                           <h5 class="font-semibold text-lg text-center mb-4">Strategy I (Non-Grasses)</h5>
-                           <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
-                                <div class="flow-step bg-amber-50 border border-amber-200 rounded-lg text-center w-40"><strong>1. Reduce</strong><br><span class="text-sm">Fe³⁺ is converted to Fe²⁺ at the root.</span></div>
-                                <div class="flow-step bg-amber-50 border border-amber-200 rounded-lg text-center w-40"><strong>2. Transport</strong><br><span class="text-sm">Fe²⁺ is taken up by the root cells.</span></div>
-                           </div>
-                        </div>
-                        <div>
-                           <h5 class="font-semibold text-lg text-center mb-4">Strategy II (Grasses)</h5>
-                            <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
-                                <div class="flow-step bg-green-50 border border-green-200 rounded-lg text-center w-40"><strong>1. Chelate</strong><br><span class="text-sm">Roots release molecules to bind Fe³⁺.</span></div>
-                                <div class="flow-step bg-green-50 border border-green-200 rounded-lg text-center w-40"><strong>2. Transport</strong><br><span class="text-sm">The Fe³⁺ complex is taken up by the root.</span></div>
-                           </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card p-6 md:p-8 rounded-xl">
-                    <h3 class="text-2xl font-bold text-[#A67B5B] mb-4">Real-World Impact</h3>
-                     <p class="text-gray-600 mb-8">Biofortified crops are already making a significant impact on global health and farmer livelihoods. An estimated 330 million people are consuming these nutrient-dense foods, leading to better health outcomes and increased food security.</p>
-                    <h4 class="text-xl font-bold text-center text-gray-700 mb-6">Examples of Biofortified Crops</h4>
-                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Orange-Fleshed Sweet Potato</h5>
-                            <p class="text-sm text-gray-600"><strong>Nutrient:</strong> Vitamin A<br>Successfully reduced vitamin A deficiency in children and women in parts of Africa.</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Iron-Biofortified Beans</h5>
-                            <p class="text-sm text-gray-600"><strong>Nutrient:</strong> Iron<br>Reversed iron deficiency and showed 20-23% higher yields, boosting farmer income.</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border">
-                            <h5 class="font-bold text-lg">Zinc-Biofortified Wheat</h5>
-                            <p class="text-sm text-gray-600"><strong>Nutrient:</strong> Zinc<br>Improves zinc intake to reduce stunting and improve immunity in South Asia and Africa.</p>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/DB1F48/F8F5F1?text=Biofortified+Sweet+Potato+Harvest+Scene" alt="Biofortified Sweet Potato Harvest - Placeholder">
+                <div class="image-caption">Figure 9: Farmers harvesting orange-fleshed sweet potatoes, a successful biofortified crop. (Placeholder Image)</div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="conclusion" class="text-center mt-20 border-t pt-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">The Future Landscape</h2>
-            <p class="max-w-3xl mx-auto text-lg text-gray-600">
-                Food biotechnology offers powerful solutions for global food security and nutrition. However, its future success depends on transparent communication, adaptive regulation, and equitable access to these technologies. By bridging the gap between scientific innovation and public understanding, we can unlock the full potential of biotechnology to create a more resilient and nourished future.
-            </p>
-        </section>
+    <section class="mb-16">
+        <h2>Global Initiatives and Organizations in Biofortification</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">The global effort to combat hidden hunger through biofortification is supported by various international conferences, organizations, and strategic initiatives. These platforms facilitate collaboration, knowledge sharing, and the scaling up of biofortified crop development and dissemination worldwide.</p>
+            
+            <h3 class="text-center mb-4">Key Global Conferences and Milestones:</h3>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-6 ml-4">
+                <li>**Second Global Conference on Biofortification (2014):** A pivotal event that brought together global leaders and researchers. Dr. M.S. Swaminathan, a renowned agricultural scientist, emphasized its importance, stating: "Biofortification and the Zero Hunger Challenge anchor the goal of achieving zero hunger by 2025." This highlights the critical role of biofortification in achieving global food security goals.</li>
+                <li>**Third Global Conference on Biofortification (New Delhi, India: 10-12 April 2017):** This significant conference convened over 400 leaders from various countries and sectors. Its primary purposes were:
+                    <ul class="list-circle list-inside ml-8">
+                        <li>**Reaching One Billion:** To galvanize collective responsibility by the global community to scale up biofortification by 2030 to help reach SDG 2 (Zero Hunger).</li>
+                        <li>**Identifying Challenges & Opportunities:** To identify key challenges to mainstreaming biofortified foods and opportunities to address them, and to develop actionable plans.</li>
+                    </ul>
+                </li>
+                <li>**International Year of Biofortified and Underutilized Crops (2018-2020):** The Second Global Conference on Biofortification recommended to the UN to celebrate the period 2018-2020 as the International Year of Biofortified and Underutilized Crops. This designation aimed to raise global awareness and promote research and development in these critical areas.</li>
+                <li>**Zero Hunger Challenge by 2030:** Biofortification is a key component of the broader Zero Hunger Challenge, which aims to eliminate hunger, food insecurity, and malnutrition by 2030. This initiative focuses on ensuring 100% access to adequate food year-round, making all food systems sustainable, increasing smallholder productivity and income, and achieving zero loss or waste of food.</li>
+            </ul>
 
-    </main>
+            <h3 class="text-center mb-4">HarvestPlus: A Global Leader in Biofortification</h3>
+            <p class="text-sm text-gray-700 mb-4">HarvestPlus is a global program that leads the development and dissemination of biofortified crops. It is a key component of the **CGIAR Research Program on Agriculture for Nutrition and Health (A4NH)**. Launched in 2004 in the USA, HarvestPlus operates as a joint venture between the **International Center for Tropical Agriculture (CIAT)** and the **International Food Policy Research Institute (IFPRI)**. Its vital work is supported by significant funding from organizations such as the Bill and Melinda Gates Foundation, the UK Department for International Development (DFID), and others.</p>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/004369/F8F5F1?text=HarvestPlus+Logo+and+Partners" alt="HarvestPlus Logo and Partners - Placeholder">
+                <div class="image-caption">Figure 10: HarvestPlus logo and its key partners (CGIAR, CIAT, IFPRI). (Placeholder Image)</div>
+            </div>
 
-    <script>
-        const gmTechniques = [
-            {
-                name: "Recombinant DNA Technology",
-                content: "This is the foundational technique for genetic modification. It involves identifying a desired trait, cloning the responsible gene, and inserting it into a target organism's DNA. It allows for the transfer of traits across species barriers but can involve random gene insertion and raises public concerns about 'foreign DNA'."
-            },
-            {
-                name: "Agrobacterium-mediated Transformation",
-                content: "This method uses a natural bacterium, *Agrobacterium tumefaciens*, as a vector to transfer a desired gene into plant cells. It's highly efficient for many plants and harnesses a natural biological process, but can be less effective for certain crops like cereals."
-            },
-            {
-                name: "Biolistics (Gene Gun)",
-                content: "A direct physical method where DNA-coated microscopic gold or tungsten beads are shot into plant cells at high velocity. This technique can bypass biological barriers and works for a wide range of plants but often results in random and multiple gene insertions."
-            },
-            {
-                name: "CRISPR-Cas9 System",
-                content: "A revolutionary gene-editing tool that uses a guide RNA to direct the Cas9 enzyme to a specific DNA location to make a precise cut. It's highly efficient, versatile, and can make subtle changes that mimic natural mutations, potentially avoiding 'foreign DNA' concerns. It is considered more precise than older methods."
+            <h3 class="text-center mb-4">World Status of Biofortified Crops (HarvestPlus, 2017):</h3>
+            <p class="text-sm text-gray-700 mb-4">As of 2017, significant progress had been made in the global dissemination of biofortified crops:</p>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-6 ml-4">
+                <li>**150 Biofortified varieties** of **10 crops** have been officially released in **30 countries** worldwide.</li>
+                <li>Testing of another **12 crops** is being carried out in **25 countries**, indicating a strong pipeline for future releases.</li>
+            </ul>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/01949A/F8F5F1?text=World+Map+Biofortified+Crops+Status" alt="World Map Biofortified Crops Status - Placeholder">
+                <div class="image-caption">Figure 11: Global map showing countries where biofortified crops have been released or are being tested (illustrative). (Placeholder Image)</div>
+            </div>
+            <p class="text-sm text-gray-700 mt-4">These statistics highlight the growing global commitment and success in scaling up biofortification efforts to address micronutrient deficiencies. The collaborative efforts of international organizations, research institutions, and governments are crucial for the continued expansion and impact of biofortified crops.</p>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>Key Success Factors for Biofortification</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">The successful implementation and widespread impact of biofortification programs depend on a confluence of factors, ranging from agronomic efficacy to consumer acceptance and economic viability. Addressing these critical aspects ensures that nutrient-dense crops not only reach target populations but also deliver their intended health benefits (Jena et al., 2018).</p>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-6 ml-4">
+                <li>**High Nutrient Density Combined with High Yields and Profitability:** Biofortified crops must maintain or ideally exceed the yields and profitability of conventional varieties. Farmers will only adopt these new crops if they offer comparable or superior economic returns, ensuring both nutritional benefits and livelihood improvements.</li>
+                <li>**Demonstrated Efficacy and Bioavailability:**
+                    <ul class="list-circle list-inside ml-8">
+                        <li>**Nutrient Retention:** Sufficient nutrients must be retained in the crop through various stages of processing and cooking. Post-harvest handling and traditional cooking methods should not significantly diminish the enhanced nutrient content.</li>
+                        <li>**Nutrient Bioavailability:** The enhanced nutrients must be sufficiently bioavailable, meaning they can be absorbed and utilized by the human body. The form of the nutrient (e.g., ferritin-bound iron) and the presence of absorption enhancers or inhibitors in the diet play crucial roles.</li>
+                    </ul>
+                </li>
+                <li>**Farmer and Consumer Adoption:** The biofortified crops must be adopted by farmers for cultivation and consumed by those suffering from micronutrient malnutrition in significant numbers. This requires effective dissemination strategies, farmer training, and consumer awareness campaigns to drive demand and acceptance.</li>
+            </ul>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/DB1F48/F8F5F1?text=Factors+for+Biofortification+Success" alt="Factors for Biofortification Success - Placeholder">
+                <div class="image-caption">Figure 12: Interconnected factors determining the success of biofortification. (Placeholder Image)</div>
+            </div>
+            <p class="text-sm text-gray-700 mt-4">These factors highlight that biofortification is a multidisciplinary endeavor requiring collaboration across agriculture, nutrition, public health, and social sciences to achieve its full potential.</p>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>The Toolkit of Genetic Engineering</h2>
+        <div class="card mb-8">
+            <h3>Core Technique: Recombinant DNA Technology</h3>
+            <p class="mb-6 text-gray-700">Recombinant DNA (rDNA) technology is the foundational molecular technique for genetic modification. It enables scientists to precisely combine DNA molecules from different sources to create novel genetic configurations. This process facilitates the artificial transfer of genes or gene fragments from one organism to another, introducing new or enhanced traits into the recipient. The precision of rDNA technology relies on specific molecular tools and a multi-step process.</p>
+            <h4 class="font-bold text-lg text-gray-800 mb-2">Key Components:</h4>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>**Restriction Enzymes (Molecular Scissors):** Endonucleases that recognize and cleave DNA at specific nucleotide sequences (recognition sites), often palindromic. They create either "sticky ends" (overhangs) or "blunt ends," which are crucial for subsequent ligation. Examples include EcoRI, HindIII.</li>
+                <li>**DNA Ligases (Molecular Glue):** Enzymes that form phosphodiester bonds, covalently joining DNA fragments together. T4 DNA ligase is commonly used to seal the desired gene into a vector.</li>
+                <li>**Vector Systems (Gene Delivery Vehicles):** DNA molecules that carry the foreign DNA into a host cell and enable its replication. Common vectors include:
+                    <ul class="list-disc list-inside ml-4">
+                        <li>**Plasmids:** Small, circular, extrachromosomal DNA molecules found in bacteria, widely used due to their ease of manipulation and self-replication.</li>
+                        <li>**Bacteriophages:** Viruses that infect bacteria; their DNA can be engineered to carry foreign genes.</li>
+                        <li>**Cosmids:** Hybrid vectors combining features of plasmids and bacteriophages, capable of carrying larger DNA inserts.</li>
+                        <li>**Artificial Chromosomes (BACs/YACs):** Bacterial or Yeast Artificial Chromosomes that can carry very large DNA fragments, useful for complex gene clusters.</li>
+                    </ul>
+                </li>
+                <li>**Selectable Markers:** Genes (e.g., antibiotic resistance, herbicide tolerance) included in the vector to allow identification of cells that have successfully taken up the recombinant DNA.</li>
+                <li>**Reporter Genes:** Genes (e.g., GUS, GFP) that produce easily detectable products, used to confirm successful gene expression.</li>
+                <li>**Promoters and Terminators:** Regulatory sequences that control when, where, and how strongly the introduced gene is expressed in the host plant. Examples include the CaMV 35S promoter (constitutive) and NOS terminator.</li>
+            </ul>
+            <h4 class="font-bold text-lg text-gray-800 mb-2">General Process:</h4>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 items-center">
+                <div class="flow-step flow-arrow flow-arrow-right flow-arrow-down"><strong>1. Isolate Gene</strong><br><span class="text-sm text-gray-600">A desired gene is excised from donor DNA using restriction enzymes.</span></div>
+                <div class="flow-step flow-arrow flow-arrow-right flow-arrow-down"><strong>2. Create Vector</strong><br><span class="text-sm text-gray-600">The gene is ligated into a prepared vector (e.g., plasmid) using DNA ligase, forming recombinant DNA.</span></div>
+                <div class="flow-step flow-arrow flow-arrow-right flow-arrow-down"><strong>3. Transform Host</strong><br><span class="text-sm text-gray-600">The recombinant DNA is introduced into a host cell (e.g., bacteria, plant cell) via various methods (e.g., heat shock, electroporation, *Agrobacterium*).</span></div>
+                <div class="flow-step"><strong>4. Select & Regenerate</strong><br><span class="text-sm text-gray-600">Transformed cells are identified using selectable markers and then regenerated into a whole plant via tissue culture.</span></div>
+            </div>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/004369/F8F5F1?text=Recombinant+DNA+Technology+Process" alt="Recombinant DNA Technology Schematic - Placeholder">
+                <div class="image-caption">Figure 13: Schematic of Recombinant DNA Technology. (Placeholder Image)</div>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="card">
+                <h3>Agrobacterium-mediated Transformation</h3>
+                <p class="text-sm text-gray-700 mb-4">This method leverages *Agrobacterium tumefaciens*, a natural soil bacterium, as a biological vector. The bacterium naturally causes crown gall or hairy root diseases in plants by transferring a specific segment of its own DNA, known as Transfer DNA (T-DNA), from its tumor-inducing (Ti) plasmid into the genome of host plant cells. In genetic engineering, the disease-causing genes within the T-DNA are removed, rendering the *Agrobacterium* strain "disarmed" and non-pathogenic. These excised genes are then replaced with the desired gene(s) of interest (transgenes), along with essential regulatory elements such as promoters and terminators, and selectable markers that aid in identifying transformed cells. The actual transfer of this modified T-DNA is orchestrated by a complex gene cluster known as the *vir regulon*. This regulon encodes components of the Type IV Secretion System (T4SS), which acts as a molecular bridge between the bacterial and host plant cell membranes, facilitating the precise trafficking of the modified T-DNA and associated proteins into the plant cell cytoplasm. Once inside the plant cell, the T-DNA integrates into the host plant's nuclear genome. The introduced genes are then expressed, leading to the manifestation of the desired new traits.</p>
+                <div class="text-sm"><strong class="text-green-600">PRO:</strong> High efficiency, precision, and stable integration for many plant species. Inexpensive, reproducible, and capable of transferring large DNA fragments.</div>
+                <div class="text-sm"><strong class="text-red-600">CON:</strong> Species and genotype specificity (recalcitrance in some crops); potential for *Agrobacterium* overgrowth; can lead to random insertion sites.</div>
+                <div class="image-container !max-w-full !m-0 !mt-4">
+                    <img src="https://placehold.co/400x250/01949A/F8F5F1?text=Agrobacterium+Transformation+Process" alt="Agrobacterium-mediated Transformation - Placeholder">
+                    <div class="image-caption">Figure 14: *Agrobacterium*-Mediated Plant Transformation. (Placeholder Image)</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Biolistics (Gene Gun)</h3>
+                <p class="text-sm text-gray-700 mb-4">Also known as microprojectile bombardment, this physical method offers a direct approach for delivering genetic material into plant cells. This technique involves coating microscopic particles, known as microprojectiles, with the desired DNA or other genetic material. These coated particles are then accelerated to high velocities and propelled into target cells using a specialized device called a gene gun, which operates with compressed gas. The process begins with the preparation of these microprojectiles, which are typically made from inert, dense materials such as gold or tungsten. These materials are chosen because they do not react with cellular components and possess sufficient mass to penetrate cell walls and membranes effectively. The gene gun uses pressurized gas (e.g., helium) to propel a macrocarrier disc, which then impacts a stopping screen, releasing the DNA-coated microprojectiles. Upon impact, these particles physically penetrate the tough cell walls and membranes of the target plant cells. Once inside the cell, the DNA detaches from the particles and can integrate into the cell's genome. Researchers are also exploring biodegradable options for microprojectiles to minimize any residual impact on the target cells and the environment.</p>
+                <div class="text-sm"><strong class="text-green-600">PRO:</strong> Bypasses cell walls; applicable to a broad range of species and cell types (including monocots and organelles); direct DNA delivery without biological vectors.</div>
+                <div class="text-sm"><strong class="text-red-600">CON:</strong> Can cause cellular damage; often results in random and multiple gene insertions; less precise than CRISPR; may lead to transient expression.</div>
+                <div class="image-container !max-w-full !m-0 !mt-4">
+                    <img src="https://placehold.co/400x250/DB1F48/F8F5F1?text=Gene+Gun+Method+Diagram" alt="Biolistics (Gene Gun) Method - Placeholder">
+                    <div class="image-caption">Figure 15: Biolistics (Gene Gun) Method. (Placeholder Image)</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>CRISPR-Cas9 System: Precision Genome Editing</h3>
+                <p class="text-sm text-gray-700 mb-4">The Clustered Regularly Interspaced Short Palindromic Repeats (CRISPR)-Cas9 system represents a revolutionary breakthrough in genetic engineering, introducing an unprecedented level of precision in genome editing. This powerful tool has transformed genetic studies and crop breeding due to its remarkable simplicity, flexibility, consistency, and high efficiency. The system operates through two primary components: a synthetic **guide RNA (sgRNA)**, which is designed to be complementary to a specific 20-nucleotide target DNA sequence, and the **Cas9 protein**, a DNA-cleaving enzyme (endonuclease). The sgRNA guides Cas9 to the precise location in the genome, where Cas9 creates a double-stranded break (DSB). The cell's natural repair mechanisms then mend this break via **Non-Homologous End-Joining (NHEJ)** (error-prone, leading to gene knockout) or **Homology-Directed Repair (HDR)** (precise, allowing for gene insertion/replacement if a donor template is provided). CRISPR-Cas9 is simpler to design and implement than previous methods (ZFNs, TALENs) and can make subtle changes that mimic natural mutations, potentially avoiding "foreign DNA" concerns and impacting regulatory classifications.</p>
+                <div class="text-sm"><strong class="text-green-600">PRO:</strong> Ultra-precise, versatile, simple design, high efficiency, lower cost; can create non-transgenic changes (no foreign DNA); enables multi-gene editing.</div>
+                 <div class="text-sm"><strong class="text-red-600">CON:</strong> Potential for off-target effects (though minimized by design); regulatory classification challenges for "non-transgenic" edits; delivery to some plant cells can still be challenging.</div>
+                <div class="image-container !max-w-full !m-0 !mt-4">
+                    <img src="https://placehold.co/400x250/E5DDC8/004369?text=CRISPR-Cas9+Mechanism+Diagram" alt="CRISPR-Cas9 Gene Editing Mechanism - Placeholder">
+                    <div class="image-caption">Figure 7: CRISPR-Cas9 Gene Editing Mechanism. Guide RNA directs Cas9 to make precise DNA cuts. (Placeholder Image)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>GM Foods: Real-World Impact and Scientific Consensus</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">For over 25 years, genetically modified (GM) crops have been widely adopted by farmers globally, demonstrating significant benefits across agriculture and food systems. Extensive research and real-world application have shown their contribution to increased yields, reduced environmental impact, and enhanced food security. The scientific consensus, supported by numerous independent studies and major scientific organizations (e.g., National Academies of Sciences, WHO, FAO), is that currently available GM foods are as safe as their conventionally bred counterparts. Rigorous regulatory processes ensure their safety before market release, assessing potential allergenicity, toxicity, and nutritional equivalence.</p>
+            <div class="chart-container">
+                <canvas id="gmBenefitsChart"></canvas>
+            </div>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🌽</span>
+                    <h4 class="font-bold mt-2">Bt Corn & Cotton</h4>
+                    <p class="text-sm text-gray-600">Engineered to produce insecticidal proteins from *Bacillus thuringiensis* (Bt) bacteria, these crops dramatically reduce the need for synthetic pesticide sprays. Studies show significant reductions in insecticide use (e.g., 37% globally for Bt crops) and increased yields (e.g., 20-25% for Bt cotton in India), leading to higher farmer incomes and reduced environmental exposure to chemicals.</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🍎</span>
+                    <h4 class="font-bold mt-2">Non-Browning Apples (Arctic® Apple)</h4>
+                    <p class="text-sm text-gray-600">Utilizing gene silencing (RNA interference), these apples have reduced expression of polyphenol oxidase (PPO) enzymes, which cause browning when exposed to air. This trait significantly reduces food waste in the supply chain and at home, as consumers are more likely to consume apples that retain their fresh appearance.</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🥭</span>
+                    <h4 class="font-bold mt-2">Virus-Resistant Papaya (Rainbow Papaya)</h4>
+                    <p class="text-sm text-gray-600">Developed in response to the devastating Papaya Ring Spot Virus (PRSV) that threatened Hawaii's papaya industry. This GM variety incorporates a gene from the virus itself, providing cross-protection similar to vaccination. It effectively saved the industry and ensured continued production, demonstrating the critical role of GM in disease management.</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🌱</span>
+                    <h4 class="font-bold mt-2">Herbicide-Tolerant Soybeans & Corn</h4>
+                    <p class="text-sm text-gray-600">These crops are engineered to withstand specific broad-spectrum herbicides (e.g., glyphosate), allowing farmers to control weeds more effectively with fewer herbicide applications. This facilitates "no-till" or "reduced-till" cultivation practices, which reduce soil erosion, conserve soil moisture, and decrease greenhouse gas emissions from farm machinery, contributing to more sustainable agriculture.</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🍚</span>
+                    <h4 class="font-bold mt-2">Golden Rice</h4>
+                    <p class="text-sm text-gray-600">A landmark biofortified GM crop engineered to produce beta-carotene (provitamin A) in its endosperm, a part of the grain that naturally lacks this nutrient. Developed to combat Vitamin A Deficiency (VAD), a leading cause of childhood blindness and mortality globally. It represents a significant advancement in addressing hidden hunger through biotechnology.</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <span class="text-4xl">🥔</span>
+                    <h4 class="font-bold mt-2">Non-Bruising & Reduced Acrylamide Potatoes (Innate® Potato)</h4>
+                    <p class="text-sm text-gray-600">Engineered using gene silencing to reduce enzymatic browning and black spot bruising, minimizing food waste. Additionally, some varieties have reduced levels of asparagine, which, when cooked at high temperatures, forms acrylamide, a potential carcinogen. This enhances both quality and safety.</p>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/004369/F8F5F1?text=GM+Crops+Field+Trial" alt="GM Crops in Field Trial - Placeholder">
+                <div class="image-caption">Figure 17: GM crops undergoing field trials to assess performance and safety under real-world conditions. (Placeholder Image)</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>Biofortification: Fighting Hidden Hunger Systemically</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">Biofortification is a strategic process designed to increase the nutrient density of staple food crops, directly addressing widespread vitamin and mineral deficiencies ("hidden hunger"). This approach is highly sustainable and cost-effective, as it embeds nutrients directly into the crop itself, allowing the plant to "do the work." Unlike supplementation or industrial fortification, biofortification provides a continuous, accessible source of micronutrients for populations reliant on these staple foods. It represents a paradigm shift, integrating public health goals directly into agricultural development.</p>
+            <div class="chart-container">
+                 <canvas id="biofortificationApproachesChart"></canvas>
+            </div>
+             <div class="mt-12 text-center">
+                <h3>Impact in Action: Reaching Billions</h3>
+                <p class="text-lg text-gray-700">Biofortified crops are increasingly recognized as a sustainable and cost-effective intervention to combat micronutrient malnutrition. Current estimates suggest that approximately <strong class="text-4xl font-black text-[#DB1F48]">330 Million</strong> people globally are consuming biofortified foods, leading to substantial improvements in nutritional status and overall health. The success of these programs is often measured through large-scale efficacy trials and impact assessments.</p>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🍠</span>
+                        <h4 class="font-bold mt-2">Vitamin A Sweet Potato (OFSP)</h4>
+                        <p class="text-sm text-gray-600">Orange-fleshed sweet potato varieties, rich in beta-carotene, have demonstrated significant efficacy in reducing vitamin A deficiency among children and women of reproductive age in countries like Mozambique, Uganda, and South Africa. Studies have shown improved vitamin A status and reduced incidence of deficiency-related health issues.</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🌿</span>
+                        <h4 class="font-bold mt-2">Iron-Biofortified Beans</h4>
+                        <p class="text-sm text-gray-600">Developed through conventional breeding, these beans have shown remarkable success in regions like Rwanda. Efficacy trials indicate improved iron stores and reversal of iron deficiency in women and schoolchildren. Furthermore, some varieties have shown higher yields (20-23% higher) than non-biofortified counterparts, providing economic benefits to farmers.</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🌾</span>
+                        <h4 class="font-bold mt-2">Zinc-Biofortified Wheat & Rice</h4>
+                        <p class="text-sm text-gray-600">Actively developed and deployed in South Asia and Africa, zinc-enriched wheat and rice improve zinc intake, reducing the risk of zinc deficiency and its associated health issues like stunting and impaired immunity. These crops are crucial in regions where zinc deficiency is prevalent due to reliance on low-zinc staple foods.</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🌽</span>
+                        <h4 class="font-bold mt-2">Provitamin A Maize</h4>
+                        <p class="text-sm text-gray-600">Yellow and orange maize varieties, naturally rich in provitamin A carotenoids, have been developed and disseminated in countries like Zambia and Nigeria. They provide a vital source of vitamin A in diets where white maize is dominant and micronutrient deficiencies are common.</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🍚</span>
+                        <h4 class="font-bold mt-2">Iron-Biofortified Rice</h4>
+                        <p class="text-sm text-gray-600">Both conventionally bred and genetically modified iron-enriched rice varieties are under development. Transgenic approaches, for instance, have shown 2-3 fold increases in iron content by expressing genes like soybean ferritin, aiming to combat widespread iron deficiency anemia in rice-consuming populations.</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-4xl">🌱</span>
+                        <h4 class="font-bold mt-2">Folate-Biofortified Crops</h4>
+                        <p class="text-sm text-gray-600">Research is ongoing to biofortify staple crops like rice and maize with folate (Vitamin B9), which is crucial for cell division and preventing neural tube defects. Genetic engineering strategies are exploring pathways to enhance folate synthesis and accumulation in edible tissues.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/DB1F48/F8F5F1?text=Biofortified+Sweet+Potato+Harvest+Scene" alt="Biofortified Sweet Potato Harvest - Placeholder">
+                <div class="image-caption">Figure 9: Farmers harvesting orange-fleshed sweet potatoes, a successful biofortified crop. (Placeholder Image)</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>Global Initiatives and Organizations in Biofortification</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">The global effort to combat hidden hunger through biofortification is supported by various international conferences, organizations, and strategic initiatives. These platforms facilitate collaboration, knowledge sharing, and the scaling up of biofortified crop development and dissemination worldwide.</p>
+            
+            <h3 class="text-center mb-4">Key Global Conferences and Milestones:</h3>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-6 ml-4">
+                <li>**Second Global Conference on Biofortification (2014):** A pivotal event that brought together global leaders and researchers. Dr. M.S. Swaminathan, a renowned agricultural scientist, emphasized its importance, stating: "Biofortification and the Zero Hunger Challenge anchor the goal of achieving zero hunger by 2025." This highlights the critical role of biofortification in achieving global food security goals.</li>
+                <li>**Third Global Conference on Biofortification (New Delhi, India: 10-12 April 2017):** This significant conference convened over 400 leaders from various countries and sectors. Its primary purposes were:
+                    <ul class="list-circle list-inside ml-8">
+                        <li>**Reaching One Billion:** To galvanize collective responsibility by the global community to scale up biofortification by 2030 to help reach SDG 2 (Zero Hunger).</li>
+                        <li>**Identifying Challenges & Opportunities:** To identify key challenges to mainstreaming biofortified foods and opportunities to address them, and to develop actionable plans.</li>
+                    </ul>
+                </li>
+                <li>**International Year of Biofortified and Underutilized Crops (2018-2020):** The Second Global Conference on Biofortification recommended to the UN to celebrate the period 2018-2020 as the International Year of Biofortified and Underutilized Crops. This designation aimed to raise global awareness and promote research and development in these critical areas.</li>
+                <li>**Zero Hunger Challenge by 2030:** Biofortification is a key component of the broader Zero Hunger Challenge, which aims to eliminate hunger, food insecurity, and malnutrition by 2030. This initiative focuses on ensuring 100% access to adequate food year-round, making all food systems sustainable, increasing smallholder productivity and income, and achieving zero loss or waste of food.</li>
+            </ul>
+
+            <h3 class="text-center mb-4">HarvestPlus: A Global Leader in Biofortification</h3>
+            <p class="text-sm text-gray-700 mb-4">HarvestPlus is a global program that leads the development and dissemination of biofortified crops. It is a key component of the **CGIAR Research Program on Agriculture for Nutrition and Health (A4NH)**. Launched in 2004 in the USA, HarvestPlus operates as a joint venture between the **International Center for Tropical Agriculture (CIAT)** and the **International Food Policy Research Institute (IFPRI)**. Its vital work is supported by significant funding from organizations such as the Bill and Melinda Gates Foundation, the UK Department for International Development (DFID), and others.</p>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/004369/F8F5F1?text=HarvestPlus+Logo+and+Partners" alt="HarvestPlus Logo and Partners - Placeholder">
+                <div class="image-caption">Figure 10: HarvestPlus logo and its key partners (CGIAR, CIAT, IFPRI). (Placeholder Image)</div>
+            </div>
+
+            <h3 class="text-center mb-4">World Status of Biofortified Crops (HarvestPlus, 2017):</h3>
+            <p class="text-sm text-gray-700 mb-4">As of 2017, significant progress had been made in the global dissemination of biofortified crops:</p>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-6 ml-4">
+                <li>**150 Biofortified varieties** of **10 crops** have been officially released in **30 countries** worldwide.</li>
+                <li>Testing of another **12 crops** is being carried out in **25 countries**, indicating a strong pipeline for future releases.</li>
+            </ul>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/01949A/F8F5F1?text=World+Map+Biofortified+Crops+Status" alt="World Map Biofortified Crops Status - Placeholder">
+                <div class="image-caption">Figure 11: Global map showing countries where biofortified crops have been released or are being tested (illustrative). (Placeholder Image)</div>
+            </div>
+            <p class="text-sm text-gray-700 mt-4">These statistics highlight the growing global commitment and success in scaling up biofortification efforts to address micronutrient deficiencies. The collaborative efforts of international organizations, research institutions, and governments are crucial for the continued expansion and impact of biofortified crops.</p>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>Key Success Factors for Biofortification</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">The successful implementation and widespread impact of biofortification programs depend on a confluence of factors, ranging from agronomic efficacy to consumer acceptance and economic viability. Addressing these critical aspects ensures that nutrient-dense crops not only reach target populations but also deliver their intended health benefits (Jena et al., 2018).</p>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-6 ml-4">
+                <li>**High Nutrient Density Combined with High Yields and Profitability:** Biofortified crops must maintain or ideally exceed the yields and profitability of conventional varieties. Farmers will only adopt these new crops if they offer comparable or superior economic returns, ensuring both nutritional benefits and livelihood improvements.</li>
+                <li>**Demonstrated Efficacy and Bioavailability:**
+                    <ul class="list-circle list-inside ml-8">
+                        <li>**Nutrient Retention:** Sufficient nutrients must be retained in the crop through various stages of processing and cooking. Post-harvest handling and traditional cooking methods should not significantly diminish the enhanced nutrient content.</li>
+                        <li>**Nutrient Bioavailability:** The enhanced nutrients must be sufficiently bioavailable, meaning they can be absorbed and utilized by the human body. The form of the nutrient (e.g., ferritin-bound iron) and the presence of absorption enhancers or inhibitors in the diet play crucial roles.</li>
+                    </ul>
+                </li>
+                <li>**Farmer and Consumer Adoption:** The biofortified crops must be adopted by farmers for cultivation and consumed by those suffering from micronutrient malnutrition in significant numbers. This requires effective dissemination strategies, farmer training, and consumer awareness campaigns to drive demand and acceptance.</li>
+            </ul>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/DB1F48/F8F5F1?text=Factors+for+Biofortification+Success" alt="Factors for Biofortification Success - Placeholder">
+                <div class="image-caption">Figure 12: Interconnected factors determining the success of biofortification. (Placeholder Image)</div>
+            </div>
+            <p class="text-sm text-gray-700 mt-4">These factors highlight that biofortification is a multidisciplinary endeavor requiring collaboration across agriculture, nutrition, public health, and social sciences to achieve its full potential.</p>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>Methods of Biofortification: A Deeper Dive</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">Biofortification can be achieved through a variety of methodologies, each with distinct characteristics regarding implementation, time horizon, and impact. The primary approaches include agronomic biofortification, conventional plant breeding, molecular breeding, and genetic modification (transgenic approaches).</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3>Agronomic Biofortification: Soil and Nutrient Management</h3>
+                    <p class="text-sm text-gray-700 mb-4">Agronomic biofortification involves enhancing the nutritional value of crops through direct intervention in soil management and fertilization practices. This method is often lauded for its efficiency and immediacy, offering the quickest and most affordable means of producing nutrient-dense food, although its effects are generally considered temporary (White and Broadley, 2009). The process typically entails applying micronutrient-containing organic or inorganic fertilizers, or biofertilizers, to the plant either through foliar sprays or direct soil application, thereby increasing the micronutrient content in the edible parts of the crop.</p>
+                    <div class="image-container !max-w-full !m-0 !mt-4">
+                        <img src="https://placehold.co/400x250/004369/F8F5F1?text=Agronomic+Biofortification+Method" alt="Agronomic Biofortification - Placeholder">
+                        <div class="image-caption">Figure 19: Application of micronutrient fertilizers. (Placeholder Image)</div>
+                    </div>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Success Factors for Agronomic Biofortification:</h4>
+                    <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                        <li>**Soil to Crop:** Depends on the presence and bioavailability of soil nutrients for plant uptake, influenced by soil pH, organic matter, aeration, moisture, and interactions with other elements. For example, addition of phosphorus can induce zinc deficiency (Singh et al., 1988).</li>
+                        <li>**Crop to Edible Part:** Nutrient allocation within the plant and re-translocation into the edible part. This is influenced by the crop variety and the mobility of minerals within the plant.</li>
+                        <li>**Food to Human:** Bioavailability of nutrients to the human body, influenced by food-related factors (e.g., enhancers like ascorbic acid) and host-related factors (e.g., inhibitors like phytate or phytic acid, which form complexes with Fe and Zn and limit uptake in the human body) (Gibson, 2007; Clemens, 2014).</li>
+                    </ul>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Mobility of Minerals:</h4>
+                    <p class="text-sm text-gray-700 mb-2">The success of agronomic biofortification is directly proportional to the mobility of mineral elements in soil and plant (White and Broadley, 2003).</p>
+                    <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                        <li>**Mobility in Soil:**
+                            <ul class="list-circle list-inside ml-8">
+                                <li>**Mobile:** NO₃⁻, SO₄²⁻, BO₃²⁻, Cl⁻, Mn²⁺</li>
+                                <li>**Less Mobile:** NH₄⁺, K⁺, Ca²⁺, Mg²⁺, Cu²⁺</li>
+                                <li>**Immobile:** H₂PO₄⁻, HPO₄²⁻, Fe₂O₃, Zn²⁺</li>
+                            </ul>
+                        </li>
+                        <li>**Mobility in Plants:**
+                            <ul class="list-circle list-inside ml-8">
+                                <li>**Highly Mobile:** N, P, K</li>
+                                <li>**Moderately Mobile:** Zn</li>
+                                <li>**Less Mobile:** S, Fe, Mn, Mo, Cl</li>
+                                <li>**Immobile:** Ca, B</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Impact of Different Fertilization Techniques:</h4>
+                    <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                        <li>The combination of soil and foliar application is often the most effective method (Phattararakul et al., 2012; Cakmak, 2010).</li>
+                        <li>Foliar pathways are generally more effective in ensuring uptake into the plant because immobilization in the soil is avoided (Garcia-Banuelos et al., 2014).</li>
+                        <li>Foliar fertilization with micronutrients often stimulates more nutrient uptake and efficient allocation in the edible plant parts than soil fertilization for leafy vegetables (Lawson et al., 2015).</li>
+                    </ul>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Suitable Micronutrients for Agronomic Biofortification:</h4>
+                    <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                        <li>Agronomic biofortification has so far been most effective with **Zinc (Zn)** and **Selenium (Se)** (Cakmak, 2014).</li>
+                        <li>**Zinc:** Foliar application of ZnSO₄.</li>
+                        <li>**Iodine:** Soil application of iodide or iodate. In capsicum, low-moderate (0.25-1.0 mg/L) of KI application improved fruit quality by enhancing ascorbic acid and soluble sugar content, in addition to increasing iodine levels to 350-1330 µg/kg FW (RDA of iodine is 150 µg/d) (Li et al., 2017).</li>
+                        <li>**Selenium:** Soil application as Selenate.</li>
+                    </ul>
+                    <h3 class="mt-8">SWOT Analysis: Agronomic Biofortification (Susana et al., 2013)</h3>
+                    <div class="swot-grid">
+                        <div class="swot-item strengths">
+                            <h4>Strengths (S)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Comparatively simple method than other methods.</li>
+                                <li>Suitable for immediate results.</li>
+                                <li>Successful for minerals and vitamins.</li>
+                            </ul>
+                        </div>
+                        <div class="swot-item weaknesses">
+                            <h4>Weaknesses (W)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Success limited to minerals.</li>
+                                <li>Dependent on several factors (soil, climate).</li>
+                                <li>Requires regular application of nutrients.</li>
+                            </ul>
+                        </div>
+                        <div class="swot-item opportunities">
+                            <h4>Opportunities (O)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Often used as a compliment to other strategies.</li>
+                            </ul>
+                        </div>
+                        <div class="swot-item threats">
+                            <h4>Threats (T)</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-700 ml-4">
+                                <li>Negative environmental impact (e.g., runoff).</li>
+                                <li>Can have reverse action (e.g., Se toxicity if over-applied).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Conventional Breeding: Harnessing Natural Variation</h3>
+                    <p class="text-sm text-gray-700 mb-4">Conventional biofortification relies on traditional plant breeding techniques, which involve the systematic selection and crossing of plants exhibiting desirable traits to produce offspring with enhanced nutritional content. This method operates within the natural genetic boundaries of a species, manipulating its existing genome to improve a specific genetic trait. Historically, plant breeding prioritized yield attributes and disease resistance, often overlooking nutritional aspects. However, present plant breeding programs are increasingly focused on the fortification of vitamins, antioxidants, and micronutrients in edible parts (Prasad et al., 2015).</p>
+                    <div class="image-container !max-w-full !m-0 !mt-4">
+                        <img src="https://placehold.co/400x250/01949A/F8F5F1?text=Conventional+Breeding+Method" alt="Conventional Breeding - Placeholder">
+                        <div class="image-caption">Figure 20: Conventional breeding in action. (Placeholder Image)</div>
+                    </div>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Sources of Nutrients for Conventional Breeding:</h4>
+                    <p class="text-sm text-gray-700 mb-2">Breeders often look to wild relatives of cultivated crops for genetic variation that confers higher nutrient content. These wild species serve as invaluable sources of phytonutrients.</p>
+                    <table class="mb-4">
+                        <thead>
+                            <tr>
+                                <th>Crop</th>
+                                <th>Wild species</th>
+                                <th>Phytonutrient</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tomato</td>
+                                <td>*Solanum hirsutum*</td>
+                                <td>Carotene</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>*Solanum peruvianum*</td>
+                                <td>β-carotene and Vitamin C</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>*Solanum pimpinellifolium*</td>
+                                <td>Lycopene and Vitamin C</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>*Solanum cheesmanii*</td>
+                                <td>β-carotene</td>
+                            </tr>
+                            <tr>
+                                <td>Cassava</td>
+                                <td>*Manihot oligantha*</td>
+                                <td>Lycopene and protein</td>
+                            </tr>
+                            <tr>
+                                <td>Potato</td>
+                                <td>*Solanum stoloniferum*</td>
+                                <td>Ascorbic acid</td>
+                            </tr>
+                            <tr>
+                                <td>Legumes</td>
+                                <td>*Phaseolus coccineus*</td>
+                                <td>Iron</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>*Phaseolus polyanthus*</td>
+                                <td>Iron</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="image-container !max-w-full !m-0 !mt-4 grid grid-cols-2 gap-4">
+                        <img src="https://placehold.co/200x150/A67B5B/F8F5F1?text=Solanum+hirsutum" alt="Solanum hirsutum - Placeholder">
+                        <img src="https://placehold.co/200x150/A67B5B/F8F5F1?text=Solanum+peruvianum" alt="Solanum peruvianum - Placeholder">
+                        <img src="https://placehold.co/200x150/A67B5B/F8F5F1?text=Solanum+pimpinellifolium" alt="Solanum pimpinellifolium - Placeholder">
+                        <img src="https://placehold.co/200x150/A67B5B/F8F5F1?text=Solanum+cheesmanii" alt="Solanum cheesmanii - Placeholder">
+                        <img src="https://placehold.co/200x150/A67B5B/F8F5F1?text=Manihot+oligantha" alt="Manihot oligantha - Placeholder">
+                        <img src="https://placehold.co/200x150/A67B5B/F8F5F1?text=Solanum+stoloniferum" alt="Solanum stoloniferum - Placeholder">
+                        <img src="https://placehold.co/200x150/A67B5B/F8F5F1?text=Phaseolus+coccineus" alt="Phaseolus coccineus - Placeholder">
+                        <img src="https://placehold.co/200x150/A67B5B/F8F5F1?text=Phaseolus+polyanthus" alt="Phaseolus polyanthus - Placeholder">
+                        <div class="image-caption col-span-2">Figure 21: Wild relatives as sources of phytonutrients. (Placeholder Images)</div>
+                    </div>
+
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Steps in Biofortification by Conventional Plant Breeding (HarvestPlus):</h4>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="flow-step"><strong>Discovery Phase</strong>
+                            <ul class="list-disc list-inside text-sm text-gray-600 ml-4">
+                                <li>1. Identify target populations (e.g., those with high micronutrient deficiencies).</li>
+                                <li>2. Set nutrient target levels (e.g., desired increase in iron content).</li>
+                                <li>3. Screen germplasm and gene pools for high nutrient content.</li>
+                            </ul>
+                        </div>
+                        <div class="flow-arrow flow-arrow-down mx-auto"></div>
+                        <div class="flow-step"><strong>Development Phase</strong>
+                            <ul class="list-disc list-inside text-sm text-gray-600 ml-4">
+                                <li>4. Breed biofortified crops (crossing and selection).</li>
+                                <li>5. Test performance of new crop varieties (agronomic traits, yield).</li>
+                                <li>6. Measure nutrient retention in crops/food (after processing/cooking).</li>
+                                <li>7. Evaluate nutrient absorption and impact in human trials.</li>
+                            </ul>
+                        </div>
+                        <div class="flow-arrow flow-arrow-down mx-auto"></div>
+                        <div class="flow-step"><strong>Dissemination Phase</strong>
+                            <ul class="list-disc list-inside text-sm text-gray-600 ml-4">
+                                <li>8. Develop strategies to disseminate seeds to farmers.</li>
+                                <li>9. Promote marketing & consumption of biofortified food to consumers.</li>
+                            </ul>
+                        </div>
+                        <div class="flow-arrow flow-arrow-down mx-auto"></div>
+                        <div class="flow-step"><strong>Outcome Phase</strong>
+                            <ul class="list-disc list-inside text-sm text-gray-600 ml-4">
+                                <li>10. Improve nutritional status of target populations.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <img src="https://placehold.co/600x350/01949A/F8F5F1?text=HarvestPlus+Breeding+Steps" alt="HarvestPlus Breeding Steps - Placeholder">
+                        <div class="image-caption">Figure 22: Steps in biofortification by conventional plant breeding (HarvestPlus). (Placeholder Image)</div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Molecular Breeding: Marker-Assisted Selection and Beyond</h3>
+                    <p class="text-sm text-gray-700 mb-4">Molecular breeding represents an advanced approach that integrates molecular methods, such as marker-assisted breeding, genetic engineering, and gene editing, to enhance nutritional value in crops. This methodology offers greater certainty and a significantly shorter time frame for trait development compared to purely traditional breeding methods. A core aspect involves the transfer of mapped quantitative trait loci (QTLs) or specific genes into nutrient-deficient crops. The advent of contemporary genome-sequencing technologies has further revolutionized this field, enabling the discovery of new regulatory genes and microRNAs that can subsequently be improved using precise gene-editing techniques like CRISPR-Cas9. Furthermore, "omics" technologies—including genomics, transcriptomics, proteomics, and metabolomics—have become indispensable tools in biofortification research. These technologies allow researchers to identify genes, transcripts, proteins, and metabolites that play a role in micronutrient accumulation, thereby streamlining the entire process of developing biofortified crops by facilitating the identification of candidate genes for genetic engineering or marker-assisted selection.</p>
+                    <div class="image-container !max-w-full !m-0 !mt-4">
+                        <img src="https://placehold.co/400x250/DB1F48/F8F5F1?text=Molecular+Breeding+Techniques" alt="Molecular Breeding - Placeholder">
+                        <div class="image-caption">Figure 23: Molecular breeding techniques. (Placeholder Image)</div>
+                    </div>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Achievement in India: PUSA BETAKESARI Cauliflower (54th Convocation, IARI - 2016)</h4>
+                    <p class="text-sm text-gray-700 mb-4">India has made significant strides in biofortification through conventional breeding, exemplified by the development of PUSA BETAKESARI, a pioneering biofortified cauliflower variety:</p>
+                    <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                        <li>**Year of Identification:** 2015-16.</li>
+                        <li>**Characteristics:** First ever indigenously bred biofortified beta-carotene (800-1000 µg/100 g) rich cauliflower variety.</li>
+                        <li>**Method:** Developed using marker-assisted backcrossing, a molecular breeding technique that speeds up the transfer of desired genes.</li>
+                    </ul>
+                    <div class="image-container !max-w-full !m-0 !mt-4">
+                        <img src="https://placehold.co/400x250/E5DDC8/004369?text=PUSA+BETAKESARI+Cauliflower" alt="PUSA BETAKESARI Cauliflower - Placeholder">
+                        <div class="image-caption">Figure 24: PUSA BETAKESARI, India's first indigenously bred biofortified cauliflower. (Placeholder Image)</div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Genetic Modification (Transgenic Approach) for Biofortification</h3>
+                    <p class="text-sm text-gray-700 mb-4">Genetic modification, or the transgenic approach, involves the direct manipulation of an organism's DNA to introduce desired genes for enhanced nutritional traits. This method specifically aims to insert genes and associated micronutrient-dense traits directly into the host organism's genetic code. While it represents a long-term solution that requires considerable time for the development of new nutrient-rich varieties, its precision and ability to introduce novel traits are unparalleled. This approach is particularly valuable when desired genetic variation is absent within a species or when sexual compatibility is a barrier for gene transfer.</p>
+                    <div class="image-container !max-w-full !m-0 !mt-4">
+                        <img src="https://placehold.co/400x250/A67B5B/F8F5F1?text=Genetic+Modification+for+Biofortification" alt="Genetic Modification for Biofortification - Placeholder">
+                        <div class="image-caption">Figure 25: Genetic modification for biofortification. (Placeholder Image)</div>
+                    </div>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Targets of Transgenes in Biofortification (Jena et al., 2018):</h4>
+                    <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                        <li>**Redistributing Micronutrients:** Engineering plants to redistribute micronutrients more efficiently between different tissues, particularly towards edible parts.</li>
+                        <li>**Increasing Pathway Efficiency:** Enhancing the efficiency of biochemical pathways responsible for nutrient synthesis or accumulation in edible tissues.</li>
+                        <li>**Reconstruction of Pathways:** Even the reconstruction of selected biochemical pathways that are naturally absent in the edible part (e.g., Vitamin A pathway in rice endosperm).</li>
+                        <li>**Removal of Anti-nutrients:** Some strategies involve the removal or reduction of anti-nutrients (e.g., phytate) that inhibit micronutrient absorption in the human gut.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>The Science of Nutrient Enhancement: Biological Pathways</h2>
+         <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">The accumulation of nutrients in plants is a highly intricate process involving complex mechanisms of uptake from the soil, absorption by root cells, translocation throughout the plant via vascular tissues, and storage in edible parts. These processes are meticulously regulated at both transcriptional and post-transcriptional levels to maintain cellular homeostasis. Understanding these biological pathways and their genetic controls is crucial for effective biofortification strategies.</p>
+            <div class="grid md:grid-cols-2 gap-x-8 gap-y-12">
+                <div>
+                    <h3>Pathway: Iron Uptake & Accumulation</h3>
+                    <p class="mb-4 text-sm text-gray-700">Iron (Fe) is an essential micronutrient, but its bioavailability in soil is often limited due to its tendency to form insoluble compounds. Plants have evolved sophisticated strategies to acquire iron. Bioengineering can target specific points in these pathways to enhance iron accumulation in edible parts, such as by overexpressing genes for iron-binding proteins (e.g., ferritin) or iron-chelator genes (e.g., nicotianamine synthase, NAS). Iron stored in ferritin is particularly bioavailable to humans, as its absorption is not inhibited by common dietary factors like phytate.</p>
+                    <h4 class="font-bold text-md text-gray-800 mb-2">Plant Iron Acquisition Strategies:</h4>
+                    <div class="space-y-4">
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">Strategy I (Non-grasses, e.g., Beans, Arabidopsis)</h4>
+                            <p class="text-sm text-gray-600">Under iron deficiency, these plants induce:
+                                <ul class="list-disc list-inside ml-4">
+                                    <li>**Ferric Chelate Reducer (FRO2):** Reduces insoluble ferric iron (Fe³⁺) to more soluble ferrous iron (Fe²⁺) at the root surface.</li>
+                                    <li>**Iron-Regulated Transporter 1 (IRT1):** A high-affinity Fe²⁺ transporter that takes up the reduced iron into root cells.</li>
+                                    <li>**Proton-ATPases (e.g., AHA2):** Acidify the rhizosphere to increase iron solubility.</li>
+                                </ul>
+                                Regulation: Primarily controlled by the **FIT (Fe-deficiency induced transcription factor)**.
+                            </p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">Strategy II (Grasses, e.g., Rice, Corn, Barley)</h4>
+                            <p class="text-sm text-gray-600">These plants secrete specialized organic molecules called **phytosiderophores (PS)** (e.g., deoxymugineic acid, DMA, synthesized by NAS enzymes) into the rhizosphere. These PS chelate Fe³⁺, and the resulting Fe(III)-phytosiderophore complex is then actively taken up by specific transporters (e.g., **YS1** in maize and rice).
+                                Regulation: Primarily controlled by the **IDEF1 (Iron Deficiency-responsive Element-binding Factor 1)**.
+                            </p>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Intra-plant Transport & Storage:</h4>
+                    <p class="text-sm text-gray-600">Once absorbed, iron is transported from roots to shoots via the xylem, often complexed with citrate. Within cells, iron is stored in vacuoles or bound by **ferritin**, a spherical protein capable of storing up to 4,500 ferric ions. Overexpression of ferritin genes (e.g., from soybean) in rice has successfully increased grain iron content.</p>
+                    <div class="image-container">
+                        <img src="https://placehold.co/600x300/004369/F8F5F1?text=Iron+Uptake+Pathway+Schematic" alt="Iron Uptake Pathway Schematic - Placeholder">
+                        <div class="image-caption">Figure 26: Simplified Iron Uptake Pathways in Plants. (Placeholder Image)</div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Pathway: Provitamin A (Carotenoid) Biosynthesis</h3>
+                    <p class="mb-4 text-sm text-gray-700">Provitamin A carotenoids (e.g., beta-carotene) are essential pigments converted to active Vitamin A in the human body. In plants, they are synthesized primarily within plastids (chloroplasts and chromoplasts) through a complex pathway originating from isopentenyl diphosphate (IPP) and dimethylallyl diphosphate (DMAPP). Genetic engineering has been instrumental in manipulating this pathway, for example, by introducing genes to enable beta-carotene synthesis directly in rice endosperm (Golden Rice), a tissue that naturally lacks this nutrient, thereby creating a novel biochemical pathway where it was previously absent.</p>
+                    <h4 class="font-bold text-md text-gray-800 mb-2">Key Steps & Enzymes:</h4>
+                    <div class="space-y-4">
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">1. Isoprenoid Precursor Synthesis</h4>
+                            <p class="text-sm text-gray-600">IPP and DMAPP are synthesized via the **MEP (Methylerythritol 4-phosphate) pathway** in plastids or the **MVA (Mevalonic acid) pathway** in the cytoplasm. These are the foundational C5 building blocks.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">2. Phytoene Synthesis</h4>
+                            <p class="text-sm text-gray-600">Two molecules of geranylgeranyl diphosphate (GGPP) are condensed by **Phytoene Synthase (PSY)** to form phytoene, the first committed step in the carotenoid pathway. PSY is often a rate-limiting enzyme.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">3. Desaturation Steps</h4>
+                            <p class="text-sm text-gray-600">A series of desaturation reactions, catalyzed by **Phytoene Desaturase (PDS)** and **ζ-carotene Desaturase (ZDS)**, convert phytoene to lycopene. This involves the introduction of double bonds.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">4. Cyclization & Carotenoid Formation</h4>
+                            <p class="text-sm text-gray-600">Lycopene is then cyclized by **Lycopene β-cyclase (LCYb)** and **Lycopene ε-cyclase (LCYe)** to form various cyclic carotenoids, including α-carotene and β-carotene. Beta-carotene is the most important provitamin A carotenoid.</p>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Enhancement Strategies:</h4>
+                    <p class="text-sm text-gray-600">Biofortification efforts often focus on:
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Overexpression of rate-limiting enzymes like PSY.</li>
+                            <li>Introducing bacterial genes (e.g., *crtI* from *Erwinia uredovora*), which combine multiple desaturation steps into one enzyme, making the pathway more efficient.</li>
+                            <li>Targeting genes involved in carotenoid degradation or storage capacity (e.g., manipulating chromoplast development).</li>
+                        </ul>
+                    </p>
+                    <div class="image-container">
+                        <img src="https://placehold.co/600x300/01949A/F8F5F1?text=Provitamin+A+Pathway+Schematic" alt="Provitamin A Biosynthesis Pathway Schematic - Placeholder">
+                        <div class="image-caption">Figure 27: Simplified Provitamin A Biosynthesis Pathway. (Placeholder Image)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-x-8 gap-y-12 mt-12">
+                <div>
+                    <h3>Pathway: Zinc Uptake & Accumulation</h3>
+                    <p class="mb-4 text-sm text-gray-700">Zinc (Zn) is a vital micronutrient for plant growth and human health, acting as a cofactor for over 300 enzymes. Its bioavailability in soil is highly variable, influenced by pH, organic matter, and microbial activity. Plants absorb Zn primarily through specific transporters. Biofortification strategies aim to increase Zn uptake and translocation to edible parts, often by overexpressing genes encoding zinc transporters or by reducing the concentration of anti-nutrients like phytate, which bind Zn and reduce its bioavailability.</p>
+                    <h4 class="font-bold text-md text-gray-800 mb-2">Key Transporters & Mechanisms:</h4>
+                    <div class="space-y-4">
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">1. ZIP Transporters (ZRT/IRT-like Protein)</h4>
+                            <p class="text-sm text-gray-600">A major family of metal ion transporters responsible for Zn uptake from the soil into root cells (e.g., ZIP1, ZIP3, ZIP4, IRT3) and for intracellular distribution.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">2. HMA Transporters (Heavy Metal ATPases)</h4>
+                            <p class="text-sm text-gray-600">Involved in long-distance transport of Zn from roots to shoots (e.g., HMA2, HMA4) and loading into the xylem.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">3. Vacuolar Transporters</h4>
+                            <p class="text-sm text-gray-600">Proteins like MTPs (Metal Tolerance Proteins) and ZIFs (Zinc-Iron Permeases) are involved in sequestering excess Zn into vacuoles to prevent toxicity and for storage.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">4. Nicotianamine (NA)</h4>
+                            <p class="text-sm text-gray-600">A metal-chelating compound that plays a crucial role in the long-distance transport of Zn (and Fe) in the phloem and xylem.</p>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Strategies for Zinc Biofortification:</h4>
+                    <ul class="list-disc list-inside text-sm text-gray-600 ml-4">
+                        <li>Overexpression of root-specific Zn transporters (e.g., *OsZIP4* in rice).</li>
+                        <li>Enhancing long-distance transport by overexpressing *HMA* genes.</li>
+                        <li>Reducing **phytate** (inositol hexakisphosphate), a major anti-nutrient in cereals that binds Zn and reduces its bioavailability. This can be done by downregulating phytate synthesis genes (e.g., *IPK1*).</li>
+                        <li>Increasing the synthesis of natural chelators like nicotianamine (NA) by overexpressing *NAS* genes.</li>
+                    </ul>
+                    <div class="image-container">
+                        <img src="https://placehold.co/600x300/DB1F48/F8F5F1?text=Zinc+Uptake+Pathway+Schematic" alt="Zinc Uptake Pathway Schematic - Placeholder">
+                        <div class="image-caption">Figure 28: Simplified Zinc Uptake and Translocation Pathways in Plants. (Placeholder Image)</div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Pathway: Folate (Vitamin B9) Biosynthesis</h3>
+                    <p class="mb-4 text-sm text-gray-700">Folate (Vitamin B9) is essential for one-carbon metabolism, crucial for DNA synthesis, repair, and methylation. Deficiency leads to megaloblastic anemia and severe birth defects like neural tube defects. Plants synthesize folate *de novo* through a complex pathway involving multiple enzymes localized in different cellular compartments (cytosol, mitochondria, plastids). Biofortification aims to increase folate levels, especially in staple crops where it is often insufficient.</p>
+                    <h4 class="font-bold text-md text-gray-800 mb-2">Key Steps & Enzymes:</h4>
+                    <div class="space-y-4">
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">1. GTP Cyclohydrolase I (GTPCHI)</h4>
+                            <p class="text-sm text-gray-600">Catalyzes the first committed step in the folate biosynthesis pathway, converting GTP to dihydroneopterin triphosphate.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">2. Dihydropteroate Synthase (DHPS)</h4>
+                            <p class="text-sm text-gray-600">Involved in the synthesis of dihydropteroate, a precursor to dihydrofolate.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">3. Dihydrofolate Reductase-Thymidylate Synthase (DHFR-TS)</h4>
+                            <p class="text-sm text-gray-600">Reduces dihydrofolate to tetrahydrofolate (THF), the active form of folate.</p>
+                        </div>
+                        <div class="p-4 border rounded-lg">
+                            <h4 class="font-bold">4. Folylpolyglutamate Synthetase (FPGS)</h4>
+                            <p class="text-sm text-gray-600">Adds glutamate residues to THF, forming polyglutamated folates, which are the predominant and more stable forms in plants.</p>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Strategies for Folate Biofortification:</h4>
+                    <ul class="list-disc list-inside text-sm text-gray-600 ml-4">
+                        <li>Overexpression of rate-limiting enzymes, particularly GTPCHI, has shown significant success in increasing folate levels in various crops (e.g., rice, tomato).</li>
+                        <li>Engineering the pathway to produce more stable polyglutamated forms of folate.</li>
+                        <li>Targeting transport mechanisms to ensure efficient accumulation in edible tissues.</li>
+                    </ul>
+                    <div class="image-container">
+                        <img src="https://placehold.co/600x300/E5DDC8/004369?text=Folate+Pathway+Schematic" alt="Folate Biosynthesis Pathway Schematic - Placeholder">
+                        <div class="image-caption">Figure 29: Simplified Folate Biosynthesis Pathway in Plants. (Placeholder Image)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>Regional Achievements and Specific Biofortified Varieties</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">Biofortification efforts globally have led to the development and release of numerous nutrient-dense crop varieties. These achievements are often tailored to regional dietary needs and agricultural contexts, showcasing the diverse applications of breeding and genetic engineering for nutritional improvement.</p>
+
+            <h3 class="text-center mb-4">Biofortified Vegetable Varieties in India (Selvakumar, 2014; Praneetha et al., 2017):</h3>
+            <table class="mb-8">
+                <thead>
+                    <tr>
+                        <th>Vegetable</th>
+                        <th>Variety</th>
+                        <th>Phytonutrient/Component</th>
+                        <th>Availability (if specified)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="6">Carrot</td>
+                        <td>Pusa Asita</td>
+                        <td>Anthocyanin</td>
+                        <td>339.29 mg/100 g</td>
+                    </tr>
+                    <tr>
+                        <td>Pusa Rudhira</td>
+                        <td>Lycopene</td>
+                        <td>10.77 - 55 mg/100 g</td>
+                    </tr>
+                    <tr>
+                        <td>Pusa Nayanjyoti</td>
+                        <td>Beta carotene</td>
+                        <td>7.55 mg/100 g</td>
+                    </tr>
+                    <tr>
+                        <td>Pusa Vrishti</td>
+                        <td>Beta carotene</td>
+                        <td>1.44 mg/100 g</td>
+                    </tr>
+                    <tr>
+                        <td>Pusa Yamdagni</td>
+                        <td>Beta carotene</td>
+                        <td>4.60 mg/100 g</td>
+                    </tr>
+                    <tr>
+                        <td>Pusa Meghali</td>
+                        <td>Beta carotene</td>
+                        <td>4.77 mg/100 g</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Solan Rachna</td>
+                        <td>Beta carotene</td>
+                        <td>5.59 mg/100 g</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Radish</td>
+                        <td>Pusa Jamuni</td>
+                        <td>Anthocyanin</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Palam Hriday</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Pusa Gulabi</td>
+                        <td>Lycopene</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Cabbage</td>
+                        <td>Red Acre</td>
+                        <td>Anthocyanin</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Kinner Red</td>
+                        <td>Anthocyanin</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Bitter gourd</td>
+                        <td>Pusa Aushadi</td>
+                        <td>β-carotene</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Pusa Vishesh, Pusa Hybrid -2</td>
+                        <td>Iron</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Broccoli</td>
+                        <td>Palam Vichitra</td>
+                        <td>Anthocyanin</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Tomato</td>
+                        <td>Pusa Uphar, Pusa Rohini</td>
+                        <td>Vitamin C & Lycopene</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Pusa Hybrid 2, Pusa Red Plum</td>
+                        <td>Vitamin C & Lycopene</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Paprika</td>
+                        <td>KTPL-19</td>
+                        <td>Capsanthin</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Brinjal</td>
+                        <td>Punjab Sadabahar</td>
+                        <td>Anthocyanin</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Tapioca</td>
+                        <td>Sree Visakam</td>
+                        <td>Beta Carotene</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Sweet potato</td>
+                        <td>Sree Kanaka, Sree Rethna</td>
+                        <td>Carotene</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Sree Vardhini and Bhu Krishna</td>
+                        <td>Carotene</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Pumpkin</td>
+                        <td>Pusa Vikas</td>
+                        <td>Vitamin A</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Arka Chandan</td>
+                        <td>Vitamin A</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Water melon</td>
+                        <td>Arka Jyoti</td>
+                        <td>Carotene</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Durgapura Lal</td>
+                        <td>Carotene</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Durgapura Kesar</td>
+                        <td>Carotene</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Amaranthus</td>
+                        <td>Pusa Lal Chaulai</td>
+                        <td>Carotenoids, Anthocyanin</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Pusa Kiran</td>
+                        <td>Carotenoids, Anthocyanin</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Arka Arunima</td>
+                        <td>Carotenoids, Anthocyanin</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Basella</td>
+                        <td>Local Red</td>
+                        <td>Carotenoids</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Local Green</td>
+                        <td>Carotenoids</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/004369/F8F5F1?text=Indian+Biofortified+Vegetables" alt="Indian Biofortified Vegetables - Placeholder">
+                <div class="image-caption">Figure 30: Diverse biofortified vegetable varieties developed in India. (Placeholder Image)</div>
+            </div>
+
+            <h3 class="text-center mt-8 mb-4">Pioneer Research: Cowpea Biofortification in India (Boukar et al., 2011)</h3>
+            <p class="text-sm text-gray-700 mb-4">Pioneer research on biofortification of cowpea has been initiated by G.B. Pant University of Agriculture and Technology, Pantnagar, India. This research has led to the release of several iron and zinc biofortified cowpea varieties.</p>
+            <table class="mb-8">
+                <thead>
+                    <tr>
+                        <th>Variety</th>
+                        <th>Iron (ppm)</th>
+                        <th>Zinc (ppm)</th>
+                        <th>Year of release</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pant Lobia-1</td>
+                        <td>82</td>
+                        <td>40</td>
+                        <td>2008</td>
+                    </tr>
+                    <tr>
+                        <td>Pant Lobia-2</td>
+                        <td>100</td>
+                        <td>37</td>
+                        <td>2010</td>
+                    </tr>
+                    <tr>
+                        <td>Pant Lobia-3</td>
+                        <td>67</td>
+                        <td>38</td>
+                        <td>2013</td>
+                    </tr>
+                    <tr>
+                        <td>Pant Lobia-4</td>
+                        <td>51</td>
+                        <td>36</td>
+                        <td>2014</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="image-container">
+                <img src="https://placehold.co/600x250/01949A/F8F5F1?text=Pant+Lobia+Varieties" alt="Pant Lobia Varieties - Placeholder">
+                <div class="image-caption">Figure 31: Examples of Pant Lobia biofortified cowpea varieties. (Placeholder Image)</div>
+            </div>
+
+            <h3 class="text-center mt-8 mb-4">ICAR's Biofortified Sweet Potato Variety: BHU SONA</h3>
+            <p class="text-sm text-gray-700 mb-4">The Indian Council of Agricultural Research (ICAR) has developed a notable biofortified sweet potato variety named **BHU SONA**, showcasing significant advancements in enhancing nutritional content through breeding.</p>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>**Features:**
+                    <ul class="list-circle list-inside ml-8">
+                        <li>Beta-Carotene rich variety.</li>
+                        <li>Average yield: 19.8 t/ha, demonstrating good agronomic performance.</li>
+                        <li>Suitable for nutritious food processing industry, expanding its utility beyond fresh consumption.</li>
+                        <li>Salinity Stress tolerant, making it suitable for cultivation in challenging environments.</li>
+                        <li>Particularly suitable for sowing in Odisha, indicating regional adaptability.</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/DB1F48/F8F5F1?text=BHU+SONA+Sweet+Potato" alt="BHU SONA Sweet Potato - Placeholder">
+                <div class="image-caption">Figure 32: BHU SONA, a beta-carotene rich sweet potato variety by ICAR. (Placeholder Image)</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2>Detailed Case Studies in Biofortification Research</h2>
+        <div class="card">
+            <p class="text-center text-lg mb-8 text-gray-700">These case studies highlight specific research efforts and their findings in advancing biofortification, demonstrating the scientific rigor and tangible impacts of this field.</p>
+
+            <h3 class="text-center mb-4">Case Study 1: Amino Acid Profile in Cassava and its Interspecific Hybrid (Nasser and Sousa, 2007, Brazil)</h3>
+            <p class="text-sm text-gray-700 mb-4">This study aimed to improve the protein quality of common cassava, which is known for its poor true protein content. Researchers investigated an interspecific hybrid to enhance its amino acid profile.</p>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>**Materials and Methods:**
+                    <ul class="list-circle list-inside ml-8">
+                        <li>**Common Cassava:** Named UnB 1 root (female parent).</li>
+                        <li>**Manihot oligantha:** Protein-rich wild species (male parent).</li>
+                        <li>**Interspecific hybrid:** Named ICB 300 (Manihot esculenta × M. oligantha).</li>
+                        <li>**Amino acid analysis:** Performed using an amino acid analyzer (Hitachi L8500, Tokyo, Japan). Total protein contents were calculated by summing the amounts of amino acids.</li>
+                    </ul>
+                </li>
+            </ul>
+            <table class="mb-4">
+                <thead>
+                    <tr>
+                        <th>Amino acids</th>
+                        <th>UnB 1 root (g/100g)</th>
+                        <th>M. oligantha (g/100g)</th>
+                        <th>ICB 300 (Interspecific hybrid) (g/100g)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Ala</td><td>0.020</td><td>0.093</td><td>0.098</td></tr>
+                    <tr><td>Arg</td><td>0.037</td><td>0.261</td><td>0.108</td></tr>
+                    <tr><td>Asp</td><td>0.016</td><td>0.146</td><td>0.137</td></tr>
+                    <tr><td>Cys</td><td>0.027</td><td>0.029</td><td>0.025</td></tr>
+                    <tr><td>Glu</td><td>0.039</td><td>0.222</td><td>0.221</td></tr>
+                    <tr><td>Gly</td><td>0.012</td><td>0.078</td><td>0.075</td></tr>
+                    <tr><td>His</td><td>0.000</td><td>0.038</td><td>0.036</td></tr>
+                    <tr><td>Ile</td><td>0.008</td><td>0.068</td><td>0.069</td></tr>
+                    <tr><td>Leu</td><td>0.016</td><td>0.131</td><td>0.127</td></tr>
+                    <tr><td>Lys</td><td>0.010</td><td>0.098</td><td>0.079</td></tr>
+                    <tr><td>Met</td><td>0.014</td><td>0.041</td><td>0.037</td></tr>
+                    <tr><td>Phe</td><td>0.016</td><td>0.129</td><td>0.120</td></tr>
+                    <tr><td>Pro</td><td>0.000</td><td>0.054</td><td>0.066</td></tr>
+                    <tr><td>Ser</td><td>0.012</td><td>0.088</td><td>0.078</td></tr>
+                    <tr><td>Thr</td><td>0.008</td><td>0.061</td><td>0.066</td></tr>
+                    <tr><td>Tyr</td><td>0.000</td><td>0.000</td><td>0.000</td></tr>
+                    <tr><td>Val</td><td>0.019</td><td>0.115</td><td>0.112</td></tr>
+                    <tr><td>**Total**</td><td>**0.254**</td><td>**1.654**</td><td>**1.454**</td></tr>
+                </tbody>
+            </table>
+            <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Results and Discussion:</h4>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>Among the three samples, *M. oligantha* showed the highest amount of protein (1.654 g/100 g sample), followed by the ICB 300 interspecific hybrid (1.454 g/100 g) and UnB 1 root (0.254 g/100 g).</li>
+                <li>The interspecific hybrid (ICB 300) significantly increased the levels of essential amino acids like Lysine and Methionine compared to common cassava, demonstrating successful protein biofortification through hybridization.</li>
+                <li>Both cysteine and cystine are involved in cyanide detoxification in cassava. Low concentrations of sulfur-containing amino acids may be responsible for excessive detoxification.</li>
+            </ul>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/004369/F8F5F1?text=Cassava+Hybrid+ICB+300" alt="Cassava Hybrid ICB 300 - Placeholder">
+                <div class="image-caption">Figure 33: Cassava interspecific hybrid ICB 300, showing improved protein content. (Placeholder Image)</div>
+            </div>
+
+            <h3 class="text-center mt-8 mb-4">Case Study 2: Agronomic Biofortification of Carrot with Selenium (Oliveira et al., 2018, Brazil)</h3>
+            <p class="text-sm text-gray-700 mb-4">This study aimed to evaluate the effect of different application forms and sources of Selenium (Se) on the growth, production, nutrition, physical-chemical characteristics, content, and accumulation of Se in carrots.</p>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>**Materials and Methods:**
+                    <ul class="list-circle list-inside ml-8">
+                        <li>**Conditions:** Greenhouse conditions.</li>
+                        <li>**Design:** A completely randomized design was used in a 2x2x2 factorial scheme (with and without Se application, two sources of Se: selenate and selenite, two forms of application: soil and foliar applications).</li>
+                        <li>**Replications:** Five replications were used for each treatment.</li>
+                    </ul>
+                </li>
+            </ul>
+            <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Conclusion:</h4>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>The application of Se, both through soil and foliar means, and from both sources (selenate and selenite), significantly increases its content in carrot roots.</li>
+                <li>The most effective form of Se biofortification was **foliar application as selenate**.</li>
+                <li>By consuming just **50g of fresh carrot** that has been biofortified with selenate via foliar application (which resulted in 14 mg kg⁻¹ of dry mass Se), the daily intake of the element would be **105 µg**.</li>
+                <li>For context, an adult human is expected to ingest at least 70 µg per day, with a maximum tolerable limit of 400 µg (USDA, 2012). This demonstrates the potential of biofortified carrots to meet a significant portion of daily Se requirements.</li>
+            </ul>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/DB1F48/F8F5F1?text=Selenium+Biofortified+Carrots" alt="Selenium Biofortified Carrots - Placeholder">
+                <div class="image-caption">Figure 34: Selenium biofortified carrots from the study. (Placeholder Image)</div>
+            </div>
+
+            <h3 class="text-center mt-8 mb-4">Case Study 3: Agronomic Biofortification of Cowpea with Iron (Budhani et al., 2018, Gujarat)</h3>
+            <p class="text-sm text-gray-700 mb-4">This study investigated the effect of different treatments of iron (FeSO₄) application on the iron content in the pods of cowpea, a crucial legume in many diets.</p>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>**Treatments:** Various combinations of foliar spray and soil application of FeSO₄ at different concentrations and timings were tested.</li>
+            </ul>
+            <table class="mb-4">
+                <thead>
+                    <tr>
+                        <th>Treatments</th>
+                        <th>2ⁿᵈ picking (mg kg⁻¹)</th>
+                        <th>4ᵗʰ picking (mg kg⁻¹)</th>
+                        <th>6ᵗʰ picking (mg kg⁻¹)</th>
+                        <th>Average (mg kg⁻¹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>T₀ – Control</td><td>163.33</td><td>156.00</td><td>143.67</td><td>154.33</td></tr>
+                    <tr><td>T₁ – Foliar spray of FeSO₄ @ 0.5% at 45 DAS</td><td>188.00</td><td>168.67</td><td>150.00</td><td>168.67</td></tr>
+                    <tr><td>T₂ – Foliar spray of FeSO₄ @ 0.5% at 45 & 60 DAS</td><td>216.33</td><td>210.67</td><td>200.00</td><td>209.00</td></tr>
+                    <tr><td>T₃ – Foliar spray of FeSO₄ @ 1.0% at 45 DAS</td><td>196.00</td><td>182.00</td><td>169.00</td><td>182.33</td></tr>
+                    <tr><td>T₄ – Foliar spray of FeSO₄ @ 1.0% at 45 & 60 DAS</td><td>233.67</td><td>217.00</td><td>187.67</td><td>212.33</td></tr>
+                    <tr><td>T₅ – Soil application of FeSO₄ @ 12.5 kg ha⁻¹</td><td>187.00</td><td>183.33</td><td>173.33</td><td>181.00</td></tr>
+                    <tr><td>T₆ – Soil application of FeSO₄ @ 25 kg ha⁻¹</td><td>241.67</td><td>208.00</td><td>192.33</td><td>205.00</td></tr>
+                    <tr><td>T₇ – Soil application of FeSO₄ @ 37.5 kg ha⁻¹</td><td>237.00</td><td>223.00</td><td>219.33</td><td>226.00</td></tr>
+                    <tr><td>T₈ – Soil application of FeSO₄ @ 50 kg ha⁻¹</td><td>**243.33**</td><td>**224.67**</td><td>**227.33**</td><td>**232.00**</td></tr>
+                </tbody>
+            </table>
+            <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Conclusion:</h4>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>Fe content in cowpea pods increased significantly over the control group across the 2ⁿᵈ, 4ᵗʰ, and 6ᵗʰ picking periods.</li>
+                <li>Treatment **T₈ (soil application of FeSO₄ @ 50 kg/ha)** recorded the maximum Fe content in the pods, with 243.33 mg/kg at 2ⁿᵈ picking, 224.67 mg/kg at 4ᵗʰ picking, and 227.33 mg/kg at 6ᵗʰ picking, resulting in an average of 232.00 mg/kg.</li>
+                <li>This study demonstrates the effectiveness of agronomic biofortification in significantly enhancing iron levels in cowpea, providing a practical strategy for improving nutritional intake in regions where cowpea is a staple.</li>
+            </ul>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/01949A/F8F5F1?text=Cowpea+Iron+Biofortification+Trial" alt="Cowpea Iron Biofortification - Placeholder">
+                <div class="image-caption">Figure 35: Cowpea plants in an agronomic biofortification trial. (Placeholder Image)</div>
+            </div>
+
+            <h3 class="text-center mt-8 mb-4">Case Study 4: Success Story of Iron Biofortified Beans in Rwanda (Haas et al., 2017)</h3>
+            <p class="text-sm text-gray-700 mb-4">This randomized efficacy trial investigated the impact of consuming iron-biofortified beans on the hemoglobin and total body iron levels of iron-depleted university women in Rwanda.</p>
+            <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+                <li>**Location:** Huye, Rwanda.</li>
+                <li>**Population:** Adult female (18-27 years).</li>
+                <li>**Study Design:** Randomized efficacy trial.</li>
+                <li>**Randomization:** By individual.</li>
+                <li>**Sample Size:** 195 participants.</li>
+                <li>**Intervention:** Iron biofortified beans.</li>
+                <li>**Length of Feeding:** 4.5 months.</li>
+            </ul>
+            <table class="mb-4">
+                <thead>
+                    <tr>
+                        <th>Treatment</th>
+                        <th>Iron (mg/kg)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Biofortified bean</td><td>86</td></tr>
+                    <tr><td>Unfortified bean</td><td>50</td></tr>
+                </tbody>
+            </table>
+            <p class="text-sm text-gray-700 mb-4">At baseline, 86% of participants were iron deficient, and 36% were anemic (hemoglobin < 120 g/L).</p>
+            <p class="text-sm text-gray-700 mb-4">The intervention group receiving the iron biofortified beans consumed **14.5 mg of iron per day**, whereas the control group receiving the conventional beans consumed **8.6 mg of iron per day**.</p>
+            <h4 class="font-bold text-md text-gray-800 mt-4 mb-2">Results:</h4>
+            <table class="mb-4">
+                <thead>
+                    <tr>
+                        <th>Treatment</th>
+                        <th>Iron content of blood</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Women who consumed biofortified bean</td><td>138 g/L</td></tr>
+                    <tr><td>Women who consumed conventional bean</td><td>90 g/L</td></tr>
+                </tbody>
+            </table>
+            <p class="text-sm text-gray-700 mt-4">The study concluded that iron-depleted university women showed a significant increase in hemoglobin and total body iron after consuming biofortified beans for 4.5 months. This provides strong evidence for the efficacy of iron-biofortified beans in improving iron status in vulnerable populations.</p>
+            <div class="image-container">
+                <img src="https://placehold.co/600x350/DB1F48/F8F5F1?text=Rwanda+Bean+Study+Results" alt="Rwanda Bean Study - Placeholder">
+                <div class="image-caption">Figure 36: Iron-biofortified beans used in the Rwanda study. (Placeholder Image)</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center border-t-2 border-dashed border-gray-300 pt-8">
+        <h2 class="text-3xl">The Future is Growing: Innovation, Ethics, and Global Impact</h2>
+        <p class="max-w-3xl mx-auto text-lg text-gray-700">Food biotechnology stands as a profoundly transformative force in modern agriculture and nutrition. The analysis presented herein underscores the remarkable precision and versatility of genetically modified (GM) technologies, alongside the sustainable and multifaceted impact of biofortification strategies. These advancements offer compelling solutions to some of the most pressing global challenges, including food insecurity, widespread micronutrient deficiencies, and the escalating impacts of climate change on agricultural systems.</p>
+        <p class="max-w-3xl mx-auto text-lg text-gray-700 mt-4">Despite the demonstrable benefits and a broad scientific consensus on the safety of these technologies, their widespread adoption continues to face significant hurdles. Persistent public skepticism, complex and often inconsistent regulatory frameworks, and concerns surrounding corporate control over seed patents remain substantial challenges. While scientific evidence indicates that unforeseen risks have largely not materialized and existing concerns are manageable [9], the disconnect between scientific understanding and public acceptance is a critical barrier.</p>
+        <p class="max-w-3xl mx-auto text-lg text-gray-700 mt-4">The future success and widespread implementation of food biotechnology, particularly GM foods and biofortified crops, depend less on scientific breakthroughs *per se* and more on a comprehensive, holistic engagement strategy. This strategy must encompass transparent communication of scientific principles and validated benefits, adaptive regulatory frameworks that are responsive to new technologies like CRISPR-Cas9, and proactive measures to ensure socio-economic equity and accessibility of these benefits to all, especially smallholder farmers and vulnerable populations.</p>
+        <p class="max-w-3xl mx-auto text-lg text-gray-700 mt-4">Continued research and development are vital, especially in refining more precise gene-editing tools, exploring novel applications through synthetic biology (e.g., designing entirely new metabolic pathways), and developing multi-nutrient biofortified crops. Furthermore, integrating food biotechnology with other sustainable agricultural practices (e.g., precision agriculture, agroecology) is essential to maximize its positive environmental and economic impact. By proactively addressing the socio-economic, ethical, and public perception dimensions alongside ongoing scientific advancements, the full potential of food biotechnology to contribute to global food security and nutrition can be realized, paving the way for a more resilient and nourished future.</p>
+        <h3 class="text-center mt-8 mb-4">Future Thrust in Biofortification:</h3>
+        <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+            <li>To reach everyone, biofortification must be integrated into public and private programs, ensuring broad dissemination and adoption.</li>
+            <li>Addressing consumer preference is paramount; understanding and adapting to local tastes and cultural acceptance will drive widespread consumption.</li>
+            <li>Improving the efficiency with which minerals are mobilized in the soil and within the plant is a key research area to enhance nutrient uptake and accumulation.</li>
+            <li>There is a strong need for continued collaboration between plant breeders, molecular biologists, and nutrition scientists to bridge the gaps between agricultural innovation and public health outcomes.</li>
+            <li>Promoting large-scale prospective studies on nutritional aspects, productivity, and consumer preference will provide robust evidence for the benefits and guide future development.</li>
+        </ul>
+        <h3 class="text-center mt-8 mb-4">Conclusion:</h3>
+        <ul class="list-disc list-inside text-sm text-gray-700 mb-4 ml-4">
+            <li>Biofortification helps in overcoming nutrient deficiency economically, especially in rural areas where access to diverse diets or supplements may be limited.</li>
+            <li>The need for collaboration between plant breeders, molecular biologists, and nutrition scientists is crucial for synergistic advancements.</li>
+            <li>Promoting large-scale prospective studies on nutritional aspects, productivity, along with consumer preference, will be key to demonstrating impact and ensuring successful adoption.</li>
+        </ul>
+    </footer>
+
+</main>
+
+<script>
+    const tooltipTitleCallback = (tooltipItems) => {
+        const item = tooltipItems[0];
+        let label = item.chart.data.labels[item.dataIndex];
+        return Array.isArray(label) ? label.join(' ') : label;
+    };
+
+    const wrapLabel = (label) => {
+        const maxLength = 16;
+        if (label.length <= maxLength) return label;
+        const words = label.split(' ');
+        const lines = [];
+        let currentLine = '';
+        words.forEach(word => {
+            if ((currentLine + word).length > maxLength) {
+                lines.push(currentLine.trim());
+                currentLine = '';
             }
-        ];
-
-        function switchTab(tabGroupId, tabIndex) {
-            const tabGroup = document.getElementById(tabGroupId);
-            const buttons = tabGroup.querySelectorAll('.tab-btn');
-            const contentContainer = document.getElementById(`${tabGroupId.replace('tabs', 'tab-content')}`);
-
-            buttons.forEach((button, index) => {
-                button.classList.toggle('active', index === tabIndex);
-            });
-            
-            if (tabGroupId === 'gm-tabs') {
-                const technique = gmTechniques[tabIndex];
-                contentContainer.innerHTML = `<div class="p-4 bg-gray-50 rounded-b-lg rounded-r-lg"><h4 class="font-bold text-lg mb-2">${technique.name}</h4><p class="text-gray-700">${technique.content}</p></div>`;
-            }
-        }
-
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        function updateActiveNavOnScroll() {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            let currentSection = '';
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (window.scrollY >= sectionTop - 100) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('onclick').includes(currentSection)) {
-                    link.classList.add('active');
-                }
-            });
-        }
-        
-        window.addEventListener('scroll', updateActiveNavOnScroll);
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            switchTab('gm-tabs', 0);
-            
-            const gmBenefitsCtx = document.getElementById('gmBenefitsChart').getContext('2d');
-            new Chart(gmBenefitsCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Pesticide Use Reduction', 'GHG Emission Reduction', 'Farmer Income Increase'],
-                    datasets: [{
-                        label: 'Impact of GM Crops (Illustrative)',
-                        data: [40, 15, 65],
-                        backgroundColor: [
-                            'rgba(107, 138, 122, 0.6)',
-                            'rgba(166, 123, 91, 0.6)',
-                            'rgba(234, 227, 217, 0.8)',
-                        ],
-                        borderColor: [
-                            '#6B8A7A',
-                            '#A67B5B',
-                            '#EAE3D9',
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Positive Impacts of GM Crop Adoption'
-                        },
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Relative Improvement (%)'
-                            }
-                        }
-                    }
-                }
-            });
-
-            const biofortificationCtx = document.getElementById('biofortificationApproachesChart').getContext('2d');
-            new Chart(biofortificationCtx, {
-                type: 'radar',
-                data: {
-                    labels: ['Speed', 'Sustainability', 'Precision', 'Low Cost', 'Public Acceptance'],
-                    datasets: [
-                        {
-                            label: 'Agronomic',
-                            data: [5, 1, 1, 4, 3],
-                            fill: true,
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgb(255, 99, 132)',
-                            pointBackgroundColor: 'rgb(255, 99, 132)',
-                        }, {
-                            label: 'Conventional Breeding',
-                            data: [1, 4, 2, 3, 5],
-                            fill: true,
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: 'rgb(54, 162, 235)',
-                            pointBackgroundColor: 'rgb(54, 162, 235)',
-                        },
-                         {
-                            label: 'Genetic Modification',
-                            data: [3, 5, 5, 2, 1],
-                            fill: true,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgb(75, 192, 192)',
-                            pointBackgroundColor: 'rgb(75, 192, 192)',
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                     plugins: {
-                        title: {
-                            display: true,
-                            text: 'Comparing Biofortification Approaches'
-                        },
-                        legend: {
-                           position: 'bottom',
-                        },
-                    },
-                    scales: {
-                        r: {
-                            beginAtZero: true,
-                            max: 5,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    }
-                }
-            });
-
-            updateActiveNavOnScroll();
+            currentLine += word + ' ';
         });
-    </script>
+        lines.push(currentLine.trim());
+        return lines;
+    };
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const gmBenefitsCtx = document.getElementById('gmBenefitsChart').getContext('2d');
+        new Chart(gmBenefitsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Increased Farm Income', 'Reduced Pesticide Use', 'Increased Crop Yields', 'Reduced GHG Emissions', ['Reduced Land Use', '(per unit of crop)']].map(wrapLabel),
+                datasets: [{
+                    label: 'Impact Score',
+                    data: [90, 85, 80, 70, 75],
+                    backgroundColor: ['#004369', '#01949A', '#DB1F48', '#E5DDC8', '#004369'],
+                    borderColor: 'rgba(0,0,0,0)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    title: { display: true, text: 'Key Benefits of Commercially Grown GM Crops (1996-2020)', font: { size: 16 } },
+                    legend: { display: false },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Relative Impact & Benefit Level' }
+                    },
+                    y: {
+                        ticks: { font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+        const biofortificationCtx = document.getElementById('biofortificationApproachesChart').getContext('2d');
+        new Chart(biofortificationCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Speed to Implement', 'Long-Term Sustainability', 'Precision & Control', 'Low Recurrent Cost', 'Public Acceptance'],
+                datasets: [
+                    {
+                        label: 'Agronomic (Fertilizers)',
+                        data: [5, 1, 2, 1, 4],
+                        fill: true,
+                        backgroundColor: 'rgba(219, 31, 72, 0.2)',
+                        borderColor: '#DB1F48',
+                        pointBackgroundColor: '#DB1F48',
+                    },
+                    {
+                        label: 'Conventional Breeding',
+                        data: [1, 4, 2, 5, 5],
+                        fill: true,
+                        backgroundColor: 'rgba(0, 67, 105, 0.2)',
+                        borderColor: '#004369',
+                        pointBackgroundColor: '#004369',
+                    },
+                    {
+                        label: 'Genetic Modification',
+                        data: [2, 5, 5, 4, 2],
+                        fill: true,
+                        backgroundColor: 'rgba(1, 148, 154, 0.2)',
+                        borderColor: '#01949A',
+                        pointBackgroundColor: '#01949A',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Comparing Biofortification Approaches (1=Low, 5=High)', font: { size: 16 } },
+                    legend: { position: 'bottom' },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 5,
+                        ticks: { stepSize: 1, backdropColor: 'rgba(255,255,255,0.6)' },
+                        pointLabels: { font: { size: 12 } }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
