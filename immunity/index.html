@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Architecture of Immunity: An Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            line-height: 1.6;
+            color: #334155;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .kpi-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .flowchart-node {
+            border: 2px solid #0053A0;
+            background-color: #E6F6FF;
+            color: #002D56;
+        }
+        .flowchart-arrow {
+            color: #0053A0;
+            font-weight: bold;
+        }
+        .section-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 2rem;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #00A1E4, #0053A0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .printable-slide {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+                color: #000;
+                font-size: 12pt;
+            }
+            .container {
+                padding: 0;
+                margin: 0;
+            }
+            .section-card {
+                box-shadow: none;
+                border-radius: 0;
+                margin-bottom: 0;
+                padding: 1.5cm; /* Adjust padding for slide feel */
+                page-break-after: always; /* Force new page for each section-card */
+                height: 100vh; /* Attempt to make each slide fill a page */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+            .section-card:last-child {
+                page-break-after: avoid; /* No page break after the last slide */
+            }
+            h1, h2, h3, h4 {
+                color: #000 !important;
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+            }
+            .gradient-text {
+                background: none;
+                -webkit-background-clip: unset;
+                -webkit-text-fill-color: unset;
+                color: #000;
+            }
+            p, li, table {
+                color: #000;
+            }
+            .kpi-card, .flowchart-node, .flowchart-arrow, .p-4.bg-blue-50, .p-4.bg-yellow-50, .p-4.bg-gray-100 {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                background-color: #fff;
+            }
+            .chart-container {
+                height: 300px; /* Fixed height for print charts */
+                max-height: 350px;
+                width: 80%; /* Adjust width for print */
+                margin: 1rem auto;
+            }
+            footer {
+                display: none; /* Hide footer in print */
+            }
+            .text-sm {
+                font-size: 10pt;
+            }
+            .text-xs {
+                font-size: 8pt;
+            }
+            .text-center {
+                text-align: center;
+            }
+            .grid {
+                display: block; /* Stack grid items for print */
+            }
+            .grid > div {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12 printable-slide">
+            <h1 class="text-4xl md:text-6xl font-black gradient-text">The Architecture of Immunity</h1>
+            <p class="text-lg md:text-xl text-slate-600 mt-2 max-w-3xl mx-auto">A visual guide to the body's complex defense system, from first responders to elite special forces.</p>
+            <p class="text-slate-500 mt-4 text-base md:text-lg max-w-3xl mx-auto">This comprehensive infographic explores the intricate mechanisms, diverse components, and modern advancements within the human immune system, providing foundational knowledge for students of nutrition and dietetics.</p>
+        </header>
+
+        <section id="introduction" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">I. Introduction to the Immune System</h2>
+            <p class="text-center text-slate-600 mb-6 max-w-3xl mx-auto">The immune system is an extraordinarily intricate defense network, safeguarding the body against a vast array of internal and external threats. Its primary function is to identify, neutralize, and eliminate foreign substances and abnormal cells, crucial for maintaining physiological balance.</p>
+            <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">A. Purpose and Overview</h3>
+            <p class="text-slate-700 max-w-3xl mx-auto mb-4">It distinguishes "self" from "non-self," mounting a targeted response against invaders while tolerating the body's own components. This continuous surveillance prevents infections, controls cancer, and mitigates pathological conditions.</p>
+            <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">B. Key Components: Organs and Cells</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div class="kpi-card border-t-4 border-[#00A1E4] text-left">
+                    <h4 class="text-xl font-bold text-[#0053A0] mb-2">Primary Lymphoid Organs</h4>
+                    <ul class="list-disc list-inside text-slate-600">
+                        <li><strong>Bone Marrow:</strong> Origin of all immune cells; B cell maturation.</li>
+                        <li><strong>Thymus:</strong> Site for T cell maturation and selection.</li>
+                    </ul>
+                </div>
+                <div class="kpi-card border-t-4 border-[#FBB03B] text-left">
+                    <h4 class="text-xl font-bold text-[#0053A0] mb-2">Secondary Lymphoid Organs</h4>
+                    <ul class="list-disc list-inside text-slate-600">
+                        <li><strong>Lymph Nodes:</strong> Filter lymph, activate immune cells.</li>
+                        <li><strong>Spleen:</strong> Filters blood, activates immune cells against blood-borne pathogens.</li>
+                        <li><strong>Other Tissues:</strong> Adenoids, Peyer's Patches, Tonsils.</li>
+                    </ul>
+                </div>
+            </div>
+             <p class="text-slate-700 max-w-3xl mx-auto mt-4">The continuous generation of immune cells from hematopoietic stem cells in the bone marrow highlights the foundational link between nutritional intake and immune competence.</p>
+        </section>
+
+        <section id="immune-cells" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">Immune Cells: The Body's Defenders</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Leukocytes, or white blood cells, are the cellular components of the immune system, each with specialized roles in defense.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="kpi-card border-t-4 border-[#00A1E4] text-left">
+                    <h3 class="text-xl font-bold text-[#0053A0] mb-2">Lymphocytes</h3>
+                    <ul class="list-disc list-inside text-slate-600">
+                        <li><strong>B Cells:</strong> Produce specific antibodies; mature in bone marrow.</li>
+                        <li><strong>T Cells:</strong> Direct killing of infected cells; coordinate responses; mature in thymus.</li>
+                    </ul>
+                    <p class="text-sm text-slate-500 mt-2">B cells are the "intelligence system," T cells the "soldiers."</p>
+                </div>
+                <div class="kpi-card border-t-4 border-[#FBB03B] text-left">
+                    <h3 class="text-xl font-bold text-[#0053A0] mb-2">Phagocytes & NK Cells</h3>
+                    <ul class="list-disc list-inside text-slate-600">
+                        <li><strong>Neutrophils:</strong> Rapid responders, engulf bacteria.</li>
+                        <li><strong>Macrophages:</strong> Engulf pathogens, antigen presentation.</li>
+                        <li><strong>Dendritic Cells:</strong> Specialized antigen presenters, activate T cells.</li>
+                        <li><strong>Natural Killer (NK) Cells:</strong> Innate killers of infected/cancer cells without prior activation.</li>
+                    </ul>
+                    <p class="text-sm text-slate-500 mt-2">Phagocytes "chew up" invaders; NK cells are immediate first-line killers.</p>
+                </div>
+            </div>
+            <p class="text-slate-700 max-w-3xl mx-auto mt-6">The distinct roles of B cells (targeting extracellular pathogens) and T cells (targeting intracellular pathogens and cancerous cells) ensure a comprehensive adaptive defense.</p>
+        </section>
+
+        <section id="innate-vs-adaptive" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">C. Innate vs. Adaptive Immunity: A Foundational Distinction</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">The immune system operates through two interconnected yet distinct branches, each with unique characteristics and roles in host defense.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="kpi-card border-t-4 border-[#00A1E4]">
+                    <h3 class="text-2xl font-bold text-[#0053A0]">Innate Immunity</h3>
+                    <p class="text-4xl md:text-6xl font-black text-slate-800 my-4">&lt; 12 Hours</p>
+                    <p class="text-slate-600 text-base">The body's rapid, non-specific first line of defense, present from birth. It includes physical barriers (skin, mucous membranes) and cellular components (phagocytes, NK cells). No long-term memory.</p>
+                </div>
+                <div class="kpi-card border-t-4 border-[#FBB03B]">
+                    <h3 class="text-2xl font-bold text-[#0053A0]">Adaptive Immunity</h3>
+                    <p class="text-4xl md:text-6xl font-black text-slate-800 my-4">1-2 Weeks</p>
+                    <p class="text-slate-600 text-base">A highly specific and powerful response that develops over time through exposure to pathogens or immunizations. Involves B and T cells, creating "immunological memory" for long-term protection.</p>
+                </div>
+            </div>
+            <p class="text-slate-700 max-w-3xl mx-auto mt-6">The innate system serves as the "gatekeeper" and crucial "initiator" for adaptive immunity, providing immediate protection and essential signals to activate the slower, specific adaptive response.</p>
+        </section>
+
+        <section id="active-immunity" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">II. Active Immunity: Building Enduring Protection</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Active immunity is where the body actively generates its own specific immune response, leading to long-lasting protection.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">A. Natural Active Immunity (Infection-Induced)</h3>
+                    <p class="text-slate-600 text-center mb-4">Develops when the immune system directly fights a natural infection, producing specific antibodies and memory cells.</p>
+                    <div class="space-y-4">
+                        <div class="flowchart-node p-4 rounded-lg text-center font-semibold">
+                            <span class="text-2xl mr-2">🦠</span> Antigen Exposure <br>(Infection)
+                        </div>
+                        <div class="text-center text-3xl flowchart-arrow">↓</div>
+                        <div class="flowchart-node p-4 rounded-lg text-center font-semibold">
+                             Immune System Activation<br>(B and T Cells)
+                        </div>
+                        <div class="text-center text-3xl flowchart-arrow">↓</div>
+                         <div class="flowchart-node p-4 rounded-lg text-center font-semibold">
+                            Antibody Production &<br>Formation of Memory Cells
+                        </div>
+                        <div class="text-center text-3xl flowchart-arrow">↓</div>
+                        <div class="p-4 rounded-lg text-center font-bold bg-green-100 text-green-800 border-2 border-green-500">
+                             Long-Term Immunological Memory
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">B. Acquired Active Immunity (Vaccination-Induced)</h3>
+                    <p class="text-slate-600 text-center mb-4">Achieved through vaccination, which introduces antigens to stimulate an immune response without causing disease.</p>
+                     <div class="space-y-4 mt-16 md:mt-0">
+                        <div class="flowchart-node p-4 rounded-lg text-center font-semibold">
+                             <span class="text-2xl mr-2">💉</span> Antigen Exposure <br>(Vaccination)
+                        </div>
+                        <div class="text-center text-3xl flowchart-arrow">↓</div>
+                        <div class="flowchart-node p-4 rounded-lg text-center font-semibold">
+                             Immune System Activation<br>(B and T Cells)
+                        </div>
+                        <div class="text-center text-3xl flowchart-arrow">↓</div>
+                        <div class="flowchart-node p-4 rounded-lg text-center font-semibold">
+                            Antibody Production &<br>Formation of Memory Cells
+                        </div>
+                        <div class="text-center text-3xl flowchart-arrow">↓</div>
+                        <div class="p-4 rounded-lg text-center font-bold bg-green-100 text-green-800 border-2 border-green-500">
+                             Long-Term Immunological Memory
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-slate-700 max-w-3xl mx-auto mt-6">Vaccination provides the benefits of immunological memory without the risks of full-blown disease, underpinning preventive medicine.</p>
+        </section>
+
+        <section id="active-immunity-processes" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">C. Biological Processes of Active Immunity</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">The generation of active immunity involves a complex, multi-step biological cascade within the adaptive immune system.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">1. Antigen Presentation</h3>
+                    <p class="text-slate-600 mb-4">Specialized Antigen-Presenting Cells (APCs) like dendritic cells and macrophages take up, process, and display antigen fragments on their surface, bound to MHC molecules. Exogenous antigens are presented on MHC Class II.</p>
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-[#00A1E4] text-left">
+                        <p class="font-semibold text-[#0053A0]">Key Step:</p>
+                        <p class="text-slate-700">Precise presentation is essential for T cell recognition and activation.</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">2. Lymphocyte Activation</h3>
+                    <p class="text-slate-600 mb-4">Helper T cells recognize MHC II-antigen complexes and require a co-stimulatory signal for full activation. Activated T cells release cytokines to amplify the response.</p>
+                    <p class="text-slate-600 mb-4">B cells bind antigens via their B-cell receptor, internalize, process, and present them on MHC II. Activated Helper T cells then provide signals for B cells to differentiate into plasma cells (antibody secretors) and memory B cells.</p>
+                </div>
+                <div class="lg:col-span-2">
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">3. Memory Cell Formation</h3>
+                    <p class="text-slate-600 mb-4">A subset of activated B and T cells differentiate into antigen-specific memory cells that persist for extended periods. Upon re-exposure, these memory cells rapidly differentiate into effector cells, leading to a faster, stronger secondary immune response.</p>
+                    <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500 text-left">
+                        <p class="font-semibold text-green-800">Metabolic Demands:</p>
+                        <p class="text-slate-700">Mounting a robust adaptive response is energy-intensive, underscoring the critical role of adequate nutrition (macronutrients for energy, micronutrients as cofactors).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="passive-immunity" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">III. Passive Immunity: Borrowed Protection</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Passive immunity involves the transfer of pre-formed antibodies, providing immediate but temporary protection. The recipient's own immune system is not stimulated to produce memory cells.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">A. Types of Passive Immunity</h3>
+                    <div class="kpi-card border-t-4 border-[#00A1E4] text-left mb-4">
+                        <h4 class="text-lg font-bold text-[#0053A0]">Natural Passive Immunity</h4>
+                        <p class="text-slate-600"><strong>Maternal Transfer:</strong> IgG antibodies cross the placenta (last 1-2 months of pregnancy) to protect newborns. IgA antibodies are secreted into breast milk, protecting neonates against GI and respiratory infections.</p>
+                    </div>
+                    <div class="kpi-card border-t-4 border-[#FBB03B] text-left">
+                        <h4 class="text-lg font-bold text-[#0053A0]">Acquired Passive Immunity (Therapeutic)</h4>
+                        <p class="text-slate-600">Direct administration of antibody-containing blood products (e.g., IVIG, plasma) for immediate protection in high-risk situations (e.g., post-exposure prophylaxis, immunocompromised individuals).</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">B. Clinical Significance & Limitations</h3>
+                    <p class="text-slate-600 mb-4"><strong>Significance:</strong> Provides immediate protection in critical scenarios where active immunity would take too long to develop.</p>
+                    <p class="text-slate-600 mb-4"><strong>Limitations:</strong> Short-lived (antibodies degrade in weeks to months). Does not induce long-term memory in the recipient, leaving them susceptible once transferred antibodies wane.</p>
+                    <div class="p-4 rounded-lg text-center font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-500">
+                        Immediate but Temporary Protection
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cellular-immunity" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">IV. Cellular Immunity: The Direct Attack</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Cellular immunity, or cell-mediated immunity, does not rely on antibodies. It is primarily mediated by specialized immune cells that directly target and eliminate infected or cancerous cells.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">A. Key Players and Their Roles</h3>
+                    <p class="text-slate-600 mb-2"><strong>T Lymphocytes (T cells):</strong> Originating in bone marrow, maturing in thymus.</p>
+                    <ul class="list-disc list-inside text-slate-600 ml-4 mb-4">
+                        <li><strong>Helper T Cells (CD4+):</strong> Orchestrate responses by activating other cells (macrophages, B cells) via cytokines.</li>
+                        <li><strong>Cytotoxic T Lymphocytes (CTLs/CD8+):</strong> "Killer" cells that directly destroy host cells infected with intracellular pathogens (viruses, bacteria) or cancerous cells. Release perforin and granzymes to induce apoptosis.</li>
+                    </ul>
+                    <p class="text-slate-600 mb-2"><strong>Natural Killer (NK) Cells:</strong> Innate lymphocytes.</p>
+                    <ul class="list-disc list-inside text-slate-600 ml-4">
+                        <li>Rapidly detect and kill virus-infected and cancer cells without prior activation.</li>
+                        <li>Identify target cells lacking MHC-I or releasing activating signals.</li>
+                        <li>Release perforin and granzymes.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">B. Types of Infections Targeted</h3>
+                    <p class="text-slate-600 mb-4">Primarily effective against <strong>intracellular pathogens</strong> and <strong>cancerous cells</strong>.</p>
+                    <ul class="list-disc list-inside text-slate-600 mb-4">
+                        <li><strong>Viruses:</strong> (e.g., HPV, Herpes, CMV, EBV, Varicella-zoster)</li>
+                        <li><strong>Intracellular Bacteria:</strong> (e.g., *Mycobacterium tuberculosis*, *Listeria monocytogenes*)</li>
+                        <li><strong>Fungi & Parasites:</strong> (e.g., *Candida albicans*)</li>
+                        <li><strong>Cancer Cells:</strong> Immune surveillance against malignancy.</li>
+                    </ul>
+                    <div class="chart-container">
+                        <canvas id="cellularTargetsChart"></canvas>
+                    </div>
+                     <p class="text-center text-slate-600 mt-4 text-sm font-semibold">Primary Targets for Cellular Immunity</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="humoral-immunity" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">V. Humoral Immunity: The Antibody Defense</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Humoral immunity is mediated by antibodies found in extracellular fluids, playing a critical role against pathogens outside host cells.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">A. Key Players and Mechanisms</h3>
+                    <p class="text-slate-600 mb-4"><strong>B Lymphocytes (B cells):</strong> When activated by antigens, B cells differentiate into plasma cells, which secrete large quantities of antibodies.</p>
+                    <p class="text-slate-600 mb-4"><strong>Antibodies (Immunoglobulins - Ig):</strong> Highly specific glycoproteins that defend through:</p>
+                    <ul class="list-disc list-inside text-slate-600 ml-4">
+                        <li><strong>Neutralization:</strong> Inactivate viruses/toxins.</li>
+                        <li><strong>Opsonization:</strong> Tag microbes for phagocytosis.</li>
+                        <li><strong>Complement Activation:</strong> Trigger cascade to kill pathogens.</li>
+                        <li><strong>ADCC:</strong> Mark infected/tumor cells for destruction by NK cells.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">B. Classes of Antibodies (Immunoglobulins)</h3>
+                    <p class="text-slate-600 mb-4">Five major classes, each with distinct features and functions:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+                        <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-[#00A1E4]">
+                            <p class="font-black text-3xl text-[#00A1E4]">IgG</p>
+                            <p class="font-semibold text-slate-700">Memory & Maternal</p>
+                            <p class="text-sm text-slate-500 mt-2">Most abundant. Crosses placenta (maternal immunity). Key to long-term memory.</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-[#00A1E4]">
+                            <p class="font-black text-3xl text-[#00A1E4]">IgM</p>
+                            <p class="font-semibold text-slate-700">First Responder</p>
+                            <p class="text-sm text-slate-500 mt-2">First antibody in primary response. Potent complement activator.</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-[#00A1E4]">
+                            <p class="font-black text-3xl text-[#00A1E4]">IgA</p>
+                            <p class="font-semibold text-slate-700">Mucosal Guardian</p>
+                            <p class="text-sm text-slate-500 mt-2">Found in secretions (saliva, tears, breast milk). Protects mucosal surfaces.</p>
+                        </div>
+                        <div class="p-4 bg-yellow-50 rounded-lg border-l-4 border-[#FBB03B]">
+                            <p class="font-black text-3xl text-[#D97706]">IgE</p>
+                            <p class="font-semibold text-slate-700">Allergy & Parasite</p>
+                            <p class="text-sm text-slate-500 mt-2">Allergic responses and defense against parasites.</p>
+                        </div>
+                        <div class="p-4 bg-gray-100 rounded-lg border-l-4 border-slate-400">
+                            <p class="font-black text-3xl text-slate-500">IgD</p>
+                            <p class="font-semibold text-slate-700">B-Cell Activator</p>
+                            <p class="text-sm text-slate-500 mt-2">Functions as a B cell receptor for activation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container mt-8">
+                <canvas id="humoralTargetsChart"></canvas>
+            </div>
+            <p class="text-center text-slate-600 mt-4 text-sm font-semibold">Relative Abundance of Antibody Classes</p>
+            <p class="text-slate-700 max-w-3xl mx-auto mt-6">Humoral immunity is primarily effective against <strong>extracellular pathogens</strong> (bacteria, free viruses, toxins), preventing them from entering cells or causing damage.</p>
+        </section>
+
+        <section id="interplay-collaboration" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">VI. Interplay & Collaboration: Cellular & Humoral Immunity</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Cellular and humoral immune responses are intricately linked and frequently collaborate to provide comprehensive and effective host defense.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">A. Synergy in Adaptive Responses</h3>
+                    <p class="text-slate-600 mb-4">Both are components of adaptive immunity. Helper T cells (cellular arm) are essential for activating B cells (humoral arm) to produce antibodies, directly linking the two branches.</p>
+                    <p class="text-slate-600 mb-4">In viral infections, antibodies neutralize free virus particles, while CTLs destroy infected host cells. This coordinated attack targets the pathogen at multiple stages.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">B. How They Complement Each Other</h3>
+                    <ul class="list-disc list-inside text-slate-600 ml-4">
+                        <li><strong>Humoral Immunity:</strong> Excels at neutralizing <strong>extracellular threats</strong> (bacteria, toxins, free viruses).</li>
+                        <li><strong>Cellular Immunity:</strong> Critical for eliminating <strong>intracellular threats</strong> (virus-infected cells, intracellular bacteria, cancerous cells).</li>
+                    </ul>
+                    <p class="text-slate-700 mt-4">This sophisticated division of labor ensures a robust and versatile defense against a wide spectrum of pathogens.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="misconceptions-disorders" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">VII. Common Misconceptions & Immune System Disorders</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Understanding the immune system requires addressing common myths and recognizing various disorders that can compromise its protective functions.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">A. Clarifying Common Misconceptions</h3>
+                    <ul class="list-disc list-inside text-slate-600 ml-4 space-y-2">
+                        <li><strong>Cold weather makes you sick:</strong> Viruses cause illness; cold weather influences behavior and viral survival.</li>
+                        <li><strong>Seasonal allergies are a sign of weakened immunity:</strong> Result of an *over-reactive* immune response to harmless substances.</li>
+                        <li><strong>Handwashing "kills" viruses:</strong> It *removes* them, preventing spread.</li>
+                        <li><strong>"Feed a cold, starve a fever":</strong> Body needs fuel and hydration for any infection.</li>
+                        <li><strong>Exercise weakens the immune system:</strong> Moderate exercise generally *improves* immune function.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">B. Immune System Disorders</h3>
+                    <ul class="list-disc list-inside text-slate-600 ml-4 space-y-2">
+                        <li><strong>Autoimmune Diseases:</strong> Immune system attacks body's own healthy cells (e.g., lupus, rheumatoid arthritis).</li>
+                        <li><strong>Immunodeficiency:</strong> Underactivity or dysfunction, leading to susceptibility to infections (primary/secondary).</li>
+                        <li><strong>Allergies:</strong> Overzealous immune responses to non-infectious agents.</li>
+                    </ul>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mt-6 mb-4">C. Herd Immunity</h3>
+                    <p class="text-slate-600">Indirect protection when a sufficient proportion of a population is immune (vaccination or prior infection), limiting disease spread. Critical for protecting vulnerable individuals.</p>
+                    <p class="text-sm text-slate-500 mt-2">Achieving herd immunity through widespread natural infection is problematic and unethical due to associated suffering and death.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="modern-frontiers" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">VIII. Modern Frontiers in Immunology</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Groundbreaking advancements are revolutionizing how we leverage the immune system for disease prevention and treatment.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">A. Immunotherapy & CAR T-Cell Therapy</h3>
+                     <p class="text-center text-slate-600 mb-4 h-16">Harnessing the immune system to fight diseases, especially cancer. CAR T-cell therapy engineers patient's T cells to target cancer.</p>
+                    <div class="chart-container">
+                        <canvas id="therapiesRadarChart"></canvas>
+                    </div>
+                    <p class="text-center text-slate-600 mt-4 text-sm font-semibold">Comparing Advanced Therapies</p>
+                    <p class="text-slate-600 text-sm mt-2"><strong>CRISPR/Cas9:</strong> Plays a pivotal role in precisely modifying immune and tumor cells to enhance immunotherapy efficacy (e.g., knocking out inhibitory molecules).</p>
+                </div>
+                <div>
+                     <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">B. Vaccine Development (mRNA Technology)</h3>
+                     <p class="text-center text-slate-600 mb-4 h-16">The success of COVID-19 mRNA vaccines has accelerated their application to a wide range of diseases, including cancer and HIV.</p>
+                    <div class="chart-container">
+                        <canvas id="mrnaTrendChart"></canvas>
+                    </div>
+                    <p class="text-center text-slate-600 mt-4 text-sm font-semibold">mRNA Vaccine Research Trend</p>
+                    <p class="text-slate-600 text-sm mt-2"><strong>Advantages:</strong> Simple manufacturing, quick development, high flexibility, strong humoral and cellular immunity, no genomic integration concerns.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="microbiome-interaction" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">C. Microbiome & Immune System Interaction</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">The gut microbiota profoundly influences host immune function and defense mechanisms against infections.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">Key Influences</h3>
+                    <ul class="list-disc list-inside text-slate-600 ml-4 space-y-2">
+                        <li><strong>Immune Development:</strong> Crucial for proliferation, growth, and differentiation of epithelial and immune cells.</li>
+                        <li><strong>Metabolites:</strong> Produce SCFAs and antimicrobial peptides that modulate systemic immunity.</li>
+                        <li><strong>Colonization Resistance:</strong> Commensal bacteria compete with invaders, preventing pathogen overgrowth.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-center text-[#0053A0] mb-4">Systemic Impact</h3>
+                    <p class="text-slate-600 mb-4">Disturbances (diet, stress, antibiotics) can lead to immune imbalance. The gut microbiota forms interconnected "axes" with other organs (gut-lung, gut-brain, gut-liver), highlighting its systemic influence on health.</p>
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-[#00A1E4] text-left">
+                        <p class="font-semibold text-[#0053A0]">Nutritional Link:</p>
+                        <p class="text-slate-700">Microbiota-targeted therapies are showing positive outcomes in childhood malnutrition, improving growth and immune function.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion" class="section-card printable-slide">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-slate-900">IX. Conclusion</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">The immune system is a marvel of biological engineering. Its efficacy stems from the coordinated action of its components, operating through innate and adaptive responses.</p>
+            <ul class="list-disc list-inside text-slate-600 ml-4 space-y-2">
+                <li><strong>Active Immunity:</strong> Cornerstone of long-term protection, leveraging immunological memory.</li>
+                <li><strong>Passive Immunity:</strong> Immediate, temporary protection via transferred antibodies.</li>
+                <li><strong>Cellular Immunity:</strong> Eliminates intracellular threats (infected/cancer cells).</li>
+                <li><strong>Humoral Immunity:</strong> Neutralizes extracellular threats (bacteria, free viruses, toxins).</li>
+                <li><strong>Synergy:</strong> Both branches collaborate for comprehensive defense.</li>
+                <li><strong>Advancements:</strong> Immunotherapy (CAR T-cells, CRISPR), mRNA vaccines, and microbiome research offer new strategies for prevention and treatment.</li>
+            </ul>
+            <p class="text-slate-700 max-w-3xl mx-auto mt-6">For nutrition and dietetics students, understanding these principles is paramount. Immune system efficacy is inextricably linked to nutritional status, and integrating nutritional science with advanced immunology is crucial for developing holistic health strategies.</p>
+        </section>
+
+    </div>
+
+    <footer class="text-center p-8 text-slate-500 text-sm">
+        <p>Infographic created to visualize key concepts from "A Comprehensive Overview of Immunity".</p>
+        <p>&copy; 2025 For Educational Purposes.</p>
+    </footer>
+
+    <script>
+        const brilliantBlues = {
+            primary: '#00A1E4',
+            secondary: '#0053A0',
+            dark: '#002D56',
+            accent: '#FBB03B',
+            light: '#E6F6FF'
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+
+        const commonChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: brilliantBlues.dark
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: { color: brilliantBlues.secondary },
+                    grid: { color: '#e2e8f0' }
+                },
+                x: {
+                    ticks: { color: brilliantBlues.secondary },
+                    grid: { display: false }
+                }
+            }
+        };
+
+        function wrapLabel(str, maxWidth) {
+            if (str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxWidth && currentLine.length > 0) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const cellularTargetsCtx = document.getElementById('cellularTargetsChart').getContext('2d');
+        const cellularLabels = ['Intracellular Viruses', 'Cancerous Cells', ['Intracellular', 'Bacteria'], 'Fungal Infections'];
+        new Chart(cellularTargetsCtx, {
+            type: 'bar',
+            data: {
+                labels: cellularLabels,
+                datasets: [{
+                    label: 'Effectiveness Score',
+                    data: [95, 90, 75, 60],
+                    backgroundColor: [brilliantBlues.primary, brilliantBlues.secondary, brilliantBlues.dark, brilliantBlues.accent],
+                    borderColor: '#ffffff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...commonChartOptions,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                },
+                scales: {
+                     y: { ...commonChartOptions.scales.y, title: { display: true, text: 'Relative Effectiveness', color: brilliantBlues.dark } },
+                     x: { ...commonChartOptions.scales.x, ticks: { ...commonChartOptions.scales.x.ticks, maxRotation: 0, minRotation: 0 } }
+                }
+            }
+        });
+
+        const humoralTargetsCtx = document.getElementById('humoralTargetsChart').getContext('2d');
+        new Chart(humoralTargetsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['IgG (Memory)', 'IgA (Mucosal)', 'IgM (Primary Resp.)', 'IgE / IgD'],
+                datasets: [{
+                    label: 'Abundance',
+                    data: [75, 15, 8, 2],
+                    backgroundColor: [brilliantBlues.secondary, brilliantBlues.primary, brilliantBlues.dark, brilliantBlues.accent],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: brilliantBlues.dark }
+                    },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                },
+                 cutout: '60%'
+            }
+        });
+        
+        const mrnaTrendCtx = document.getElementById('mrnaTrendChart').getContext('2d');
+        new Chart(mrnaTrendCtx, {
+            type: 'line',
+            data: {
+                labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025 (Proj.)'],
+                datasets: [{
+                    label: 'Clinical Trials & Publications',
+                    data: [100, 500, 2500, 3500, 4800, 6000, 7500],
+                    fill: true,
+                    backgroundColor: 'rgba(0, 161, 228, 0.2)',
+                    borderColor: brilliantBlues.primary,
+                    tension: 0.4,
+                    pointBackgroundColor: brilliantBlues.primary,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                ...commonChartOptions,
+                scales: {
+                     y: { ...commonChartOptions.scales.y, title: { display: true, text: 'Relative Interest Metric', color: brilliantBlues.dark } },
+                     x: { ...commonChartOptions.scales.x }
+                }
+            }
+        });
+        
+        const therapiesRadarCtx = document.getElementById('therapiesRadarChart').getContext('2d');
+        const radarLabels = [wrapLabel('Target Specificity', 16), wrapLabel('Development Speed', 16), wrapLabel('Patient Customization', 16), wrapLabel('Broad Applicability', 16), wrapLabel('Cost-Effectiveness', 16)];
+        new Chart(therapiesRadarCtx, {
+            type: 'radar',
+            data: {
+                labels: radarLabels,
+                datasets: [{
+                    label: 'CAR T-Cell Therapy',
+                    data: [9, 2, 10, 3, 1],
+                    borderColor: brilliantBlues.secondary,
+                    backgroundColor: 'rgba(0, 83, 160, 0.3)',
+                    pointBackgroundColor: brilliantBlues.secondary,
+                }, {
+                    label: 'mRNA Vaccines',
+                    data: [8, 9, 3, 8, 7],
+                    borderColor: brilliantBlues.accent,
+                    backgroundColor: 'rgba(251, 176, 59, 0.3)',
+                    pointBackgroundColor: brilliantBlues.accent,
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: brilliantBlues.dark }
+                    },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: '#d1d5db' },
+                        grid: { color: '#e5e7eb' },
+                        pointLabels: {
+                            color: brilliantBlues.dark,
+                            font: { size: 10 }
+                        },
+                        ticks: {
+                            backdropColor: 'white',
+                            color: brilliantBlues.secondary,
+                            stepSize: 2
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
