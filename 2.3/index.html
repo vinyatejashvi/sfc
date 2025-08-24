@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrigenomics: An Interactive Learning Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony Neutrals -->
+    <!-- Application Structure Plan: The application is structured as a narrative-driven, single-page journey divided into five thematic sections: Foundations, Mechanisms, Applications, Case Studies, and Future & Ethics. This design was chosen to create a logical learning pathway, guiding the user from foundational concepts to complex applications and societal implications. A sticky navigation bar facilitates easy, non-linear exploration. Interactive elements like tabs for the 'Omics' toolkit, a dynamic chart for case studies, and collapsible accordions for ethical issues are used to present dense information in a layered, manageable way. This structure prioritizes user engagement and comprehension over a rigid, document-like format. The content has been significantly expanded to provide deeper detail within each section. -->
+    <!-- Visualization & Content Choices: 
+        - 'Omics' Toolkit: Goal: Organize/Inform. Method: Interactive HTML/CSS tabs. Interaction: Click to reveal detailed descriptions of each technology. Justification: Breaks down complex analytical tools into digestible pieces, preventing information overload while providing significant detail. Method: HTML/JS.
+        - Nutrient-Gene Interaction Flow: Goal: Organize/Inform. Method: Styled HTML/CSS diagram. Justification: Visually simplifies the complex pathway from nutrient intake to gene regulation, making the concept of nutrient signaling intuitive. Method: HTML/CSS.
+        - CVD Risk Comparison: Goal: Compare. Method: Radar Chart. Interaction: Hover tooltips. Justification: Effectively visualizes and compares the multi-faceted impact of two different dietary patterns on key cardiovascular risk factors, allowing users to see a holistic picture. Library: Chart.js.
+        - Obesity Gene Variants: Goal: Compare. Method: Horizontal Bar Chart. Justification: Clearly ranks and compares the relative impact of different genes associated with obesity, providing specific context for each gene's function. Library: Chart.js.
+        - Interactive Case Studies (FTO Gene): Goal: Compare/Inform. Method: Dynamic Bar Chart. Interaction: Buttons to switch between diet scenarios. Justification: Actively engages the user by allowing them to see how lifestyle (diet and exercise) can modify genetic risk, making the concept of gene-environment interaction tangible and empowering. Library: Chart.js/Canvas.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfdfc;
+            color: #3a3a3a;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #c0842b;
+            border-bottom-color: #c0842b;
+        }
+        .tab-btn.active {
+            background-color: #8a7a66;
+            color: #fdfdfc;
+        }
+        .collapsible-header {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .collapsible-header:hover {
+            background-color: #f4f1eb;
+        }
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header" class="bg-[#fdfdfc]/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-xl font-bold text-[#8a7a66]">Nutrigenomics Hub</div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#foundations" class="nav-link">Foundations</a>
+                <a href="#mechanisms" class="nav-link">Mechanisms</a>
+                <a href="#applications" class="nav-link">Applications</a>
+                <a href="#casestudy" class="nav-link">Case Study</a>
+                <a href="#future" class="nav-link">Future & Ethics</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="hero" class="text-center mb-20">
+            <h1 class="text-4xl md:text-6xl font-bold text-[#8a7a66] mb-4">Decoding the Diet-Gene Connection</h1>
+            <p class="text-lg md:text-xl text-[#6b6b6b] max-w-3xl mx-auto">An interactive exploration into the science of nutrigenomics and how personalized nutrition is shaping the future of health.</p>
+        </section>
+
+        <section id="foundations" class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-[#8a7a66] mb-4">Module 1: The Scientific Foundation</h2>
+            <p class="text-center text-[#6b6b6b] max-w-3xl mx-auto mb-12">This section introduces the core principles of nutrigenomics, distinguishing it from related fields and showcasing the powerful 'omics' technologies that form the bedrock of this science. It provides the essential vocabulary for understanding the nuanced diet-gene relationship.</p>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h3 class="font-bold text-xl text-[#c0842b] mb-2">Nutrigenomics</h3>
+                    <p>The study of how nutrients and bioactive food components affect the expression and activity of your genes. It focuses on how diet can directly influence gene transcription and protein synthesis, leading to health or disease outcomes. For example, a nutrient like **curcumin** (from turmeric) can modulate genes involved in inflammation by inhibiting the activity of the NF-κB transcription factor.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h3 class="font-bold text-xl text-[#c0842b] mb-2">Nutrigenetics</h3>
+                    <p>Examines how your unique genetic variations (polymorphisms) influence your body's response to different nutrients. This explains why some people thrive on a certain diet while others do not. A classic example is the **MTHFR gene variant**, which affects how an individual metabolizes folate. People with a common MTHFR variant may need to consume more folate from supplements or fortified foods to ensure proper cellular function.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h3 class="font-bold text-xl text-[#c0842b] mb-2">Epigenomics</h3>
+                    <p>Investigates how diet can cause heritable changes in gene function without altering the underlying DNA sequence itself. This includes mechanisms like **DNA methylation** and histone modification. For example, exposure to high-fat diets in mice can lead to epigenetic changes that affect gene expression related to insulin resistance, and these changes can be passed down to their offspring.</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+                <h3 class="text-2xl font-bold text-center text-[#8a7a66] mb-6">The 'Omics' Toolkit: High-Resolution Insights</h3>
+                <p class="text-center text-[#6b6b6b] mb-6">Modern nutrigenomics relies on a suite of high-throughput technologies to capture a holistic view of the biological system's response to diet. Click the tabs to learn about each one.</p>
+                <div class="flex justify-center mb-6 border-b">
+                    <button class="tab-btn px-4 py-2 font-semibold text-gray-600 active" onclick="openTab('genomics')">Genomics</button>
+                    <button class="tab-btn px-4 py-2 font-semibold text-gray-600" onclick="openTab('transcriptomics')">Transcriptomics</button>
+                    <button class="tab-btn px-4 py-2 font-semibold text-gray-600" onclick="openTab('proteomics')">Proteomics</button>
+                    <button class="tab-btn px-4 py-2 font-semibold text-gray-600" onclick="openTab('metabolomics')">Metabolomics</button>
+                </div>
+                <div id="omics-content" class="text-center min-h-[100px]">
+                    <div id="genomics" class="tab-content"><h4 class="font-bold text-lg text-[#c0842b]">The Genetic Blueprint</h4><p>Analyzes your complete DNA to identify **single nucleotide polymorphisms (SNPs)** and other genetic variants linked to disease susceptibility and nutrient responses. It provides a static, unchanging map of your genetic potential. For example, analyzing your **ApoE** gene can reveal variants that affect cholesterol metabolism, guiding personalized fat intake recommendations.</p></div>
+                    <div id="transcriptomics" class="tab-content hidden"><h4 class="font-bold text-lg text-[#c0842b]">The RNA Signature</h4><p>Measures the levels of messenger RNA (mRNA) in cells or tissues. Since mRNA is a copy of an active gene, this technique reveals which genes are actively being transcribed and "turned on" or "off" in response to dietary changes, providing a dynamic snapshot of gene expression. This can show how a diet rich in **omega-3 fatty acids** down-regulates the expression of genes associated with inflammation.</p></div>
+                    <div id="proteomics" class="tab-content hidden"><h4 class="font-bold text-lg text-[#c0842b]">The Functional Effectors</h4><p>Studies the complete set of proteins produced by a cell or organism (the proteome). Proteins are the ultimate workhorses of the cell, so studying their abundance and modifications helps us understand how nutrients modify their function and impact a person's health phenotype. For example, an excess of carbohydrates can alter the phosphorylation of proteins involved in glucose signaling, leading to insulin resistance.</p></div>
+                    <div id="metabolomics" class="tab-content hidden"><h4 class="font-bold text-lg text-[#c0842b]">The Metabolic End-Products</h4><p>Examines the comprehensive set of small molecules (metabolites) such as sugars, amino acids, and lipids present in a biological sample like blood or urine. The metabolome represents the ultimate output of an individual's metabolism and is a sensitive reflection of both genetic predisposition and environmental factors like diet. Measuring circulating metabolites, such as **short-chain fatty acids (SCFAs)**, can provide a real-time snapshot of the gut microbiome's metabolic activity in response to a high-fiber diet.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mechanisms" class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-[#8a7a66] mb-4">Module 2: Molecular Mechanisms of Nutrient Action</h2>
+            <p class="text-center text-[#6b6b6b] max-w-3xl mx-auto mb-12">Explore how nutrients act as powerful signals that communicate with our cells. This section visualizes the pathways through which food can directly influence gene expression, from activating receptors to making epigenetic modifications that can turn genes on or off.</p>
+            <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+                 <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 text-center">
+                    <div class="p-4 bg-[#f4f1eb] rounded-lg"><p class="font-bold text-lg">Nutrient Intake</p><p class="text-sm">(e.g., Vitamin A, Vitamin D)</p></div>
+                    <div class="text-2xl font-bold text-[#c0842b]">&rarr;</div>
+                    <div class="p-4 border-2 border-dashed border-[#8a7a66] rounded-lg"><p class="font-bold text-lg">Cellular Signaling</p><p class="text-sm">(Binds to receptors like VDR)</p></div>
+                    <div class="text-2xl font-bold text-[#c0842b]">&rarr;</div>
+                     <div class="p-4 bg-[#f4f1eb] rounded-lg"><p class="font-bold text-lg">Gene Regulation</p><p class="text-sm">(Alters transcription factor activity)</p></div>
+                    <div class="text-2xl font-bold text-[#c0842b]">&rarr;</div>
+                    <div class="p-4 border-2 border-dashed border-[#8a7a66] rounded-lg"><p class="font-bold text-lg">Protein Synthesis</p><p class="text-sm">(Changes protein levels or function)</p></div>
+                    <div class="text-2xl font-bold text-[#c0842b]">&rarr;</div>
+                    <div class="p-4 bg-[#f4f1eb] rounded-lg"><p class="font-bold text-lg">Health Outcome</p><p class="text-sm">(e.g., Strengthened Immunity)</p></div>
+                </div>
+                <p class="mt-8 text-center text-[#6b6b6b]">A key example is the interaction between **polyphenols** from green tea and the **NF-κB** signaling pathway. NF-κB is a protein complex that acts as a central regulator of inflammatory genes. Certain polyphenols can inhibit the activation of NF-κB, thereby silencing the expression of pro-inflammatory genes and contributing to the anti-inflammatory effects of green tea. Another example is **Vitamin D**, which binds to the Vitamin D Receptor (VDR). The Vitamin D-VDR complex then moves to the cell nucleus, where it acts as a transcription factor, directly influencing the expression of hundreds of genes involved in bone health, immunity, and cellular growth.</p>
+            </div>
+        </section>
+
+        <section id="applications" class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-[#8a7a66] mb-4">Module 3: Applications in Health & Disease</h2>
+            <p class="text-center text-[#6b6b6b] max-w-3xl mx-auto mb-12">This is where the science meets real-world health. This section demonstrates how nutrigenomic principles are applied to understand and manage complex conditions like cardiovascular disease and obesity, highlighting key gene-diet interactions and how they influence health markers.</p>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+                    <h3 class="text-2xl font-bold text-[#8a7a66] mb-4 text-center">Cardiovascular Disease (CVD)</h3>
+                    <p class="text-center mb-6">Dietary patterns have a profound impact on CVD risk. This chart compares the effects of a typical Western diet versus a Mediterranean diet on key markers of cardiovascular health. A lower score on the chart indicates a better health marker profile. **Gene-diet examples:** Variants in the **ApoE gene** can make individuals more sensitive to dietary fat, while polymorphisms in the **MTHFR gene** can influence how folate is used to regulate homocysteine levels, a key risk factor for CVD.</p>
+                    <div class="chart-container"><canvas id="cvdChart"></canvas></div>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+                    <h3 class="text-2xl font-bold text-[#8a7a66] mb-4 text-center">Genetic Links to Obesity</h3>
+                     <p class="text-center mb-6">While lifestyle is key, genetics play a significant role. This chart shows the relative impact of key genetic variants associated with BMI and body composition. The score is a measure of the strength of association, with higher scores indicating a stronger link to increased BMI. **Gene-diet examples:** The **MC4R gene** is involved in regulating energy balance and appetite, while the **FTO gene** is a major contributor to obesity risk, influencing feelings of fullness (satiety) and appetite regulation in the brain's hypothalamus.</p>
+                    <div class="chart-container"><canvas id="obesityChart"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="casestudy" class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-[#8a7a66] mb-4">Module 4: Interactive Case Study: The FTO Gene</h2>
+            <p class="text-center text-[#6b6b6b] max-w-3xl mx-auto mb-12">This section provides a hands-on look at how diet and exercise can modify genetic risk. We'll focus on the **FTO gene**, which has variants strongly associated with obesity. See how lifestyle choices can influence the gene's effect on BMI.</p>
+            <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+                <h3 class="text-2xl font-bold text-center text-[#8a7a66] mb-2">The FTO Gene and Diet</h3>
+                <p class="text-center mb-6 max-w-2xl mx-auto">Individuals with the 'risk' variant of the *FTO* gene (the 'A' allele) have a higher predisposition to obesity, in part because the gene affects the satiety signals from the hypothalamus, leading to increased food intake and a greater preference for high-fat foods. This is not deterministic, however. Use the buttons below to see how a healthy diet and active lifestyle can significantly mitigate the genetic risk. The data is presented as an odds ratio, where a value of 1.0 indicates no increased risk.</p>
+                <div class="flex justify-center mb-6 space-x-4">
+                    <button id="btn-sedentary" class="px-4 py-2 font-semibold rounded-md bg-[#c0842b] text-white">Sedentary Lifestyle / Poor Diet</button>
+                    <button id="btn-active" class="px-4 py-2 font-semibold rounded-md bg-gray-200 text-gray-700">Active Lifestyle / Healthy Diet</button>
+                </div>
+                <div class="chart-container"><canvas id="ftoChart"></canvas></div>
+            </div>
+        </section>
+
+        <section id="future" class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-[#8a7a66] mb-4">Module 5: The Future & Ethical Considerations</h2>
+            <p class="text-center text-[#6b6b6b] max-w-3xl mx-auto mb-12">Looking ahead, the field is moving beyond genetics alone. This final section explores the exciting integration of microbiome data and digital health technologies, while also addressing the critical ethical challenges that must be navigated.</p>
+            <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+                <h3 class="text-2xl font-bold text-center text-[#8a7a66] mb-4">The Gut Microbiome and Nutrigenomics</h3>
+                <p class="text-center mb-6 text-[#6b6b6b]">The microbiome, the collection of microorganisms in our gut, is a key intermediary between diet and our health. The food we eat directly influences the composition of our gut bacteria. These bacteria then produce metabolites that can signal to our cells, influencing gene expression and overall health. For example, gut bacteria ferment dietary fiber to produce **short-chain fatty acids (SCFAs)** like butyrate, which can influence genes related to energy metabolism and inflammation in the host. The future of personalized nutrition will likely integrate genomic, transcriptomic, and microbiome data to create truly holistic dietary recommendations.</p>
+                <h3 class="text-2xl font-bold text-center text-[#8a7a66] mb-4 mt-8">Ethical, Legal, and Social Issues (ELSI)</h3>
+                <div class="space-y-4 max-w-2xl mx-auto">
+                    <div class="collapsible-item"><div class="collapsible-header flex justify-between items-center p-4 rounded-lg bg-gray-50 border border-gray-200"><span class="font-bold text-[#8a7a66]">Genetic Privacy & Confidentiality</span><span class="text-xl">+</span></div><div class="collapsible-content p-4 text-[#6b6b6b] border-t-0 border border-gray-200 rounded-b-lg"><p>Genetic data is highly sensitive and permanent. Its misuse could lead to discrimination in employment or insurance, and it holds information not only about an individual but their family members as well. In the wrong hands, this data could be used for targeted marketing or even by law enforcement without proper legal oversight. Robust legal protections and secure, anonymized data storage are essential to protect individuals' rights and prevent these harms.</p></div></div>
+                    <div class="collapsible-item"><div class="collapsible-header flex justify-between items-center p-4 rounded-lg bg-gray-50 border border-gray-200"><span class="font-bold text-[#8a7a66]">Informed Consent</span><span class="text-xl">+</span></div><div class="collapsible-content p-4 text-[#6b6b6b] border-t-0 border border-gray-200 rounded-b-lg"><p>Individuals must fully understand the purpose, benefits, risks, and limitations of genetic testing before consenting to it. The complexity of nutrigenomic information, the probabilistic nature of results (e.g., increased risk vs. a diagnosis), and the potential for unexpected findings (such as finding a disease risk not related to nutrition) make true informed consent a significant challenge for both practitioners and consumers.</p></div></div>
+                    <div class="collapsible-item"><div class="collapsible-header flex justify-between items-center p-4 rounded-lg bg-gray-50 border border-gray-200"><span class="font-bold text-[#8a7a66]">Direct-to-Consumer (DTC) Testing</span><span class="text-xl">+</span></div><div class="collapsible-content p-4 text-[#6b6b6b] border-t-0 border border-gray-200 rounded-b-lg"><p>The rise of DTC tests, while empowering consumers, creates a dilemma between consumer autonomy and protection. This market lacks robust regulatory oversight, leading to risks of unsubstantiated claims, unreliable test results, and a lack of professional guidance for interpreting complex health information, which can lead to unnecessary anxiety or even harmful dietary changes. Consumers may mistakenly believe a test provides a definitive "diet plan" rather than a probabilistic risk profile.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#8a7a66] text-white text-center py-6">
+        <p>&copy; 2025 Precision Nutrition Insights. An educational resource.</p>
+    </footer>
+
+    <script>
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            return Array.isArray(label) ? label.join(' ') : label;
+        };
+
+        function openTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.getElementById(tabName).classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        new Chart(document.getElementById('cvdChart').getContext('2d'), {
+            type: 'radar',
+            data: {
+                labels: ['Inflammation', 'LDL Cholesterol', 'Blood Pressure', 'Oxidative Stress', 'Homocysteine'],
+                datasets: [{
+                    label: 'Western Diet',
+                    data: [8, 7, 7, 9, 6],
+                    backgroundColor: 'rgba(192, 132, 43, 0.2)',
+                    borderColor: 'rgba(192, 132, 43, 1)',
+                    pointBackgroundColor: 'rgba(192, 132, 43, 1)',
+                }, {
+                    label: 'Mediterranean Diet',
+                    data: [3, 4, 3, 2, 4],
+                    backgroundColor: 'rgba(138, 122, 102, 0.2)',
+                    borderColor: 'rgba(138, 122, 102, 1)',
+                    pointBackgroundColor: 'rgba(138, 122, 102, 1)',
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { title: tooltipTitleCallback } } },
+                scales: { r: { angleLines: { color: '#e5e7eb' }, grid: { color: '#e5e7eb' }, pointLabels: { font: { size: 12 } }, suggestedMin: 0, suggestedMax: 10 } }
+            }
+        });
+
+        new Chart(document.getElementById('obesityChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['IRX3', 'LEP/LEPR', 'FTO', 'MC4R'],
+                datasets: [{
+                    label: 'Relative Association with Increased BMI',
+                    data: [85, 90, 75, 70],
+                    backgroundColor: ['rgba(192, 132, 43, 0.7)', 'rgba(138, 122, 102, 0.7)', 'rgba(192, 132, 43, 0.7)', 'rgba(138, 122, 102, 0.7)'],
+                    borderColor: ['rgba(192, 132, 43, 1)', 'rgba(138, 122, 102, 1)', 'rgba(192, 132, 43, 1)', 'rgba(138, 122, 102, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } },
+                scales: { x: { beginAtZero: true, grid: { display: false } }, y: { grid: { display: false } } }
+            }
+        });
+
+        const ftoCtx = document.getElementById('ftoChart').getContext('2d');
+        const ftoData = {
+            sedentary: [1.0, 1.67],
+            active: [1.0, 1.30]
+        };
+        const ftoChart = new Chart(ftoCtx, {
+            type: 'bar',
+            data: {
+                labels: ['No Risk Allele', 'FTO Risk Allele'],
+                datasets: [{
+                    label: 'Odds Ratio for Obesity',
+                    data: ftoData.sedentary,
+                    backgroundColor: ['rgba(138, 122, 102, 0.7)', 'rgba(192, 132, 43, 0.7)'],
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false }, title: { display: true, text: 'Effect of FTO Genotype on Obesity Risk' }, tooltip: { callbacks: { title: tooltipTitleCallback } } },
+                scales: { y: { beginAtZero: true, suggestedMax: 2.0, title: { display: true, text: 'Odds Ratio' } } }
+            }
+        });
+
+        const btnSedentary = document.getElementById('btn-sedentary');
+        const btnActive = document.getElementById('btn-active');
+        btnSedentary.addEventListener('click', () => {
+            ftoChart.data.datasets[0].data = ftoData.sedentary;
+            ftoChart.update();
+            btnSedentary.classList.add('bg-[#c0842b]', 'text-white');
+            btnSedentary.classList.remove('bg-gray-200', 'text-gray-700');
+            btnActive.classList.add('bg-gray-200', 'text-gray-700');
+            btnActive.classList.remove('bg-[#c0842b]', 'text-white');
+        });
+        btnActive.addEventListener('click', () => {
+            ftoChart.data.datasets[0].data = ftoData.active;
+            ftoChart.update();
+            btnActive.classList.add('bg-[#c0842b]', 'text-white');
+            btnActive.classList.remove('bg-gray-200', 'text-gray-700');
+            btnSedentary.classList.add('bg-gray-200', 'text-gray-700');
+            btnSedentary.classList.remove('bg-[#c0842b]', 'text-white');
+        });
+
+        document.querySelectorAll('.collapsible-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const sign = header.querySelector('span:last-child');
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    sign.textContent = '+';
+                } else {
+                    document.querySelectorAll('.collapsible-content').forEach(c => c.style.maxHeight = null);
+                    document.querySelectorAll('.collapsible-header span:last-child').forEach(s => s.textContent = '+');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    sign.textContent = '-';
+                }
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) { current = section.getAttribute('id'); }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) { link.classList.add('active'); }
+            });
+        });
+    </script>
+
+</body>
+</html>
