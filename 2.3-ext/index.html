@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrigenomics: A Deep Dive into Metabolic Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Brilliant Blues -->
+    <!-- Narrative Plan: The infographic is structured to guide the user from specific metabolic disorders to the broader issue of obesity. It starts by visualizing the role of nutrigenomics in lipid metabolism and hypertension, then explains its impact on inflammation as an underlying factor. The final, central section focuses on obesity, integrating the roles of key nutrients and the critical hormones leptin and ghrelin. This narrative flow connects distinct but related health issues, culminating in a holistic view of how diet modulates metabolic health at a molecular level. -->
+    <!-- Visualization Choices: 
+        - Lipid & Hypertension Pathways: Goal: Organize/Inform. Method: Styled HTML/CSS flow diagrams. Justification: These diagrams visually simplify complex molecular pathways (e.g., SREBP-1c for lipids, ACE for hypertension), making the cause-and-effect relationship between specific nutrients and genetic targets clear and intuitive without needing complex charts. Method: HTML/CSS with Tailwind.
+        - Inflammatory Cascade: Goal: Organize/Show Process. Method: Styled HTML/CSS diagram. Justification: A linear flow diagram is the most effective way to represent the step-by-step process of inflammation and pinpoint where anti-inflammatory nutrients intervene, highlighting the mechanism of action. Method: HTML/CSS with Tailwind.
+        - Hormonal Regulation of Obesity: Goal: Compare/Show Relationships. Method: A dual-pathway diagram for leptin and ghrelin. Justification: This directly compares the opposing functions of the 'satiety' and 'hunger' hormones, clearly illustrating the concept of hormonal balance and how it's disrupted in obesity through concepts like leptin resistance. Method: HTML/CSS with Tailwind.
+        - Nutrient Impact on Obesity: Goal: Inform/Compare. Method: Donut Chart. Justification: A donut chart provides a clear, at-a-glance breakdown of how different macronutrients contribute to the hormonal and genetic modulation of obesity, summarizing a complex interaction into a simple visual. Library: Chart.js/Canvas.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body class="bg-[#e9d8a6] text-[#005f73]">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-6xl font-bold text-[#bb3e03] mb-4">The Nutrigenomic Link</h1>
+            <p class="text-xl md:text-2xl text-[#005f73]">How Your Diet Interacts with Your Genes to Influence Metabolic Health</p>
+        </header>
+
+        <main>
+            <section id="lipid-hypertension" class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-[#ca6702] mb-8">Lipid Metabolism & Hypertension</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-[#94d2bd]/50 p-6 rounded-lg shadow-lg border-2 border-[#0a9396]">
+                        <h3 class="text-2xl font-bold text-[#005f73] text-center mb-4">Controlling Cholesterol with Diet</h3>
+                        <p class="text-center mb-6 text-sm md:text-base">The type of fat and carbohydrate you eat sends molecular signals that can activate or inhibit genes responsible for synthesizing and metabolizing fats. This process is a key target in the prevention of metabolic syndrome.</p>
+                        
+                        <div class="mb-8">
+                            <h4 class="text-xl font-semibold mb-2 text-[#005f73]">The SREBP-1c Pathway: Fat Production</h4>
+                            <div class="flex flex-col items-center space-y-4">
+                                <div class="bg-white p-4 rounded-md shadow w-full text-center">
+                                    <p class="font-bold text-lg text-[#ae2012]">Diet High in Saturated Fat & Sugars</p>
+                                    <p class="text-sm">These macronutrients act as ligands that activate nuclear receptors.</p>
+                                </div>
+                                <div class="text-4xl font-bold text-[#ae2012]">&darr;</div>
+                                <div class="bg-white p-4 rounded-md shadow w-full text-center">
+                                    <p class="font-bold text-lg">Activates <b>SREBP-1c</b> Transcription Factor</p>
+                                    <p class="text-sm">This master regulator gene, once active, translocates to the nucleus.</p>
+                                </div>
+                                <div class="text-4xl font-bold text-[#ae2012]">&darr;</div>
+                                <div class="bg-white p-4 rounded-md shadow w-full text-center">
+                                    <p class="font-bold text-lg">Upregulates Genes for Lipogenesis</p>
+                                    <p class="text-sm">Increases production of enzymes like <b class="font-bold">Fatty Acid Synthase</b> and <b class="font-bold">HMG-CoA Reductase</b>, leading to higher triglyceride and LDL cholesterol levels.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2 text-[#005f73]">The PPARα Pathway: Fat Burning</h4>
+                            <div class="flex flex-col items-center space-y-4">
+                                <div class="bg-white p-4 rounded-md shadow w-full text-center">
+                                    <p class="font-bold text-lg text-[#0a9396]">Diet Rich in Omega-3 & Omega-6 Fats</p>
+                                    <p class="text-sm">These specific fatty acids serve as potent ligands for nuclear receptors.</p>
+                                </div>
+                                <div class="text-4xl font-bold text-[#0a9396]">&darr;</div>
+                                <div class="bg-white p-4 rounded-md shadow w-full text-center">
+                                    <p class="font-bold text-lg">Activates <b>PPARα</b> Transcription Factor</p>
+                                    <p class="text-sm">This gene promotes the expression of catabolic genes in the liver.</p>
+                                </div>
+                                <div class="text-4xl font-bold text-[#0a9396]">&darr;</div>
+                                <div class="bg-white p-4 rounded-md shadow w-full text-center">
+                                    <p class="font-bold text-lg">Upregulates Genes for Fatty Acid Oxidation</p>
+                                    <p class="text-sm">Increases the burning of fatty acids for energy, reducing triglyceride and VLDL levels in the blood.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#94d2bd]/50 p-6 rounded-lg shadow-lg border-2 border-[#0a9396]">
+                        <h3 class="text-2xl font-bold text-[#005f73] text-center mb-4">Diet's Impact on Blood Pressure</h3>
+                        <p class="text-center mb-6 text-sm md:text-base">The interaction between dietary minerals and specific gene variants is a crucial determinant of blood pressure regulation, offering a pathway for personalized dietary interventions.</p>
+
+                        <div class="mb-8">
+                            <h4 class="text-xl font-semibold mb-2 text-[#005f73]">The ACE Gene & Sodium Sensitivity</h4>
+                            <div class="flex flex-col items-center space-y-4">
+                                <div class="bg-white p-4 rounded-md shadow w-full text-center">
+                                    <p class="font-bold text-lg text-[#ae2012]">High Sodium Intake</p>
+                                    <p class="text-sm">Chronic high sodium intake stimulates gene expression via the Renin-Angiotensin System.</p>
+                                </div>
+                                <div class="text-4xl font-bold text-[#ae2012]">&darr;</div>
+                                <div class="bg-white p-4 rounded-md shadow w-full text-center">
+                                    <p class="font-bold text-lg">Upregulates <b>ACE</b> Gene Expression</p>
+                                    <p class="text-sm">Increased Angiotensin-Converting Enzyme (ACE) leads to more Angiotensin II, a potent vasoconstrictor.</p>
+                                </div>
+                                <div class="text-4xl font-bold text-[#ae2012]">&darr;</div>
+                                <div class="bg-white p-4 rounded-md shadow w-full text-center">
+                                    <p class="font-bold text-lg">Leads to Vascular Constriction & Aldosterone Release</p>
+                                    <p class="text-sm">This increases peripheral resistance and fluid retention, raising blood pressure.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2 text-[#005f73]">Nutrient-Gene Interactions</h4>
+                            <ul class="list-disc list-inside space-y-4 p-4 rounded-lg bg-white shadow-md">
+                                <li>
+                                    <p class="font-bold text-[#0a9396]">Potassium's Counter-Effect:</p>
+                                    <p class="text-sm">High potassium intake increases sodium excretion from the kidneys, directly countering the hypertensive effect of high sodium and promoting vasodilation.</p>
+                                </li>
+                                <li>
+                                    <p class="font-bold text-[#0a9396]">Polyphenols & Nitric Oxide:</p>
+                                    <p class="text-sm">Bioactive compounds in foods like cocoa and berries upregulate the **eNOS** gene, increasing nitric oxide production. This molecule is a crucial vasodilator, relaxing blood vessels and lowering blood pressure.</p>
+                                </li>
+                                <li>
+                                    <p class="font-bold text-[#ae2012]">ACE I/D Polymorphism:</p>
+                                    <p class="text-sm">Individuals with the <b class="font-bold">D/D genotype</b> have higher circulating ACE levels. For these individuals, dietary sodium has a much more pronounced effect on blood pressure, highlighting the need for personalized dietary advice.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="inflammation" class="mb-16">
+                <div class="bg-[#0a9396]/80 p-8 rounded-lg shadow-xl text-white">
+                    <h2 class="text-3xl font-bold text-center text-white mb-4">Tackling Inflammatory Disorders</h2>
+                    <p class="text-center mb-8 max-w-3xl mx-auto text-sm md:text-base">Chronic, low-grade inflammation is now recognized as a root cause of numerous metabolic diseases. Nutrigenomics provides a detailed map of how specific nutrients can silence the genes that fuel this inflammatory response.</p>
+                    <div class="flex flex-col items-center space-y-4 text-center">
+                        <div class="bg-[#e9d8a6] text-[#005f73] p-4 rounded-lg shadow-md w-full"><p class="font-bold">Inflammatory Trigger: High-Fat, High-Sugar Diet & Stress</p><p class="text-sm">These factors activate membrane-bound pattern recognition receptors like **Toll-Like Receptor 4 (TLR4)**.</p></div>
+                        <div class="text-4xl font-bold">&rarr;</div>
+                        <div class="bg-[#e9d8a6] text-[#005f73] p-4 rounded-lg shadow-md w-full"><p class="font-bold">Molecular Signaling Cascade</p><p class="text-sm">The activation of TLR4 triggers a cascade that phosphorylates and degrades the <b class="font-bold">IκB</b> molecule.</p></div>
+                        <div class="text-4xl font-bold">&rarr;</div>
+                        <div class="bg-[#e9d8a6] text-[#005f73] p-4 rounded-lg shadow-md w-full"><p class="font-bold">Release & Translocation of <b>NF-κB</b></p><p class="text-sm">The release of NF-κB allows it to move from the cytoplasm into the cell nucleus.</p></div>
+                        <div class="text-4xl font-bold">&rarr;</div>
+                        <div class="bg-[#e9d8a6] text-[#005f73] p-4 rounded-lg shadow-md w-full"><p class="font-bold">Pro-inflammatory Gene Expression</p><p class="text-sm">In the nucleus, NF-κB binds to DNA and initiates the transcription of inflammatory genes like **TNF-α** and **IL-6**, which amplify the inflammatory response.</p></div>
+                        <div class="text-4xl font-bold">&rarr;</div>
+                        <div class="bg-[#ae2012] text-white p-4 rounded-lg shadow-md w-full"><p class="font-bold">Chronic Inflammation & Metabolic Dysfunction</p></div>
+                    </div>
+                    <div class="mt-8 text-center p-4 bg-[#ee9b00]/30 rounded-lg">
+                        <p class="font-bold text-xl">Nutrient Intervention: Modulating the Pathway</p>
+                        <p>Anti-inflammatory compounds like **Omega-3s**, **Curcumin** (from turmeric), and **Resveratrol** (from grapes) directly inhibit the activation of the NF-κB pathway. Omega-3s lead to the production of anti-inflammatory mediators like resolvins and protectins, while curcumin blocks the phosphorylation of IκB, preventing NF-κB from ever being released.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="obesity" class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-[#ca6702] mb-2">The Hormonal & Genetic Control of Obesity</h2>
+                <p class="text-center text-lg text-[#005f73] mb-8 max-w-4xl mx-auto">Obesity is a complex disorder where diet, genes, and hormones converge. The delicate feedback loop between Leptin and Ghrelin, which controls hunger and satiety, is heavily influenced by both our food choices and our genetic predispositions.</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                     <div class="bg-[#94d2bd]/50 p-6 rounded-lg shadow-lg border-2 border-[#0a9396]">
+                        <h3 class="text-2xl font-bold text-[#005f73] text-center mb-4">The Hormonal Balancing Act</h3>
+                        <p class="text-sm mb-4">The satiety and hunger signals in your body are a precise feedback loop. A disruption in this balance is a primary driver of weight gain and obesity.</p>
+                        <div class="flex flex-col md:flex-row justify-around">
+                            <div class="text-center p-4">
+                                <h4 class="text-xl font-bold text-[#ae2012]">Ghrelin: The Hunger Hormone</h4>
+                                <p class="text-5xl my-2">🍽️</p>
+                                <p>Released by the stomach when it's empty to signal hunger to the hypothalamus.</p>
+                                <p class="mt-2 text-sm">Chronic consumption of high-fat, processed foods can alter the normal decline in ghrelin after a meal, leading to persistent hunger and overconsumption.</p>
+                            </div>
+                            <div class="text-center p-4">
+                                <h4 class="text-xl font-bold text-[#0a9396]">Leptin: The Satiety Hormone</h4>
+                                <p class="text-5xl my-2">🛑</p>
+                                <p>Released by fat cells in proportion to body fat mass to signal satiety to the brain.</p>
+                                <p class="mt-2 text-sm">In obesity, chronically high leptin levels can lead to <b class="font-bold">Leptin Resistance</b>. This is a state where the brain's signaling becomes blunted, and the satiety signal is ignored.</p>
+                            </div>
+                        </div>
+                         <p class="mt-4 text-center text-sm">A healthy diet helps maintain sensitivity to these crucial hormones. For example, fiber-rich foods promote satiety and help regulate ghrelin release, while reducing intake of processed sugars and fats can improve the brain's sensitivity to leptin over time.</p>
+                    </div>
+
+                    <div class="bg-white/70 p-6 rounded-lg shadow-lg">
+                         <h3 class="text-2xl font-bold text-[#005f73] text-center mb-4">Genes & Nutrient Modulation</h3>
+                         <p class="text-sm mb-4">Genetic predisposition plays a significant role in obesity. Here, we look at how diet interacts with specific genes to influence weight.</p>
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white p-4 rounded-lg shadow-md">
+                                <h4 class="text-xl font-semibold mb-2 text-[#005f73]">The FTO Gene</h4>
+                                <p class="text-sm">The FTO gene is the strongest genetic link to obesity. A specific polymorphism can make individuals less sensitive to satiety signals and more likely to consume high-calorie foods.</p>
+                                <p class="font-bold mt-2 text-sm text-[#ae2012]">Dietary Modulation:</p>
+                                <p class="text-sm">A high-protein diet can increase satiety signals, effectively helping to override the genetic tendency to overeat.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-md">
+                                <h4 class="text-xl font-semibold mb-2 text-[#005f73]">The MC4R Gene</h4>
+                                <p class="text-sm">This gene is a key regulator of appetite and energy balance in the brain. Certain variants are associated with increased food intake and severe obesity.</p>
+                                <p class="font-bold mt-2 text-sm text-[#ae2012]">Dietary Modulation:</p>
+                                <p class="text-sm">While the link is complex, diets low in processed sugars and high in fiber can help regulate the overall hormonal environment, indirectly supporting normal MC4R function.</p>
+                            </div>
+                        </div>
+                        <div class="chart-container mt-8">
+                            <canvas id="obesityChart"></canvas>
+                        </div>
+                        <p class="text-center mt-4 text-sm">This chart illustrates the relative influence of different dietary components on hormonal and genetic factors related to obesity. This is a simplified view of a highly complex interaction.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 py-6 border-t-2 border-[#bb3e03]">
+            <p class="text-[#005f73] font-semibold">Personalized nutrition is the future of preventative medicine.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+
+        const obesityData = {
+            labels: ['High-Protein Impact on Leptin Sensitivity', ['High-Fiber Impact on', 'Ghrelin Regulation'], ['High-Sugar/Fat Impact', 'on Leptin Resistance'], ['Genetic Predisposition', '(e.g., FTO, MC4R)']],
+            datasets: [{
+                label: 'Influence on Obesity',
+                data: [35, 25, 25, 15],
+                backgroundColor: [
+                    '#0a9396',
+                    '#94d2bd',
+                    '#ee9b00',
+                    '#ca6702'
+                ],
+                borderColor: '#e9d8a6',
+                borderWidth: 4,
+                hoverOffset: 8
+            }]
+        };
+
+        const obesityConfig = {
+            type: 'doughnut',
+            data: obesityData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                           color: '#005f73',
+                           font: {
+                               size: 12
+                           },
+                           boxWidth: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                },
+                cutout: '50%'
+            }
+        };
+
+        window.onload = function() {
+            const ctx = document.getElementById('obesityChart').getContext('2d');
+            new Chart(ctx, obesityConfig);
+        };
+    </script>
+</body>
+</html>
