@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functional Foods: The Power of Non-Digestible Carbs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#F0F4F8]">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#0D1B2A] mb-2">The Unseen Powerhouse: A Guide to Functional Foods</h1>
+            <p class="text-lg text-[#4A4A4A]">Exploring the role of Non-Digestible Carbohydrates like Dietary Fibre and Resistant Starch in health and food innovation.</p>
+        </header>
+
+        <main class="space-y-12">
+
+            <section id="market-overview" class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#0D1B2A] mb-4 text-center">Global Functional Foods Market</h2>
+                <p class="text-center text-[#4A4A4A] max-w-3xl mx-auto mb-8">Driven by consumer interest in proactive health, the global market for functional foods is experiencing significant growth. Forecasts show a steady increase, with a notable acceleration in the coming years as innovation continues and awareness rises. This chart visualizes the projected market value over a ten-year period.</p>
+                <div class="chart-container h-80 md:h-96">
+                    <canvas id="marketChart"></canvas>
+                </div>
+            </section>
+
+            <section id="introduction" class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#0D1B2A] mb-4 text-center">What Are Functional Foods?</h2>
+                <p class="text-center text-[#4A4A4A] max-w-3xl mx-auto mb-8">Functional foods are foods that have a potentially positive effect on health beyond basic nutrition. They are not pills or supplements, but part of a normal food pattern, consumed to promote health and reduce disease risk. We can categorize them into three main types based on their preparation.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-[#F0F4F8] p-6 rounded-lg">
+                        <div class="text-5xl mb-3">🍎</div>
+                        <h3 class="text-xl font-bold text-[#0D1B2A]">Conventional</h3>
+                        <p class="text-[#4A4A4A]">Naturally whole foods rich in beneficial compounds. Examples include fruits, vegetables, and grains containing vitamins, minerals, and fibre.</p>
+                    </div>
+                    <div class="bg-[#F0F4F8] p-6 rounded-lg">
+                        <div class="text-5xl mb-3">🥛</div>
+                        <h3 class="text-xl font-bold text-[#0D1B2A]">Modified</h3>
+                        <p class="text-[#4A4A4A]">Foods fortified or enriched with additional nutrients or bioactive compounds, such as probiotics in yogurt or Vitamin D in milk.</p>
+                    </div>
+                     <div class="bg-[#F0F4F8] p-6 rounded-lg">
+                        <div class="text-5xl mb-3">🔬</div>
+                        <h3 class="class=text-xl font-bold text-[#0D1B2A]">Synthesized</h3>
+                        <p class="text-[#4A4A4A]">Food ingredients created specifically for their health benefits, like resistant starch, which is synthesized to have prebiotic properties.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="ndc-overview" class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#0D1B2A] mb-6 text-center">The Journey of Non-Digestible Carbohydrates (NDCs)</h2>
+                <p class="text-center text-[#4A4A4A] max-w-3xl mx-auto mb-8">Unlike other carbohydrates, NDCs are not broken down in the small intestine. They travel to the large intestine where they become food for our beneficial gut bacteria. This process of fermentation is key to their health benefits.</p>
+                <div class="w-full overflow-hidden">
+                     <div class="flex items-center justify-between relative max-w-4xl mx-auto p-4">
+                        <div class="text-center w-1/4">
+                            <div class="text-4xl">👄</div>
+                            <p class="font-semibold mt-2">Ingestion</p>
+                        </div>
+                        <div class="flex-1 h-1 bg-[#FFC300] mx-2"></div>
+                        <div class="text-center w-1/4">
+                            <div class="text-4xl">➡️</div>
+                            <p class="font-semibold mt-2">Small Intestine</p>
+                            <p class="text-sm text-red-600">Digestion Bypassed</p>
+                        </div>
+                         <div class="flex-1 h-1 bg-[#FFC300] mx-2"></div>
+                        <div class="text-center w-1/4">
+                            <div class="text-4xl">🦠</div>
+                            <p class="font-semibold mt-2">Large Intestine</p>
+                            <p class="text-sm text-green-600">Fermentation</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="types-of-ndcs">
+                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-md p-6 md:p-8 col-span-1 lg:col-span-1">
+                        <h3 class="text-2xl font-bold text-[#0D1B2A] mb-4">Focus on Dietary Fibre</h3>
+                         <p class="text-[#4A4A4A] mb-6">Dietary fibre is a well-known NDC primarily found in plant-based foods. It's broadly classified into two types based on its solubility in water, each offering distinct health benefits.</p>
+                        <div class="chart-container h-64 md:h-80">
+                            <canvas id="fibreChart"></canvas>
+                        </div>
+                    </div>
+                     <div class="bg-white rounded-lg shadow-md p-6 md:p-8 col-span-1 lg:col-span-1">
+                        <h3 class="text-2xl font-bold text-[#0D1B2A] mb-4">Focus on Resistant Starch (RS)</h3>
+                        <p class="text-[#4A4A4A] mb-6">Resistant Starch acts similarly to fibre. It's a type of starch that resists digestion and is categorized into five types based on its physical form and source.</p>
+                        <div class="chart-container h-64 md:h-80">
+                            <canvas id="rsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 md:p-8 col-span-1 lg:col-span-1">
+                        <h3 class="text-2xl font-bold text-[#0D1B2A] mb-4">Focus on Oligosaccharides</h3>
+                        <p class="text-[#4A4A4A] mb-6">Oligosaccharides are a key type of NDC, known for their prebiotic effects. They are short chains of sugar molecules that selectively feed beneficial gut bacteria.</p>
+                        <div class="chart-container h-64 md:h-80">
+                            <canvas id="oligosaccharideChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="health-benefits" class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#0D1B2A] mb-2 text-center">The Engine of Health: SCFA Production</h2>
+                <p class="text-center text-[#4A4A4A] max-w-3xl mx-auto mb-8">When gut bacteria ferment NDCs, they produce Short-Chain Fatty Acids (SCFAs). These molecules are powerhouses, providing energy to our colon cells and influencing overall health in numerous positive ways.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-[#F0F4F8] p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-[#003566]">Butyrate</h3>
+                        <p class="text-[#4A4A4A] mt-2">The primary fuel source for colon cells, supporting gut barrier integrity and possessing anti-inflammatory properties.</p>
+                    </div>
+                    <div class="bg-[#F0F4F8] p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-[#003566]">Propionate</h3>
+                        <p class="text-[#4A4A4A] mt-2">Helps regulate blood sugar by contributing to glucose production in the liver and may help reduce cholesterol levels.</p>
+                    </div>
+                     <div class="bg-[#F0F4F8] p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-[#003566]">Acetate</h3>
+                        <p class="text-[#4A4A4A] mt-2">The most abundant SCFA, it plays a role in central appetite regulation and serves as a substrate for fat synthesis.</p>
+                    </div>
+                </div>
+                 <div class="mt-10">
+                    <h3 class="text-2xl font-bold text-[#0D1B2A] text-center mb-6">Systemic Health Benefits Linked to NDCs</h3>
+                     <div class="chart-container h-80 md:h-96">
+                        <canvas id="healthBenefitsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="applications" class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#0D1B2A] mb-6 text-center">From Lab to Label: NDCs in Food Products</h2>
+                <p class="text-center text-[#4A4A4A] max-w-3xl mx-auto mb-8">The unique properties of NDCs make them valuable ingredients in the food industry. They can enhance nutritional profiles and improve product characteristics, but their use comes with both opportunities and challenges.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-[#0D1B2A] mb-4">Common Food Applications</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start"><span class="text-xl mr-3 text-[#FFC300]">🍞</span><div><span class="font-semibold">Bakery:</span> Used to increase fibre content in bread, pasta, and cereals without significantly altering taste.</div></li>
+                            <li class="flex items-start"><span class="text-xl mr-3 text-[#FFC300]">🥤</span><div><span class="font-semibold">Beverages:</span> Soluble fibres like inulin are added to smoothies and yogurts to boost fibre and act as a prebiotic.</div></li>
+                            <li class="flex items-start"><span class="text-xl mr-3 text-[#FFC300]">🥩</span><div><span class="font-semibold">Meat Products:</span> Resistant starch can function as a fat replacer, helping to create lower-calorie processed meats.</div></li>
+                            <li class="flex items-start"><span class="text-xl mr-3 text-[#FFC300]">🥣</span><div><span class="font-semibold">Dairy:</span> Oligosaccharides are frequently used in yogurts and infant formulas to support a healthy gut microbiome.</div></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-[#0D1B2A] mb-4">Key Industry Challenges</h3>
+                         <ul class="space-y-3">
+                            <li class="flex items-start"><span class="text-xl mr-3 text-[#FF5733]">👅</span><div><span class="font-semibold">Sensory Impact:</span> Adding NDCs can sometimes alter the texture, creating grittiness, or affect the taste of the final product.</div></li>
+                            <li class="flex items-start"><span class="text-xl mr-3 text-[#FF5733]">⚖️</span><div><span class="font-semibold">Processing Stability:</span> Ingredients must withstand manufacturing processes like baking or pasteurization without losing their functional properties.</div></li>
+                            <li class="flex items-start"><span class="text-xl mr-3 text-[#FF5733]">🤔</span><div><span class="font-semibold">Consumer Acceptance:</span> Consumers may be wary of unfamiliar ingredients on labels. Clear communication of benefits is crucial.</div></li>
+                             <li class="flex items-start"><span class="text-xl mr-3 text-[#FF5733]">📜</span><div><span class="font-semibold">Regulatory Hurdles:</span> Making specific health claims on food labels is a complex process that requires significant scientific evidence and regulatory approval.</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="future-trends" class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#0D1B2A] mb-4 text-center">The Future of Functional Foods</h2>
+                <p class="text-center text-[#4A4A4A] max-w-3xl mx-auto mb-8">The future of functional foods, particularly those with NDCs, lies in leveraging new technology and a deeper understanding of human biology to create more effective and personalized products.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+                    <div class="bg-[#F0F4F8] p-6 rounded-lg">
+                        <div class="text-5xl mb-3">🧬</div>
+                        <h3 class="text-xl font-bold text-[#0D1B2A]">Personalized Nutrition</h3>
+                        <p class="text-[#4A4A4A]">Tailoring NDC intake based on an individual's unique microbiome and genetic makeup for maximum health benefit.</p>
+                    </div>
+                     <div class="bg-[#F0F4F8] p-6 rounded-lg">
+                        <div class="text-5xl mb-3">🌱</div>
+                        <h3 class="text-xl font-bold text-[#0D1B2A]">Novel Sources</h3>
+                        <p class="text-[#4A4A4A]">Discovering and utilizing new sources of non-digestible carbohydrates from lesser-known plant species or by-products.</p>
+                    </div>
+                    <div class="bg-[#F0F4F8] p-6 rounded-lg">
+                        <div class="text-5xl mb-3">🤖</div>
+                        <h3 class="text-xl font-bold text-[#0D1B2A]">Advanced Fortification</h3>
+                        <p class="text-[#4A4A4A]">Using biotechnology and food engineering to create new forms of NDCs that are more stable, palatable, and effective in food products.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <footer class="text-center mt-12 pt-8 border-t border-gray-300">
+                <p class="text-[#4A4A4A]">This infographic provides a simplified overview for educational purposes. Consult with a healthcare professional for personalized nutrition advice.</p>
+            </footer>
+
+        </main>
+    </div>
+
+<script>
+    function wrapLabels(label) {
+        const maxLength = 16;
+        if (typeof label !== 'string' || label.length <= maxLength) {
+            return label;
+        }
+        const words = label.split(' ');
+        const lines = [];
+        let currentLine = '';
+        for (const word of words) {
+            if ((currentLine + ' ' + word).trim().length > maxLength) {
+                lines.push(currentLine.trim());
+                currentLine = word;
+            } else {
+                currentLine = (currentLine + ' ' + word).trim();
+            }
+        }
+        if (currentLine) {
+            lines.push(currentLine.trim());
+        }
+        return lines;
+    }
+
+    const defaultTooltipCallback = {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                          return label.join(' ');
+                        } else {
+                          return label;
+                        }
+                    }
+                }
+            }
+        }
+    };
+    
+    const colors = {
+        blue: '#003566',
+        yellow: '#FFC300',
+        orange: '#FF5733',
+        dark: '#0D1B2A',
+        grey: '#4A4A4A',
+        lightBlue: '#006DAA',
+    };
+
+    const marketCtx = document.getElementById('marketChart').getContext('2d');
+    new Chart(marketCtx, {
+        type: 'line',
+        data: {
+            labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029'],
+            datasets: [{
+                label: 'Market Value (Billion USD)',
+                data: [180, 195, 210, 235, 255, 275, 305, 330, 360, 400],
+                borderColor: colors.yellow,
+                backgroundColor: 'rgba(255, 195, 0, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Value (Billion USD)'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                ...defaultTooltipCallback.plugins
+            }
+        }
+    });
+
+    const fibreCtx = document.getElementById('fibreChart').getContext('2d');
+    new Chart(fibreCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Soluble Fibre (Oats, Apples, Beans)', 'Insoluble Fibre (Nuts, Cauliflower, Whole Grains)'],
+            datasets: [{
+                label: 'Types of Dietary Fibre',
+                data: [40, 60],
+                backgroundColor: [colors.yellow, colors.lightBlue],
+                borderColor: '#FFFFFF',
+                borderWidth: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                         boxWidth: 20,
+                         padding: 20
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Classification of Dietary Fibre',
+                    padding: {
+                        bottom: 20
+                    },
+                    font: {
+                        size: 16,
+                        weight: 'bold'
+                    }
+                },
+                ...defaultTooltipCallback.plugins
+            },
+            cutout: '50%'
+        }
+    });
+
+    const rsCtx = document.getElementById('rsChart').getContext('2d');
+    const rsLabels = ['RS1: Whole Grains, Seeds', 'RS2: Raw Potatoes, Green Bananas', 'RS3: Cooked & Cooled Rice', 'RS4: Chemically Modified Starches', 'RS5: Fat-Starch Complex'];
+    new Chart(rsCtx, {
+        type: 'bar',
+        data: {
+            labels: rsLabels.map(wrapLabels),
+            datasets: [{
+                label: 'Relative Occurrence/Use',
+                data: [75, 65, 85, 40, 30],
+                backgroundColor: [colors.blue, colors.lightBlue, colors.yellow, colors.orange, colors.grey],
+                borderRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                     grid: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                 title: {
+                    display: true,
+                    text: 'The 5 Types of Resistant Starch',
+                    padding: {
+                        bottom: 20
+                    },
+                    font: {
+                        size: 16,
+                        weight: 'bold'
+                    }
+                },
+                ...defaultTooltipCallback.plugins
+            }
+        }
+    });
+
+    const oligosaccharideCtx = document.getElementById('oligosaccharideChart').getContext('2d');
+    new Chart(oligosaccharideCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Fructo-oligosaccharides (FOS)', 'Galacto-oligosaccharides (GOS)', 'Inulin'],
+            datasets: [{
+                label: 'Oligosaccharide Composition',
+                data: [45, 30, 25],
+                backgroundColor: [colors.blue, colors.orange, colors.lightBlue],
+                borderColor: '#FFFFFF',
+                borderWidth: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                         boxWidth: 20,
+                         padding: 20
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Common Prebiotic Oligosaccharides',
+                    padding: {
+                        bottom: 20
+                    },
+                    font: {
+                        size: 16,
+                        weight: 'bold'
+                    }
+                },
+                ...defaultTooltipCallback.plugins
+            },
+            cutout: '50%'
+        }
+    });
+
+    const healthBenefitsCtx = document.getElementById('healthBenefitsChart').getContext('2d');
+    const healthLabels = ['Improved Glycemic Control', 'Enhanced Satiety & Weight Mgt.', 'Lowered Cholesterol', 'Reduced Colon Cancer Risk', 'Strengthened Gut Barrier'];
+    new Chart(healthBenefitsCtx, {
+        type: 'radar',
+        data: {
+            labels: healthLabels.map(wrapLabels),
+            datasets: [{
+                label: 'Impact Score',
+                data: [8, 9, 7, 8, 9],
+                fill: true,
+                backgroundColor: 'rgba(255, 195, 0, 0.2)',
+                borderColor: colors.yellow,
+                pointBackgroundColor: colors.yellow,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: colors.yellow
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 10,
+                    pointLabels: {
+                        font: {
+                           size: 12
+                        }
+                    },
+                    ticks: {
+                        backdropColor: 'rgba(255, 255, 255, 0.75)',
+                        stepSize: 2
+                    }
+                }
+            },
+            plugins: {
+                 legend: {
+                    display: false
+                },
+                ...defaultTooltipCallback.plugins
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
